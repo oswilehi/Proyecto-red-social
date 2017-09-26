@@ -16,6 +16,7 @@ public class RedSocial {
     public static final String DESCRIPTION ="Desc_";
     public static final String ENCODING = "utf-8";
     public static final String SEPARADOR = "|";
+    public static final String pSEPARADOR = "::";
     
     public static void main(String[] args) {
        try
