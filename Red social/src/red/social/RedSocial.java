@@ -9,9 +9,14 @@ import java.io.*;
 public class RedSocial {
 
     //const
-    public static final String DIRECTORY = "C:\\MEIA"; 
+    public static final String DIRECTORY = "C:" + File.separator + "MEIA" + File.separator; 
     public static final String USER_FILE = "Usuario.txt";
+    public static final String BINNACLE = "bitacora_";
+    public static final String MASTER = "";
+    public static final String DESCRIPTION ="Desc_";
     public static final String ENCODING = "utf-8";
+    public static final String SEPARADOR = "|";
+    
     public static void main(String[] args) {
        try
       {
@@ -37,48 +42,5 @@ public class RedSocial {
         Registrarse Register = new Registrarse();
         Register.setVisible(true);
     }
-    
-   public static BufferedReader ReadFile(String Path)
-   {
-      try
-      {
-         BufferedReader bufferedReader = new BufferedReader(new FileReader(Path));
-         return bufferedReader;
-      }
-      catch (FileNotFoundException e)
-      {
-         return null;
-      }
-   }
-   
-   public static BufferedWriter WriteFile(String path)
-   {
-      try
-      {
-         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), ENCODING));
-         return writer;
-      }
-      catch (FileNotFoundException | UnsupportedEncodingException e)
-      {
-         return null;
-      }
-   }
-   
-   public static boolean CreateFile(String path)
-   {
-      try
-      {
-         File directory = new File(path); 
-         if(!directory.getAbsoluteFile().exists())
-         {
-            return directory.createNewFile();
-         }
-         return false;
-      }
-      catch(IOException e)
-      {
-         return false;
-      }
-   }
     
 }

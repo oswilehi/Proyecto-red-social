@@ -1,5 +1,7 @@
 package red.social;
 
+
+
 public class Registrarse extends javax.swing.JFrame {
 
     public Registrarse() {
@@ -153,7 +155,7 @@ public class Registrarse extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        RedSocial.CreateFile(RedSocial.DIRECTORY+"\\"+ RedSocial.USER_FILE);
+        FileManager.WriteFile(RedSocial.USER_FILE, "HELLO WORD");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private boolean Validate(){
