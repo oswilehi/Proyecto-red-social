@@ -4,38 +4,34 @@
  * and open the template in the editor.
  */
 package red.social;
-import static java.awt.image.ImageObserver.WIDTH;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import javax.swing.DefaultListModel;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.*;
 
 public class RedSocial {
 
-    
-    public static final String DIRECTORY = "C:\\MEIA"; //const
+    //const
+    public static final String DIRECTORY = "C:" + File.separator + "MEIA" + File.separator; 
     public static final String USER_FILE = "Usuario.txt";
-    /*
-     * @param args the command line arguments
-     */
+    public static final String BINNACLE = "bitacora_";
+    public static final String MASTER = "";
+    public static final String DESCRIPTION ="Desc_";
+    public static final String ENCODING = "utf-8";
+    public static final String SEPARADOR = "|";
+    public static final String pSEPARADOR = "::";
     
     public static void main(String[] args) {
-      
-        LoginController();
-         try{
-             File MEIA = new File(DIRECTORY); 
-            if(!MEIA.exists()){
-                MEIA.mkdir();
-            }
-         }catch(Exception e){
+       try
+      {
+         File directory = new File(DIRECTORY); 
+         if(!directory.exists())
+         {
+           directory.getAbsoluteFile().mkdirs();
          }
+         LoginController();
+      }
+      catch(Exception e)
+      {
+         System.out.println(e.getMessage());
+      }
     }
     
     public static void LoginController(){
@@ -47,9 +43,5 @@ public class RedSocial {
         Registrarse Register = new Registrarse();
         Register.setVisible(true);
     }
-    
-   public static File LoadOrCreateFile(String Path){
-     //PrintWriter writer = new PrintWriter(Path,"UTF-8");   
-   }
     
 }
