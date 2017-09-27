@@ -29,8 +29,8 @@ public class FileManager
    {
       try
       {
-         RandomAccessFile bufferedReader = new RandomAccessFile(path, "r");
-         return bufferedReader;
+         RandomAccessFile rReader = new RandomAccessFile(DIRECTORY + path, "rw");
+         return rReader;
       }
       catch (FileNotFoundException e)
       {
@@ -38,7 +38,7 @@ public class FileManager
       }
    }
    
-   public static boolean WriteFile(String path, String data)
+   public static boolean WriteFile(String path, String data)  // only used for add new lines to text file
    {
          if(!FileExists(path))
          {
@@ -51,10 +51,47 @@ public class FileManager
          
          try
          {
-            String[] binnacleDescription = ReadDescription(BINNACLE + path, 3);
+            RandomAccessFile binnacleDescription = ReadFile(DESCRIPTION + BINNACLE + path);
+            int active = 0;
+            int inactive = 0;
+            int max = 0;
+            while(binnacleDescription.getFilePointer() != binnacleDescription.length())
+            {
+               String line = binnacleDescription.readLine();
+               
+               switch (line.split(Pattern.quote(pSEPARADOR))[0])
+               {
+                  case "ACTIVOS":
+                     active = Integer.parseInt(line.split(Pattern.quote(pSEPARADOR))[1]);
+                     break;
+                  case "INACTIVOS":
+                     inactive = Integer.parseInt(line.split(Pattern.quote(pSEPARADOR))[1]);
+                     break;
+                  case "MAXIMO":
+                     max = Integer.parseInt(line.split(Pattern.quote(pSEPARADOR))[1]);
+                     break;
+               }
+            }
+            
+            binnacleDescription.close();
+            
+            if (active + inactive >=  max)
+            {
+               // Reorganize
+            }
+            else if (true)
+            {
+               // Write (append) to binnacle
+               RandomAccessFile binnacleFile = ReadFile(BINNACLE + path);
+               binnacleFile.seek(binnacleFile.length());
+               binnacleFile.writeBytes(data + "\r\n");
+               binnacleFile.close();
+               //update desc_binnacle
+               UpdateDescription(BINNACLE + path, null, active + 1, inactive);
+            }
             return true;
          }
-         catch (Exception e)
+         catch (IOException | NumberFormatException e)
          {
             return false;
          }
@@ -62,7 +99,52 @@ public class FileManager
    
    public static boolean FileExists(String path)
    {
-      return new File(DIRECTORY + DESCRIPTION + path).getAbsoluteFile().exists();
+      return new File(DIRECTORY + DESCRIPTION + BINNACLE + path).getAbsoluteFile().exists();
+   }
+   
+   private static boolean UpdateDescription(String path, String author, int active, int inactive) // needs complete file name: binnacle_example.txt or master_example.txt to get the right desc_xxx_example.txt file
+   {
+      try
+      {
+         RandomAccessFile fileDescription = ReadFile(DESCRIPTION + path);
+         while(fileDescription.getFilePointer() != fileDescription.length())
+         {
+            long start = fileDescription.getFilePointer();
+            String line = fileDescription.readLine();            
+            switch (line.split(Pattern.quote(pSEPARADOR))[0])
+            {
+               case "ACTIVOS":
+                  line = line.split(Pattern.quote(pSEPARADOR))[0] + pSEPARADOR + active;
+                  fileDescription.seek(start);
+                  fileDescription.writeBytes(line);
+                  break;
+               case "INACTIVOS":
+                  line = line.split(Pattern.quote(pSEPARADOR))[0] + pSEPARADOR + inactive;
+                  fileDescription.seek(start);
+                  fileDescription.writeBytes(line);
+                  break;
+               case "MODIFICADO":
+                  line = line.split(Pattern.quote(pSEPARADOR))[0] + pSEPARADOR + new SimpleDateFormat("yyyyMMdd'.'hh:mm").format(new Date());
+                  fileDescription.seek(start);
+                  fileDescription.writeBytes(line);
+                  break;
+               case "AUTOR":
+                  if (author != null)
+                  {
+                     line = line.split(Pattern.quote(pSEPARADOR))[0] + pSEPARADOR + author;
+                  }
+                  fileDescription.seek(start);
+                  fileDescription.writeBytes(line);
+                  
+            }
+         }
+         fileDescription.close();
+         return true;
+      }
+      catch (Exception e)
+      {
+         return false;
+      }
    }
    
    private static boolean CreateBinnacle(String path, String author)
@@ -87,6 +169,7 @@ public class FileManager
                   writer.write("ACTIVOS" + pSEPARADOR + "0\r\n");
                   writer.write("INACTIVOS" + pSEPARADOR + "0\r\n");
                   writer.write("MAXIMO" + pSEPARADOR + "5");
+                  writer.close();
                }
                return true;
             }
@@ -100,39 +183,35 @@ public class FileManager
       return false;
    }
    
-   private static String[] ReadDescription(String path, int lastLines) //only file's name: example.txt // do not: C:\Directory\test.txt
-   {
-      try
-      {
-         // Get FileReader
-         String[] data = new String[lastLines];
-         RandomAccessFile reader = ReadFile(DIRECTORY + DESCRIPTION + path);
-         int lines = 0;
-         while(reader.getFilePointer() != reader.length() )
-         {
-             reader.readLine();
-             lines++;
-         }
-         
-         reader.seek(0);
-         
-         for (int i = 0; i < lines; i++)
-         {
-            if (i >= lines - lastLines)
-            {
-               data[i + lastLines - lines] = reader.readLine();
-               continue;
-            }
-            reader.readLine();
-         }
-         return data;
-         
-      }
-      catch (IOException e)
-      {
-         return null;
-      }
-   }
+//   private static String[] ReadDescription(String path) //only file's name: example.txt // do not: C:\Directory\test.txt
+//   {
+//      try
+//      {
+//         // Get FileReader
+//         
+//         RandomAccessFile reader = ReadFile(DIRECTORY + DESCRIPTION + path);
+//         int i = 0;
+//         while(reader.getFilePointer() != reader.length() )
+//         {
+//             i++;
+//         }
+//         
+//         reader.seek(0);
+//         String[] data = new String[i];
+//         for (int j = 0; j < i; j++)
+//         {
+//            data[j] = reader.readLine();
+//         }
+//         
+//         reader.close();
+//         return data;
+//         
+//      }
+//      catch (IOException e)
+//      {
+//         return null;
+//      }
+//   }
    
    private static boolean CreateFile(String path)
    {
