@@ -283,19 +283,15 @@ String PicturePath="";
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-<<<<<<< HEAD
-        FileManager.WriteFile(RedSocial.USER_FILE, "h|0|0|0|0|0|0|0|0|0|1");
-=======
-        InvisibleComponents();
+
+      InvisibleComponents();
         String User="";
-        if(IsDataValid(ref User)){
+        if(IsDataValid(/*ref User*/)){
             Profile newProfile = new Profile();
             newProfile.setVisible(true);
             this.setVisible(false);
             this.dispose();
         }
->>>>>>> 46b29acc4b5a2e86b1da3a30af24576221fda972
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txt_UserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_UserKeyTyped
