@@ -155,7 +155,7 @@ public class Registrarse extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        FileManager.WriteFile(RedSocial.USER_FILE, "h");
+        FileManager.WriteFile(RedSocial.USER_FILE, "h|0|0|0|0|0|0|0|0|0|1");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private boolean Validate(){
