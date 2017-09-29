@@ -51,7 +51,8 @@ public class FileManager
             String line;
             while(File.getFilePointer() != File.length())
             {
-               if( (line = File.readLine().split(Pattern.quote(SEPARADOR))[0]).equals(key))
+               line = File.readLine();
+               if(line.split(Pattern.quote(SEPARADOR))[0].equals(key) && line.split(Pattern.quote(SEPARADOR))[10].equals("1"))
                {
                   File.close();
                   return line;
@@ -66,7 +67,8 @@ public class FileManager
             String line;
             while(File.getFilePointer() != File.length())
             {
-               if( (line = File.readLine().split(Pattern.quote(SEPARADOR))[0]).equals(key))
+               line = File.readLine();
+               if(line.split(Pattern.quote(SEPARADOR))[0].equals(key) && line.split(Pattern.quote(SEPARADOR))[10].equals("1"))
                {
                   File.close();
                   return line;
@@ -144,6 +146,106 @@ public class FileManager
          {
             return false;
          }
+   }
+   
+   
+   public static boolean Update(String data)
+   {
+      try
+      {
+         if (FileExists(BINNACLE + USER_FILE))
+         {
+            RandomAccessFile File = OpenFile(BINNACLE + USER_FILE);
+            long seek;
+            String line;
+
+            while(File.getFilePointer() != File.length())
+            {
+               seek = File.getFilePointer();
+               line = File.readLine();
+               if(line.split(Pattern.quote(SEPARADOR))[0].equals(data.split(Pattern.quote(SEPARADOR))[0]))
+               {
+                  File.seek(seek);
+                  File.writeBytes(data);
+                  File.close();
+                  
+                  RandomAccessFile binnacleDescription = OpenFile(DESCRIPTION + BINNACLE + USER_FILE);
+                  int active = 0;
+                  int inactive = 0;
+                  while(binnacleDescription.getFilePointer() != binnacleDescription.length())
+                  {
+                     line = binnacleDescription.readLine();
+
+                     switch (line.split(Pattern.quote(pSEPARADOR))[0])
+                     {
+                        case "ACTIVOS":
+                           active = Integer.parseInt(line.split(Pattern.quote(pSEPARADOR))[1]);
+                           break;
+                        case "INACTIVOS":
+                           inactive = Integer.parseInt(line.split(Pattern.quote(pSEPARADOR))[1]);
+                           break;
+                     }
+                  }
+                  binnacleDescription.close();
+                  
+                  int x = Integer.parseInt(data.split(Pattern.quote(SEPARADOR))[10]) - 1;
+                  UpdateDescription(BINNACLE + USER_FILE, null, active + x, inactive - x);
+                  
+                  return true;
+               }   
+            }
+            File.close();
+         }
+         if (FileExists(MASTER + USER_FILE))
+         {
+            RandomAccessFile File = OpenFile(MASTER + USER_FILE);
+            long seek;
+            String line;
+
+            while(File.getFilePointer() != File.length())
+            {
+               seek = File.getFilePointer();
+               line = File.readLine();
+               if(line.split(Pattern.quote(SEPARADOR))[0].equals(data.split(Pattern.quote(SEPARADOR))[0]))
+               {
+                  File.seek(seek);
+                  File.writeBytes(data);
+                  File.close();
+                  
+                  RandomAccessFile masterDescription = OpenFile(DESCRIPTION + MASTER + USER_FILE);
+                  int active = 0;
+                  int inactive = 0;
+                  
+                  while(masterDescription.getFilePointer() != masterDescription.length())
+                  {
+                     line = masterDescription.readLine();
+
+                     switch (line.split(Pattern.quote(pSEPARADOR))[0])
+                     {
+                        case "ACTIVOS":
+                           active = Integer.parseInt(line.split(Pattern.quote(pSEPARADOR))[1]);
+                           break;
+                        case "INACTIVOS":
+                           inactive = Integer.parseInt(line.split(Pattern.quote(pSEPARADOR))[1]);
+                           break;
+                     }
+                  }
+                  masterDescription.close();
+                  
+                  int x = Integer.parseInt(data.split(Pattern.quote(SEPARADOR))[10]) - 1;
+                  UpdateDescription(MASTER + USER_FILE, null, active + x, inactive - x);
+                  
+                  return true;
+               }   
+            }
+            File.close();
+         }
+         return false;
+      }
+      catch (Exception e)
+      {
+         return false;
+      }
    }
    
    private static boolean Reorganize(String path, String data)
