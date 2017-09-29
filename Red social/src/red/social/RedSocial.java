@@ -15,6 +15,7 @@ public class RedSocial {
     public static final String MASTER = "";
     public static final String TEMP = "data.temp";
     public static final String DESCRIPTION ="Desc_";
+    public static final String IMAGES = "fotografia";
     public static final String ENCODING = "utf-8";
     public static final String SEPARADOR = "|";
     public static final String pSEPARADOR = "::";
