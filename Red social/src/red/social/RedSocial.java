@@ -13,6 +13,7 @@ public class RedSocial {
     public static final String USER_FILE = "Usuario.txt";
     public static final String BINNACLE = "bitacora_";
     public static final String MASTER = "";
+    public static final String TEMP = "data.temp";
     public static final String DESCRIPTION ="Desc_";
     public static final String IMAGES = "fotografia";
     public static final String ENCODING = "utf-8";

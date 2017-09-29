@@ -163,6 +163,9 @@ String PicturePath="";
         lbl_NumberPhoneError.setForeground(new java.awt.Color(204, 0, 0));
         lbl_NumberPhoneError.setText("Es necesario un teléfono correcto");
 
+        lbl_NumberPhoneError.setForeground(new java.awt.Color(204, 0, 0));
+        lbl_NumberPhoneError.setText("Es necesario un teléfono correcto");
+      
         lbl_PictureError.setForeground(new java.awt.Color(204, 0, 0));
         lbl_PictureError.setText("Es necesaria una imagen de perfil");
 
@@ -282,10 +285,7 @@ String PicturePath="";
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        InvisibleComponents();
-        String User="";
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         if(IsDataValid(ref User)){
             Profile newProfile = new Profile();
             newProfile.setVisible(true);
