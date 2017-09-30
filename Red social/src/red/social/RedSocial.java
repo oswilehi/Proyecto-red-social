@@ -5,6 +5,7 @@
  */
 package red.social;
 import java.io.*;
+import sun.security.provider.MD5;
 
 public class RedSocial {
 
@@ -19,6 +20,7 @@ public class RedSocial {
     public static final String ENCODING = "utf-8";
     public static final String SEPARADOR = "|";
     public static final String pSEPARADOR = "::";
+    public static final int Length = 220;
     
     public static void main(String[] args) {
        try
@@ -46,4 +48,15 @@ public class RedSocial {
         Register.setVisible(true);
     }
     
+    public static String MD5(String Password){
+       return Password;
+    }
+    
+    public static String Fill(String Text){
+       for(int i=Text.length(); i<Length; i++){
+          Text+="¬";
+       }
+       int n = Text.length();
+       return Text;
+    }
 }

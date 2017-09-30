@@ -26,6 +26,8 @@ int EmailLength = 50;
 int PhoneNumberLength = 8;
 int DescriptionLength = 100;
 int PictureCount = 0;
+
+
 String PicturePath="";
     
     public Registrarse() {
@@ -207,6 +209,10 @@ String PicturePath="";
          {
             txt_DescriptionKeyPressed(evt);
          }
+         public void keyTyped(java.awt.event.KeyEvent evt)
+         {
+            txt_DescriptionKeyTyped(evt);
+         }
       });
       jScrollPane1.setViewportView(txt_Description);
 
@@ -336,6 +342,7 @@ String PicturePath="";
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         if(IsDataValid()){
              String Data = CreateUser();
+            FileManager.WriteFile(USER_FILE, RedSocial.Fill(Data));
             Profile newProfile = new Profile();
             newProfile.setVisible(true);
             this.setVisible(false);
@@ -448,10 +455,18 @@ String PicturePath="";
    private void txt_DescriptionKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_txt_DescriptionKeyPressed
    {//GEN-HEADEREND:event_txt_DescriptionKeyPressed
       // TODO add your handling code here:
-         if(evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){
+         if(evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER ){
             evt.consume();
          }
    }//GEN-LAST:event_txt_DescriptionKeyPressed
+
+   private void txt_DescriptionKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_txt_DescriptionKeyTyped
+   {//GEN-HEADEREND:event_txt_DescriptionKeyTyped
+      // TODO add your handling code here:
+      if(txt_Description.getText().length()>=100){
+               evt.consume();
+     }
+   }//GEN-LAST:event_txt_DescriptionKeyTyped
     
     private boolean ImageExistInMEIA(String Name){
         File ImageDir = new File(DIRECTORY+IMAGES);
@@ -550,11 +565,15 @@ String PicturePath="";
     private String IsManager(){
        return FileManager.FileExists(USER_FILE) ? "0": "1";
     }
-    private String PasswordMD5(String Password){
-        return Password;
-    }
+    
     private boolean IsDataValid(){
        //if(txt_User.Existe){return false} //MOSTRAR LABEL
+       if(FileManager.FileExists(USER_FILE)){
+          if(FileManager.Search(txt_User.getText())!=null){
+            txt_User.setVisible(true);
+            return false; 
+          }
+       }
         if(lbl_Level.getText().equals("Contraseña insegura")){
             txt_Password.setBackground(Color.RED);
             return false;}
@@ -596,7 +615,7 @@ String PicturePath="";
     }
     
     private String CreateUser(){
-       return (txt_User.getText()+"|"+ txt_Name.getText()+"|"+ txt_LastName.getText()+"|"+ PasswordMD5(txt_Password.getText())+"|"+ IsManager()+"|"+Sp_Birthday.getValue().toString()+"|" + txt_Mail.getText()+"|" + txt_PhoneNumber.getText()+"|" + PicturePath+"|" + txt_Description.getText() + "|1");
+       return (txt_User.getText()+"|"+ txt_Name.getText()+"|"+ txt_LastName.getText()+"|"+ RedSocial.MD5(txt_Password.getText())+"|"+ IsManager()+"|"+Sp_Birthday.getValue().toString()+"|" + txt_Mail.getText()+"|" + txt_PhoneNumber.getText()+"|" + PicturePath+"|" + txt_Description.getText() + "|1");
     }
     private void InvisibleComponents(){
         lbl_Level.setVisible(false);
