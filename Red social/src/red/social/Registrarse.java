@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import static red.social.RedSocial.IMAGES;
 import static red.social.RedSocial.DIRECTORY;
 import static red.social.RedSocial.USER_FILE;
+import static red.social.RedSocial.BINNACLE;
 
 
 
@@ -340,7 +341,8 @@ String PicturePath="";
    }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        if(IsDataValid()){
+       InvisibleComponents();
+       if(IsDataValid()){
              String Data = CreateUser();
             FileManager.WriteFile(USER_FILE, RedSocial.Fill(Data));
             Profile newProfile = new Profile();
@@ -568,13 +570,13 @@ String PicturePath="";
     
     private boolean IsDataValid(){
        //if(txt_User.Existe){return false} //MOSTRAR LABEL
-       if(FileManager.FileExists(USER_FILE)){
+       if(FileManager.FileExists(BINNACLE +USER_FILE)){
           if(FileManager.Search(txt_User.getText())!=null){
-            txt_User.setVisible(true);
+            lbl_UserError.setVisible(true);
             return false; 
           }
        }
-        if(lbl_Level.getText().equals("Contraseña insegura")){
+        if(lbl_Level.getText().equals("Contraseña insegura") || lbl_Level.getText().equals("Tiene que ser mayor de 6 caracteres")){
             txt_Password.setBackground(Color.RED);
             return false;}
         if(txt_Name.getText().isEmpty()){
@@ -590,6 +592,16 @@ String PicturePath="";
         if(txt_Mail.getText().isEmpty()){
             lbl_MailError.setVisible(true);
             return false;
+        }else{
+           try{
+              if(txt_Mail.getText().split(Pattern.quote("@")).length !=2 || txt_Mail.getText().split(Pattern.quote("@"))[0].isEmpty() || txt_Mail.getText().split(Pattern.quote("@"))[1].isEmpty()){
+                 lbl_MailError.setText("Es necesario un correo válido");
+                 lbl_MailError.setVisible(true);
+                 return false;
+              }
+           }catch(Exception e){
+              
+           }
         }
         if(txt_PhoneNumber.getText().isEmpty()){
             lbl_NumberPhoneError.setVisible(true);
@@ -615,8 +627,12 @@ String PicturePath="";
     }
     
     private String CreateUser(){
-       return (txt_User.getText()+"|"+ txt_Name.getText()+"|"+ txt_LastName.getText()+"|"+ RedSocial.MD5(txt_Password.getText())+"|"+ IsManager()+"|"+Sp_Birthday.getValue().toString()+"|" + txt_Mail.getText()+"|" + txt_PhoneNumber.getText()+"|" + PicturePath+"|" + txt_Description.getText() + "|1");
-    }
+       try{
+        return (txt_User.getText()+"|"+ txt_Name.getText()+"|"+ txt_LastName.getText()+"|"+ RedSocial.MD5(txt_Password.getText())+"|"+ IsManager()+"|"+Sp_Birthday.getValue().toString()+"|" + txt_Mail.getText()+"|" + txt_PhoneNumber.getText()+"|" + PicturePath+"|" + txt_Description.getText() + "|1");   
+       }catch(Exception e){
+          return "";
+       }
+      }
     private void InvisibleComponents(){
         lbl_Level.setVisible(false);
         lbl_UserError.setVisible(false);
