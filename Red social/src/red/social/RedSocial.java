@@ -5,7 +5,7 @@
  */
 package red.social;
 import java.io.*;
-import sun.security.provider.MD5;
+import java.security.MessageDigest;
 
 public class RedSocial {
 
@@ -20,7 +20,7 @@ public class RedSocial {
     public static final String ENCODING = "utf-8";
     public static final String SEPARADOR = "|";
     public static final String pSEPARADOR = "::";
-    public static final int Length = 220;
+    public static final int Length = 260;
     
     public static void main(String[] args) {
        try
@@ -48,11 +48,25 @@ public class RedSocial {
         Register.setVisible(true);
     }
     
-    public static String MD5(String Password){
-       return Password;
+    public static String MD5(String Password) throws Exception{
+      MessageDigest md = MessageDigest.getInstance("MD5");
+      byte[] b = md.digest(Password.getBytes());
+
+      int size = b.length;
+      StringBuffer h = new StringBuffer(size);
+      for (int i = 0; i < size; i++) {
+      int u = b[i] & 255;
+      if (u < 16) {
+      h.append("0" + Integer.toHexString(u));
+      } else {
+      h.append(Integer.toHexString(u));
+      }
+      }
+      return h.toString();
     }
     
     public static String Fill(String Text){
+       Text+="|";
        for(int i=Text.length(); i<Length; i++){
           Text+="¬";
        }
