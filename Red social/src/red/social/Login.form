@@ -37,10 +37,8 @@
                   <Component id="btn_SignIn" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="btn_SingUp" alignment="2" min="-2" max="-2" attributes="0"/>
                   <Component id="txt_password" alignment="2" min="-2" pref="156" max="-2" attributes="0"/>
-                  <Group type="103" alignment="2" groupAlignment="2" attributes="0">
-                      <Component id="txt_user" alignment="2" min="-2" pref="156" max="-2" attributes="0"/>
-                      <Component id="lbl_LoginError" alignment="2" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="txt_user" alignment="2" min="-2" pref="156" max="-2" attributes="0"/>
+                  <Component id="lbl_LoginError" alignment="2" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
           </Group>
