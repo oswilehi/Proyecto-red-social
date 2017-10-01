@@ -17,18 +17,20 @@ import static red.social.RedSocial.IMAGES;
 import static red.social.RedSocial.DIRECTORY;
 import static red.social.RedSocial.USER_FILE;
 import static red.social.RedSocial.BINNACLE;
+import static red.social.RedSocial.Length;
+import static red.social.RedSocial.SEPARADOR;
 
 
 
 public class Registrarse extends javax.swing.JFrame {
-int UserLength = 10;
-int NameLength = 10;
-int LastNameLength = 20;
-int PasswordLength = 20;
-int EmailLength = 50;
-int PhoneNumberLength = 8;
-int DescriptionLength = 100;
-int PictureCount = 0;
+public static int UserLength = 10;
+public static int NameLength = 20;
+public static int LastNameLength = 20;
+public static int PasswordLength = 20;
+public static int EmailLength = 50;
+public static int PhoneNumberLength = 8;
+public static int DescriptionLength = 100;
+public static int PictureCount = 0;
 boolean isAdminAddingUsers;
 
 
@@ -356,7 +358,7 @@ String PicturePath="";
                 
             }
             
-            FileManager.WriteFile(USER_FILE, RedSocial.Fill(Data));
+            FileManager.WriteFile(USER_FILE, RedSocial.Fill(Data, Length));
             
                 
             // Si un administrador no esta agregando usuarios esto quiere decir
@@ -607,7 +609,7 @@ String PicturePath="";
     }
    
     private String IsManager(){
-       return FileManager.FileExists(USER_FILE) ? "0": "1";
+       return FileManager.FileExists(BINNACLE + USER_FILE) ? "0": "1";
     }
     
     private boolean IsDataValid(){
@@ -670,7 +672,7 @@ String PicturePath="";
     
     private String CreateUser(){
        try{
-        return (txt_User.getText()+"|"+ txt_Name.getText()+"|"+ txt_LastName.getText()+"|"+ RedSocial.MD5(txt_Password.getText())+"|"+ IsManager()+"|"+Sp_Birthday.getValue().toString()+"|" + txt_Mail.getText()+"|" + txt_PhoneNumber.getText()+"|" + PicturePath+"|" + txt_Description.getText() + "|1");   
+        return (txt_User.getText()+SEPARADOR+ txt_Name.getText()+SEPARADOR+ txt_LastName.getText()+SEPARADOR+ RedSocial.MD5(txt_Password.getText())+SEPARADOR+ IsManager()+SEPARADOR+Sp_Birthday.getValue().toString()+SEPARADOR+ txt_Mail.getText()+SEPARADOR+ txt_PhoneNumber.getText()+SEPARADOR+ PicturePath+SEPARADOR+ txt_Description.getText() +SEPARADOR +"1");   
        }catch(Exception e){
           return "";
        }
@@ -684,6 +686,7 @@ String PicturePath="";
         lbl_MailError.setVisible(false);
         lbl_NumberPhoneError.setVisible(false);
         lbl_PictureError.setVisible(false);
+        txt_Password.setBackground(Color.WHITE);
     }
     /**
      * @param args the command line arguments

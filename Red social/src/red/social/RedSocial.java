@@ -22,6 +22,7 @@ public class RedSocial {
     public static final String SEPARADOR = "|";
     public static final String pSEPARADOR = "::";
     public static final int Length = 260;
+    public static final int BackupLength = 150;
     public static String ACTUALUSER;
     
     public static void main(String[] args) {
@@ -89,12 +90,11 @@ public class RedSocial {
       return h.toString();
     }
     
-    public static String Fill(String Text){
+    public static String Fill(String Text, int LengthToFill){
        Text+="|";
-       for(int i=Text.length(); i<Length; i++){
+       for(int i=Text.length(); i<LengthToFill; i++){
           Text+="¬";
        }
-       int n = Text.length();
        return Text;
     }
     
@@ -113,7 +113,7 @@ public class RedSocial {
                      + actualUserArray[8]+ SEPARADOR
                      + actualUserArray[9]+ SEPARADOR
                      + "0";
-        actualUser = RedSocial.Fill(actualUser);
+        actualUser = RedSocial.Fill(actualUser, Length);
         FileManager.Update(actualUser);
     }
 }
