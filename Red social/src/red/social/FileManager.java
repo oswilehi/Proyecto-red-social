@@ -637,7 +637,7 @@ public class FileManager
                   writer.write("CREADO" + pSEPARADOR + new SimpleDateFormat("yyyyMMdd'.'hh:mm").format(new Date()) + "\r\n");
                   writer.write("MODIFICADO" + pSEPARADOR + new SimpleDateFormat("yyyyMMdd'.'hh:mm").format(new Date()) + "\r\n");
                   writer.write("SEPARADOR" + pSEPARADOR + "|\r\n");
-                  writer.write("LLAVE" + pSEPARADOR + "0\r\n");
+                  writer.write("LLAVE" + pSEPARADOR + (path.equals("backup.txt") ? "2":"0") + "\r\n");
                   writer.write("ORDEN" + pSEPARADOR + "ASC\r\n");
                   writer.write("ACTIVOS" + pSEPARADOR + "0\r\n");
                   writer.write("INACTIVOS" + pSEPARADOR + "0\r\n");
