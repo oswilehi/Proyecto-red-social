@@ -63,6 +63,8 @@ public class Profile extends javax.swing.JFrame {
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
       setResizable(false);
 
+      jPanel1.setBackground(new java.awt.Color(242, 132, 35));
+
       lbl_profilePic.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
       lbl_profilePic.setText("Foto");
 
