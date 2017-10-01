@@ -3,14 +3,18 @@ package red.social;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
+import java.nio.file.*;
 import static red.social.RedSocial.USER_FILE;
 import static red.social.RedSocial.ENCODING;
 import static red.social.RedSocial.BINNACLE;
@@ -23,6 +27,8 @@ import static red.social.RedSocial.pSEPARADOR;
 
 public class FileManager
 {
+   
+   
    public static RandomAccessFile OpenFile(String path) // needs complete file name: binnacle_example.txt or master_example.txt to get the right desc_xxx_example.txt file
    {
       try
@@ -92,12 +98,12 @@ public class FileManager
             /// Crear:
             ///   Descriptor
             ///   Bitacora
-            CreateBinnacle(path, data.split(Pattern.quote(SEPARADOR))[0]);
+            CreateBinnacle(path, data.split(Pattern.quote(SEPARADOR))[path.equals("backup.txt") ? 1:0]);
          }
          
          try
          {
-            if (Search(data.split(Pattern.quote(SEPARADOR))[0]) != null)
+            if (!path.equals("backup.txt") && Search(data.split(Pattern.quote(SEPARADOR))[0]) != null)
             {
                return false;
             }
@@ -147,7 +153,6 @@ public class FileManager
             return false;
          }
    }
-   
    
    public static boolean Update(String data)
    {
@@ -248,6 +253,49 @@ public class FileManager
       }
    }
    
+   public static boolean Backup(String data)
+   {
+      WriteFile("backup.txt", data);
+      try
+      {
+         copyDirectory(new File(DIRECTORY),new File(data.split(Pattern.quote(SEPARADOR))[0]));
+      }
+      catch (IOException e)
+      {
+         return false;
+      }
+      return true;
+   }
+   
+    private static void copyDirectory(File sourceLocation , File targetLocation)
+    throws IOException {
+
+        if (sourceLocation.isDirectory()) {
+            if (!targetLocation.exists()) {
+                targetLocation.mkdir();
+            }
+
+            String[] children = sourceLocation.list();
+            for (int i=0; i<children.length; i++) {
+                copyDirectory(new File(sourceLocation, children[i]),
+                        new File(targetLocation, children[i]));
+            }
+        } else {
+
+            InputStream in = new FileInputStream(sourceLocation);
+            OutputStream out = new FileOutputStream(targetLocation);
+
+            // Copy the bits from instream to outstream
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            in.close();
+            out.close();
+        }
+    }
+   
    private static boolean Reorganize(String path, String data)
    {
       if(!FileExists(MASTER + path))
@@ -256,6 +304,11 @@ public class FileManager
             /// Crear:
             ///   Descriptor
             ///   Maestro
+            if (path.equals("backup.txt"))
+            {
+               CreateMaster(path, data); // data is user
+            }
+            
             CreateMaster(path, data.split(Pattern.quote(SEPARADOR))[0]);
          }
          
@@ -303,15 +356,23 @@ public class FileManager
                binnacleFile.close();
             }
             
-            RandomAccessFile masterFile = OpenFile(MASTER + path);
-               
-            while(masterFile.getFilePointer() != masterFile.length())
+            if (path.equals("backup.txt"))
             {
-                  inactive += (masterFile.readLine().split(Pattern.quote(SEPARADOR))[10] == ("0")) ? 1:0;
+               UpdateDescription(MASTER + path, data.split(Pattern.quote(SEPARADOR))[1], lines, 0);
+               UpdateDescription(BINNACLE + path, data.split(Pattern.quote(SEPARADOR))[1], 0, 0);
             }
-            masterFile.close();
-            UpdateDescription(MASTER + path, data.split(Pattern.quote(SEPARADOR))[0], lines -inactive, inactive);
-            UpdateDescription(BINNACLE + path, data.split(Pattern.quote(SEPARADOR))[0], 0, 0);
+            else
+            {
+               RandomAccessFile masterFile = OpenFile(MASTER + path);
+
+               while(masterFile.getFilePointer() != masterFile.length())
+               {
+                     inactive += (masterFile.readLine().split(Pattern.quote(SEPARADOR))[10] == ("0")) ? 1:0;
+               }
+               masterFile.close();
+               UpdateDescription(MASTER + path, data.split(Pattern.quote(SEPARADOR))[0], lines -inactive, inactive);
+               UpdateDescription(BINNACLE + path, data.split(Pattern.quote(SEPARADOR))[0], 0, 0);
+            }
             return true;
          }
          catch (IOException | NumberFormatException e)
@@ -342,7 +403,7 @@ public class FileManager
             String newLine = binnacleFile.readLine();
             String tempLine = "";
             
-            if(newLine.split(Pattern.quote(SEPARADOR))[10].equals("0")) continue;
+            if(!path.equals("backup.txt") && newLine.split(Pattern.quote(SEPARADOR))[10].equals("0")) continue;
             
             while (tempFile.getFilePointer() != tempFile.length())
             {
@@ -402,11 +463,8 @@ public class FileManager
             String newLine = masterFile.readLine();
             String tempLine = "";
             
-            ///////#########\\\\\\\
-            //    check status    \\
-            //    of newLine       \\
-            ///////#########\\\\\\\
-            
+            if(!path.equals("backup.txt") && newLine.split(Pattern.quote(SEPARADOR))[10].equals("0")) continue;
+
             while (tempFile.getFilePointer() != tempFile.length())
             {
                seek = tempFile.getFilePointer();
@@ -579,7 +637,7 @@ public class FileManager
                   writer.write("CREADO" + pSEPARADOR + new SimpleDateFormat("yyyyMMdd'.'hh:mm").format(new Date()) + "\r\n");
                   writer.write("MODIFICADO" + pSEPARADOR + new SimpleDateFormat("yyyyMMdd'.'hh:mm").format(new Date()) + "\r\n");
                   writer.write("SEPARADOR" + pSEPARADOR + "|\r\n");
-                  writer.write("LLAVE" + pSEPARADOR + "0\r\n");
+                  writer.write("LLAVE" + pSEPARADOR + (path.equals("backup.txt") ? "2":"0") + "\r\n");
                   writer.write("ORDEN" + pSEPARADOR + "ASC\r\n");
                   writer.write("ACTIVOS" + pSEPARADOR + "0\r\n");
                   writer.write("INACTIVOS" + pSEPARADOR + "0\r\n");
