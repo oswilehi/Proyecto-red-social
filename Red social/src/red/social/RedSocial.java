@@ -7,6 +7,7 @@ package red.social;
 import java.io.*;
 import java.security.MessageDigest;
 import java.util.regex.Pattern;
+import java.awt.Color;
 
 public class RedSocial {
 
@@ -24,6 +25,9 @@ public class RedSocial {
     public static final int Length = 260;
     public static final int BackupLength = 150;
     public static String ACTUALUSER;
+    
+    //colors for decoration.
+    public static Color Background = new Color(242,132,35);
     
     public static void main(String[] args) {
        try
@@ -58,10 +62,6 @@ public class RedSocial {
         settings.setVisible(true);
     }
     
-    public static void SettingsNotAdminController(){
-        SettingsNotAdmin settings = new SettingsNotAdmin();
-        settings.setVisible(true);
-    }
     public static void RegisterController(){
         Registrarse Register = new Registrarse();
         Register.setVisible(true);

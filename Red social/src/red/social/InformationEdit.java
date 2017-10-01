@@ -28,6 +28,7 @@ import static red.social.Registrarse.PasswordLength;
 import static red.social.Registrarse.EmailLength;
 import static red.social.Registrarse.PhoneNumberLength;
 import static red.social.RedSocial.SEPARADOR;
+import static red.social.RedSocial.Background;
 
 public class InformationEdit extends javax.swing.JFrame
 {
@@ -43,6 +44,7 @@ public class InformationEdit extends javax.swing.JFrame
    public InformationEdit()
    {
       initComponents();
+      this.getContentPane().setBackground(Background);
       InvisibleComponents();
       Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
       this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);   
@@ -90,14 +92,18 @@ public class InformationEdit extends javax.swing.JFrame
       lbl_PicturePath = new javax.swing.JLabel();
       btn_Edit = new javax.swing.JButton();
       jButton1 = new javax.swing.JButton();
+      jLabel2 = new javax.swing.JLabel();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+      lbl_UserError.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       lbl_UserError.setForeground(new java.awt.Color(204, 0, 0));
       lbl_UserError.setText("El usuario ya existe");
 
+      jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       jLabel1.setText("Usuario");
 
+      txt_User.setFont(new java.awt.Font("Arial Unicode MS", 0, 11)); // NOI18N
       txt_User.addKeyListener(new java.awt.event.KeyAdapter()
       {
          public void keyTyped(java.awt.event.KeyEvent evt)
@@ -106,12 +112,15 @@ public class InformationEdit extends javax.swing.JFrame
          }
       });
 
+      lbl_Level.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       lbl_Level.setForeground(new java.awt.Color(204, 0, 0));
       lbl_Level.setText("jLabel9");
 
+      lbl_PasswordCheckedError.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       lbl_PasswordCheckedError.setForeground(new java.awt.Color(204, 0, 0));
       lbl_PasswordCheckedError.setText("Inválida");
 
+      txt_Password.setFont(new java.awt.Font("Arial Unicode MS", 0, 11)); // NOI18N
       txt_Password.addKeyListener(new java.awt.event.KeyAdapter()
       {
          public void keyReleased(java.awt.event.KeyEvent evt)
@@ -124,6 +133,14 @@ public class InformationEdit extends javax.swing.JFrame
          }
       });
 
+      txt_CheckPassword.setFont(new java.awt.Font("Arial Unicode MS", 0, 11)); // NOI18N
+      txt_CheckPassword.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            txt_CheckPasswordActionPerformed(evt);
+         }
+      });
       txt_CheckPassword.addKeyListener(new java.awt.event.KeyAdapter()
       {
          public void keyTyped(java.awt.event.KeyEvent evt)
@@ -132,12 +149,16 @@ public class InformationEdit extends javax.swing.JFrame
          }
       });
 
+      jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       jLabel4.setText("Confirmar contraseña");
 
+      jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       jLabel5.setText("Contraseña");
 
+      jLabel7.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       jLabel7.setText("Correo");
 
+      txt_Mail.setFont(new java.awt.Font("Arial Unicode MS", 0, 11)); // NOI18N
       txt_Mail.addKeyListener(new java.awt.event.KeyAdapter()
       {
          public void keyTyped(java.awt.event.KeyEvent evt)
@@ -146,11 +167,14 @@ public class InformationEdit extends javax.swing.JFrame
          }
       });
 
+      lbl_MailError.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       lbl_MailError.setForeground(new java.awt.Color(204, 0, 0));
       lbl_MailError.setText("Es necesario un correo");
 
+      jLabel6.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       jLabel6.setText("Teléfono");
 
+      txt_PhoneNumber.setFont(new java.awt.Font("Arial Unicode MS", 0, 11)); // NOI18N
       txt_PhoneNumber.addKeyListener(new java.awt.event.KeyAdapter()
       {
          public void keyTyped(java.awt.event.KeyEvent evt)
@@ -159,16 +183,21 @@ public class InformationEdit extends javax.swing.JFrame
          }
       });
 
+      lbl_NumberPhoneError.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       lbl_NumberPhoneError.setForeground(new java.awt.Color(204, 0, 0));
       lbl_NumberPhoneError.setText("Es necesario un teléfono correcto");
 
+      jLabel9.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       jLabel9.setText("Fecha de nacimiento");
 
+      Sp_Birthday.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       Sp_Birthday.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(1199234280000L), new java.util.Date(-315526920000L), new java.util.Date(1199236080000L), java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
 
+      jLabel10.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       jLabel10.setText("Descripción");
 
       txt_Description.setColumns(20);
+      txt_Description.setFont(new java.awt.Font("Arial Unicode MS", 0, 11)); // NOI18N
       txt_Description.setRows(5);
       txt_Description.addKeyListener(new java.awt.event.KeyAdapter()
       {
@@ -183,8 +212,10 @@ public class InformationEdit extends javax.swing.JFrame
       });
       jScrollPane1.setViewportView(txt_Description);
 
+      jLabel8.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       jLabel8.setText("Seleccionar foto");
 
+      btn_FindPicture.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       btn_FindPicture.setText("Buscar");
       btn_FindPicture.addActionListener(new java.awt.event.ActionListener()
       {
@@ -194,12 +225,15 @@ public class InformationEdit extends javax.swing.JFrame
          }
       });
 
+      lbl_PictureError.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       lbl_PictureError.setForeground(new java.awt.Color(204, 0, 0));
       lbl_PictureError.setText("Es necesaria una imagen de perfil");
 
       lbl_PicturePath.setBackground(new java.awt.Color(255, 255, 255));
+      lbl_PicturePath.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       lbl_PicturePath.setText("Foto");
 
+      btn_Edit.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       btn_Edit.setText("Editar");
       btn_Edit.addMouseListener(new java.awt.event.MouseAdapter()
       {
@@ -209,6 +243,7 @@ public class InformationEdit extends javax.swing.JFrame
          }
       });
 
+      jButton1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       jButton1.setText("Cancelar");
       jButton1.addActionListener(new java.awt.event.ActionListener()
       {
@@ -218,6 +253,9 @@ public class InformationEdit extends javax.swing.JFrame
          }
       });
 
+      jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      jLabel2.setText("Cerrar cuenta");
+
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
@@ -226,18 +264,17 @@ public class InformationEdit extends javax.swing.JFrame
             .addGap(25, 25, 25)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                .addGroup(layout.createSequentialGroup()
-                  .addComponent(jLabel6)
-                  .addGap(72, 72, 72)
-                  .addComponent(txt_PhoneNumber)
-                  .addGap(18, 18, 18)
-                  .addComponent(lbl_NumberPhoneError)
-                  .addGap(179, 179, 179))
-               .addGroup(layout.createSequentialGroup()
-                  .addGap(2, 2, 2)
-                  .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
-                  .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                  .addComponent(lbl_PicturePath, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(btn_Edit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
                .addGroup(layout.createSequentialGroup()
                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
                      .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                            .addGroup(layout.createSequentialGroup()
@@ -247,45 +284,42 @@ public class InformationEdit extends javax.swing.JFrame
                               .addComponent(jLabel9)
                               .addGap(18, 18, 18)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                           .addComponent(Sp_Birthday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                            .addGroup(layout.createSequentialGroup()
-                              .addComponent(txt_Mail)
-                              .addGap(18, 18, 18)
-                              .addComponent(lbl_MailError)
-                              .addGap(221, 221, 221))))
+                              .addGap(2, 2, 2)
+                              .addComponent(Sp_Birthday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                           .addComponent(txt_Mail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(29, 29, 29)
+                        .addComponent(btn_FindPicture)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbl_PictureError))
+                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                      .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                           .addComponent(jLabel5)
+                           .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addComponent(jLabel4)
+                           .addComponent(jLabel6))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                            .addGroup(layout.createSequentialGroup()
-                              .addComponent(jLabel8)
-                              .addGap(29, 29, 29)
-                              .addComponent(btn_FindPicture)
-                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                              .addComponent(lbl_PictureError))
-                           .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                           .addGroup(layout.createSequentialGroup()
-                              .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                 .addComponent(jLabel5)
-                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                 .addComponent(jLabel4))
                               .addGap(10, 10, 10)
                               .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                  .addComponent(txt_User, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
                                  .addComponent(txt_Password)
-                                 .addComponent(txt_CheckPassword))
-                              .addGap(18, 18, 18)
-                              .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                 .addComponent(lbl_PasswordCheckedError)
-                                 .addComponent(lbl_Level, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                 .addComponent(lbl_UserError))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                  .addContainerGap())
-               .addGroup(layout.createSequentialGroup()
-                  .addComponent(lbl_PicturePath, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                     .addComponent(btn_Edit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                  .addContainerGap())))
+                                 .addComponent(txt_CheckPassword)))
+                           .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                              .addComponent(txt_PhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                           .addComponent(lbl_PasswordCheckedError)
+                           .addComponent(lbl_Level, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addComponent(lbl_UserError)
+                           .addComponent(lbl_MailError)
+                           .addComponent(lbl_NumberPhoneError))))
+                  .addGap(0, 48, Short.MAX_VALUE)))
+            .addContainerGap())
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -315,7 +349,7 @@ public class InformationEdit extends javax.swing.JFrame
                .addComponent(txt_PhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addComponent(jLabel6)
                .addComponent(lbl_NumberPhoneError))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(Sp_Birthday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -335,7 +369,9 @@ public class InformationEdit extends javax.swing.JFrame
                   .addGap(7, 7, 7)
                   .addComponent(btn_Edit)
                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                  .addComponent(jButton1)))
+                  .addComponent(jButton1)
+                  .addGap(18, 18, 18)
+                  .addComponent(jLabel2)))
             .addContainerGap())
       );
 
@@ -491,6 +527,11 @@ public class InformationEdit extends javax.swing.JFrame
       // TODO add your handling code here:
       this.dispose();
    }//GEN-LAST:event_jButton1ActionPerformed
+
+   private void txt_CheckPasswordActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_txt_CheckPasswordActionPerformed
+   {//GEN-HEADEREND:event_txt_CheckPasswordActionPerformed
+      // TODO add your handling code here:
+   }//GEN-LAST:event_txt_CheckPasswordActionPerformed
 
    private boolean ImageExistInMEIA(String Name){
         File ImageDir = new File(DIRECTORY+IMAGES);
@@ -737,6 +778,7 @@ public class InformationEdit extends javax.swing.JFrame
    private javax.swing.JButton jButton1;
    private javax.swing.JLabel jLabel1;
    private javax.swing.JLabel jLabel10;
+   private javax.swing.JLabel jLabel2;
    private javax.swing.JLabel jLabel4;
    private javax.swing.JLabel jLabel5;
    private javax.swing.JLabel jLabel6;

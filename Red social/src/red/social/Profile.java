@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
+import static red.social.RedSocial.Background;
 import static red.social.RedSocial.SEPARADOR;
 /**
  *
@@ -22,6 +23,7 @@ public class Profile extends javax.swing.JFrame {
      */
     public Profile() {
         initComponents();
+        this.getContentPane().setBackground(Background);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
            
@@ -50,8 +52,9 @@ public class Profile extends javax.swing.JFrame {
       lbl_descripcion = new javax.swing.JLabel();
       jScrollPane2 = new javax.swing.JScrollPane();
       txt_descripcionInfo = new javax.swing.JTextArea();
-      btn_settings = new javax.swing.JButton();
       lbl_SesionOut = new javax.swing.JLabel();
+      jLabel2 = new javax.swing.JLabel();
+      btn_settings = new javax.swing.JButton();
 
       jTextArea2.setColumns(20);
       jTextArea2.setRows(5);
@@ -60,24 +63,32 @@ public class Profile extends javax.swing.JFrame {
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
       setResizable(false);
 
+      lbl_profilePic.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
       lbl_profilePic.setText("Foto");
 
+      jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
       jLabel1.setText("PERFIL");
 
+      lbl_user.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
       lbl_user.setText("Usuario");
 
+      lbl_rol.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
       lbl_rol.setText("Rol");
 
       txt_userInfo.setEditable(false);
+      txt_userInfo.setFont(new java.awt.Font("Arial Unicode MS", 0, 12)); // NOI18N
       txt_userInfo.setText("jTextField1");
 
       txt_rolInfo.setEditable(false);
+      txt_rolInfo.setFont(new java.awt.Font("Arial Unicode MS", 0, 12)); // NOI18N
       txt_rolInfo.setText("jTextField1");
 
+      lbl_descripcion.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
       lbl_descripcion.setText("Descripción");
 
       txt_descripcionInfo.setEditable(false);
       txt_descripcionInfo.setColumns(20);
+      txt_descripcionInfo.setFont(new java.awt.Font("Arial Unicode MS", 0, 12)); // NOI18N
       txt_descripcionInfo.setRows(5);
       jScrollPane2.setViewportView(txt_descripcionInfo);
 
@@ -86,16 +97,11 @@ public class Profile extends javax.swing.JFrame {
       jPanel1Layout.setHorizontalGroup(
          jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(jPanel1Layout.createSequentialGroup()
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addGroup(jPanel1Layout.createSequentialGroup()
-                  .addContainerGap()
-                  .addComponent(jLabel1))
-               .addGroup(jPanel1Layout.createSequentialGroup()
-                  .addGap(45, 45, 45)
-                  .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                     .addComponent(lbl_descripcion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                     .addComponent(lbl_user, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                     .addComponent(lbl_rol, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addGap(45, 45, 45)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+               .addComponent(lbl_descripcion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+               .addComponent(lbl_user, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+               .addComponent(lbl_rol, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(55, 55, 55)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
@@ -103,13 +109,17 @@ public class Profile extends javax.swing.JFrame {
                .addComponent(lbl_profilePic, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addComponent(txt_userInfo))
             .addContainerGap(105, Short.MAX_VALUE))
+         .addGroup(jPanel1Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jLabel1)
+            .addGap(0, 0, Short.MAX_VALUE))
       );
       jPanel1Layout.setVerticalGroup(
          jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(jPanel1Layout.createSequentialGroup()
             .addGap(18, 18, 18)
             .addComponent(jLabel1)
-            .addGap(16, 16, 16)
+            .addGap(17, 17, 17)
             .addComponent(lbl_profilePic, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(18, 18, 18)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -126,6 +136,26 @@ public class Profile extends javax.swing.JFrame {
             .addContainerGap(52, Short.MAX_VALUE))
       );
 
+      lbl_SesionOut.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+      lbl_SesionOut.setText("Cerrar Sesión");
+      lbl_SesionOut.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            lbl_SesionOutMouseClicked(evt);
+         }
+      });
+
+      jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+      jLabel2.setText("Cerrar cuenta");
+      jLabel2.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            jLabel2MouseClicked(evt);
+         }
+      });
+
       btn_settings.setMaximumSize(new java.awt.Dimension(25, 25));
       btn_settings.setMinimumSize(new java.awt.Dimension(25, 25));
       btn_settings.addMouseListener(new java.awt.event.MouseAdapter()
@@ -136,26 +166,20 @@ public class Profile extends javax.swing.JFrame {
          }
       });
 
-      lbl_SesionOut.setText("Cerrar Sesión");
-      lbl_SesionOut.addMouseListener(new java.awt.event.MouseAdapter()
-      {
-         public void mouseClicked(java.awt.event.MouseEvent evt)
-         {
-            lbl_SesionOutMouseClicked(evt);
-         }
-      });
-
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(layout.createSequentialGroup()
             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(lbl_SesionOut, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)
             .addComponent(btn_settings, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(18, 18, 18))
+            .addGap(24, 24, 24))
+         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(lbl_SesionOut, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,10 +188,12 @@ public class Profile extends javax.swing.JFrame {
                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addGroup(layout.createSequentialGroup()
                   .addContainerGap()
-                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                     .addComponent(lbl_SesionOut)
-                     .addComponent(btn_settings, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                  .addComponent(btn_settings, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(jLabel2)
+               .addComponent(lbl_SesionOut))
+            .addContainerGap())
       );
 
       pack();
@@ -191,12 +217,9 @@ public class Profile extends javax.swing.JFrame {
         
         // Si el usuario no es administrador le muestra su menu donde se le indica lo que puede hacer 
         if ("0".equals(actualUser[4])){
-           // RedSocial.SettingsNotAdminController();
             InformationEdit editMyInfo = new InformationEdit();
             editMyInfo.ShowInformation(RedSocial.ACTUALUSER);
-            editMyInfo.setVisible(true);     
-           // this.dispose();
-           // this.dispose();
+            editMyInfo.setVisible(true); 
         }
         
         // Si ES administrador se le muestra el menu donde se le muestra lo que puede ha
@@ -214,6 +237,15 @@ public class Profile extends javax.swing.JFrame {
       RedSocial.LoginController();
       this.dispose();
    }//GEN-LAST:event_lbl_SesionOutMouseClicked
+
+   private void jLabel2MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel2MouseClicked
+   {//GEN-HEADEREND:event_jLabel2MouseClicked
+      // TODO add your handling code here:
+       RedSocial.Delete(RedSocial.ACTUALUSER);
+        RedSocial.ACTUALUSER = ""; // Vacio la variable de usuario actual porque se elimino cuenta
+        this.dispose();
+        RedSocial.LoginController();
+   }//GEN-LAST:event_jLabel2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -253,6 +285,7 @@ public class Profile extends javax.swing.JFrame {
    // Variables declaration - do not modify//GEN-BEGIN:variables
    private javax.swing.JButton btn_settings;
    private javax.swing.JLabel jLabel1;
+   private javax.swing.JLabel jLabel2;
    private javax.swing.JPanel jPanel1;
    private javax.swing.JScrollPane jScrollPane2;
    private javax.swing.JScrollPane jScrollPane3;

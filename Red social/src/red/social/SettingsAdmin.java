@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import javax.swing.JFileChooser;
 import java.util.regex.Pattern;
 import java.util.GregorianCalendar;
+import static red.social.RedSocial.Background;
 import static red.social.RedSocial.SEPARADOR;
 import static red.social.RedSocial.BackupLength;
 
@@ -27,6 +28,7 @@ public class SettingsAdmin extends javax.swing.JFrame {
      */
     public SettingsAdmin() {
         initComponents();
+        this.getContentPane().setBackground(Background);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         btn_eliminar.setEnabled(false);
@@ -56,14 +58,18 @@ public class SettingsAdmin extends javax.swing.JFrame {
       lbl_usuario = new javax.swing.JLabel();
       btn_modificar = new javax.swing.JButton();
       btn_eliminar = new javax.swing.JButton();
+      jLabel5 = new javax.swing.JLabel();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
       setResizable(false);
 
+      jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
       jLabel2.setText("Realizar Backup");
 
+      jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
       jLabel3.setText("OPCIONES");
 
+      btb_modificarInfo.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
       btb_modificarInfo.setText("Ir");
       btb_modificarInfo.addMouseListener(new java.awt.event.MouseAdapter()
       {
@@ -80,6 +86,7 @@ public class SettingsAdmin extends javax.swing.JFrame {
          }
       });
 
+      btn_realizarBackup.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
       btn_realizarBackup.setText("Ir");
       btn_realizarBackup.addActionListener(new java.awt.event.ActionListener()
       {
@@ -89,6 +96,7 @@ public class SettingsAdmin extends javax.swing.JFrame {
          }
       });
 
+      jButton1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
       jButton1.setText("Regresar");
       jButton1.addMouseListener(new java.awt.event.MouseAdapter()
       {
@@ -98,10 +106,13 @@ public class SettingsAdmin extends javax.swing.JFrame {
          }
       });
 
+      jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
       jLabel1.setText("Modificar Información");
 
+      jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
       jLabel4.setText("Ingresar Nuevos Usuarios");
 
+      btn_ingresarUsuarios.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
       btn_ingresarUsuarios.setText("Ir");
       btn_ingresarUsuarios.addMouseListener(new java.awt.event.MouseAdapter()
       {
@@ -111,6 +122,9 @@ public class SettingsAdmin extends javax.swing.JFrame {
          }
       });
 
+      txt_buscar.setFont(new java.awt.Font("Arial Unicode MS", 0, 12)); // NOI18N
+
+      btn_buscar.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
       btn_buscar.setText("Buscar");
       btn_buscar.addMouseListener(new java.awt.event.MouseAdapter()
       {
@@ -120,6 +134,7 @@ public class SettingsAdmin extends javax.swing.JFrame {
          }
       });
 
+      btn_modificar.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
       btn_modificar.setText("Modificar");
       btn_modificar.addMouseListener(new java.awt.event.MouseAdapter()
       {
@@ -129,6 +144,7 @@ public class SettingsAdmin extends javax.swing.JFrame {
          }
       });
 
+      btn_eliminar.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
       btn_eliminar.setText("Eliminar");
       btn_eliminar.addMouseListener(new java.awt.event.MouseAdapter()
       {
@@ -138,6 +154,9 @@ public class SettingsAdmin extends javax.swing.JFrame {
          }
       });
 
+      jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+      jLabel5.setText("Buscar Usuarios");
+
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
@@ -145,56 +164,72 @@ public class SettingsAdmin extends javax.swing.JFrame {
          .addGroup(layout.createSequentialGroup()
             .addContainerGap()
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addComponent(jLabel3)
-               .addComponent(jButton1)
                .addGroup(layout.createSequentialGroup()
-                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                     .addComponent(lbl_usuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                     .addComponent(txt_buscar, javax.swing.GroupLayout.Alignment.LEADING))
-                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                  .addComponent(btn_eliminar)
-                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                  .addComponent(lbl_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                  .addComponent(jButton1))
+               .addGroup(layout.createSequentialGroup()
                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btn_ingresarUsuarios)
-                        .addComponent(btn_realizarBackup)
-                        .addComponent(btb_modificarInfo))
-                     .addComponent(btn_buscar, javax.swing.GroupLayout.Alignment.TRAILING)
-                     .addComponent(btn_modificar))))
-            .addContainerGap(26, Short.MAX_VALUE))
+                     .addComponent(jLabel3)
+                     .addComponent(jLabel5)
+                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_eliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_modificar))
+                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                              .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                              .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                           .addGap(57, 57, 57)
+                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                              .addComponent(btn_realizarBackup, javax.swing.GroupLayout.Alignment.TRAILING)
+                              .addComponent(btb_modificarInfo, javax.swing.GroupLayout.Alignment.TRAILING)))
+                        .addGroup(layout.createSequentialGroup()
+                           .addComponent(jLabel4)
+                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                           .addComponent(btn_ingresarUsuarios)))
+                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57)
+                        .addComponent(btn_buscar)))
+                  .addGap(0, 244, Short.MAX_VALUE)))
+            .addContainerGap())
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+         .addGroup(layout.createSequentialGroup()
             .addContainerGap()
             .addComponent(jLabel3)
-            .addGap(18, 18, 18)
+            .addGap(26, 26, 26)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(jLabel1)
                .addComponent(btb_modificarInfo))
-            .addGap(18, 18, 18)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addComponent(btn_realizarBackup)
-               .addComponent(jLabel2))
-            .addGap(18, 18, 18)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(35, 35, 35)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(jLabel2)
+               .addComponent(btn_realizarBackup))
+            .addGap(49, 49, 49)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(jLabel4)
                .addComponent(btn_ingresarUsuarios))
-            .addGap(18, 18, 18)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(36, 36, 36)
+            .addComponent(jLabel5)
+            .addGap(8, 8, 8)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addComponent(btn_buscar))
             .addGap(18, 18, 18)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(lbl_usuario)
                .addComponent(btn_modificar)
                .addComponent(btn_eliminar))
-            .addGap(18, 18, 18)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
+            .addComponent(lbl_usuario)
+            .addGap(0, 25, Short.MAX_VALUE))
+         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton1)
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addContainerGap())
       );
 
       pack();
@@ -341,6 +376,7 @@ public class SettingsAdmin extends javax.swing.JFrame {
    private javax.swing.JLabel jLabel2;
    private javax.swing.JLabel jLabel3;
    private javax.swing.JLabel jLabel4;
+   private javax.swing.JLabel jLabel5;
    private javax.swing.JLabel lbl_usuario;
    private javax.swing.JTextField txt_buscar;
    // End of variables declaration//GEN-END:variables
