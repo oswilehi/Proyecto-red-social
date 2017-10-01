@@ -6,6 +6,7 @@
 package red.social;
 import java.io.*;
 import java.security.MessageDigest;
+import java.util.regex.Pattern;
 
 public class RedSocial {
 
@@ -21,6 +22,7 @@ public class RedSocial {
     public static final String SEPARADOR = "|";
     public static final String pSEPARADOR = "::";
     public static final int Length = 260;
+    public static String ACTUALUSER;
     
     public static void main(String[] args) {
        try
@@ -43,8 +45,30 @@ public class RedSocial {
         log.setVisible(true);
     }
     
+    public static void ProfileController(String userData){
+        Profile profile = new Profile();
+        profile.ShowInfo(userData);
+        profile.setVisible(true);  
+    }
+    
+    
+    public static void SettingsAdminController(){
+        SettingsAdmin settings = new SettingsAdmin();
+        settings.setVisible(true);
+    }
+    
+    public static void SettingsNotAdminController(){
+        SettingsNotAdmin settings = new SettingsNotAdmin();
+        settings.setVisible(true);
+    }
     public static void RegisterController(){
         Registrarse Register = new Registrarse();
+        Register.setVisible(true);
+    }
+    
+    // Este metodo es para cuando el usuario necesite el registrar para agregar usuarios
+    public static void RegisterController(boolean AdminIsAddingUsers){
+        Registrarse Register = new Registrarse(AdminIsAddingUsers);
         Register.setVisible(true);
     }
     
@@ -72,5 +96,24 @@ public class RedSocial {
        }
        int n = Text.length();
        return Text;
+    }
+    
+    // Cambia el status de 1 a 0
+    public static void Delete(String userToDelete){
+        String actualUser = FileManager.Search(userToDelete);
+        String actualUserArray[] = actualUser.split(Pattern.quote(SEPARADOR));
+        actualUser = actualUserArray[0]+ SEPARADOR
+                     + actualUserArray[1]+ SEPARADOR
+                     + actualUserArray[2]+ SEPARADOR
+                     + actualUserArray[3]+ SEPARADOR
+                     + actualUserArray[4]+ SEPARADOR
+                     + actualUserArray[5]+ SEPARADOR
+                     + actualUserArray[6]+ SEPARADOR
+                     + actualUserArray[7]+ SEPARADOR
+                     + actualUserArray[8]+ SEPARADOR
+                     + actualUserArray[9]+ SEPARADOR
+                     + "0";
+        actualUser = RedSocial.Fill(actualUser);
+        FileManager.Update(actualUser);
     }
 }
