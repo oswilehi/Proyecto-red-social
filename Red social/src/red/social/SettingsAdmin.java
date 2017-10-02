@@ -133,6 +133,13 @@ public class SettingsAdmin extends javax.swing.JFrame {
             btn_buscarMouseClicked(evt);
          }
       });
+      btn_buscar.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            btn_buscarActionPerformed(evt);
+         }
+      });
 
       btn_modificar.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
       btn_modificar.setText("Modificar");
@@ -141,6 +148,13 @@ public class SettingsAdmin extends javax.swing.JFrame {
          public void mouseClicked(java.awt.event.MouseEvent evt)
          {
             btn_modificarMouseClicked(evt);
+         }
+      });
+      btn_modificar.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            btn_modificarActionPerformed(evt);
          }
       });
 
@@ -292,10 +306,13 @@ public class SettingsAdmin extends javax.swing.JFrame {
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
         // TODO add your handling code here:
+        
         InformationEdit editMyInfo = new InformationEdit();
         editMyInfo.ShowInformation(txt_buscar.getText());
-        editMyInfo.setVisible(true);     
-        this.dispose();
+         editMyInfo.isManager(true);
+        editMyInfo.setVisible(true);  
+        txt_buscar.setText("");
+       // this.dispose();
     }//GEN-LAST:event_btn_modificarMouseClicked
 
     private void btn_ingresarUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ingresarUsuariosMouseClicked
@@ -323,6 +340,17 @@ public class SettingsAdmin extends javax.swing.JFrame {
    {//GEN-HEADEREND:event_btb_modificarInfoActionPerformed
       // TODO add your handling code here:
    }//GEN-LAST:event_btb_modificarInfoActionPerformed
+
+   private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_modificarActionPerformed
+   {//GEN-HEADEREND:event_btn_modificarActionPerformed
+      // TODO add your handling code here:
+   }//GEN-LAST:event_btn_modificarActionPerformed
+
+   private void btn_buscarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_buscarActionPerformed
+   {//GEN-HEADEREND:event_btn_buscarActionPerformed
+      // TODO add your handling code here:
+      
+   }//GEN-LAST:event_btn_buscarActionPerformed
 
    private String Today(){
       Date fechaActual = new Date(); 

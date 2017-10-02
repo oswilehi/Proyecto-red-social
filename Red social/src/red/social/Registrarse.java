@@ -36,14 +36,13 @@ boolean isAdminAddingUsers;
 
 
 String PicturePath="";
-    
+Login LogFrame=null;
     public Registrarse() {
         initComponents();
         this.getContentPane().setBackground(Background);
         InvisibleComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-        btn_regresar.setVisible(false);
     }
     public Registrarse(boolean AdminIsAddingUsers) {
         initComponents();
@@ -56,7 +55,7 @@ String PicturePath="";
     }
 
     @SuppressWarnings("unchecked")
-   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+   // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
    private void initComponents()
    {
 
@@ -277,6 +276,13 @@ String PicturePath="";
             btn_regresarMouseClicked(evt);
          }
       });
+      btn_regresar.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            btn_regresarActionPerformed(evt);
+         }
+      });
 
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
@@ -321,7 +327,7 @@ String PicturePath="";
                      .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                     .addGroup(layout.createSequentialGroup()
+                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                            .addGroup(layout.createSequentialGroup()
                               .addComponent(jLabel8)
@@ -333,7 +339,8 @@ String PicturePath="";
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                            .addComponent(btn_regresar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                           .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                           .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)))
                   .addContainerGap())
                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -364,56 +371,60 @@ String PicturePath="";
                .addComponent(txt_Password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addComponent(jLabel5)
                .addComponent(lbl_Level))
-            .addGap(18, 18, 18)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(txt_CheckPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jLabel4)
-               .addComponent(lbl_PasswordCheckedError))
-            .addGap(12, 12, 12)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(txt_Mail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jLabel7)
-               .addComponent(lbl_MailError))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(txt_PhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jLabel6)
-               .addComponent(lbl_NumberPhoneError))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jLabel9)
-               .addComponent(Sp_Birthday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(31, 31, 31)
-            .addComponent(jLabel10)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(37, 37, 37)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jLabel8)
-               .addComponent(btn_FindPicture)
-               .addComponent(lbl_PictureError))
-            .addGap(18, 18, 18)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-               .addComponent(lbl_PicturePath, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                .addGroup(layout.createSequentialGroup()
-                  .addComponent(btn_regresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                   .addGap(18, 18, 18)
-                  .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGap(47, 47, 47))
+                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                     .addComponent(txt_CheckPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(jLabel4)
+                     .addComponent(lbl_PasswordCheckedError))
+                  .addGap(12, 12, 12)
+                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                     .addComponent(txt_Mail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(jLabel7)
+                     .addComponent(lbl_MailError))
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                     .addComponent(txt_PhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(jLabel6)
+                     .addComponent(lbl_NumberPhoneError))
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                     .addComponent(jLabel9)
+                     .addComponent(Sp_Birthday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                  .addGap(31, 31, 31)
+                  .addComponent(jLabel10)
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                  .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addGap(37, 37, 37)
+                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                     .addComponent(jLabel8)
+                     .addComponent(btn_FindPicture)
+                     .addComponent(lbl_PictureError))
+                  .addGap(18, 18, 18)
+                  .addComponent(lbl_PicturePath, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addGap(47, 47, 47))
+               .addGroup(layout.createSequentialGroup()
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                  .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                  .addComponent(btn_regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addGap(31, 31, 31))))
       );
 
       pack();
-   }// </editor-fold>//GEN-END:initComponents
+   }// </editor-fold>                        
 
+   public void Login(Login Log){
+      LogFrame = Log;
+   }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
        InvisibleComponents();
-       if(IsDataValid()){
+       if(IsDataValid()){ 
              String Data = CreateUser();
-             
              // No escribe en el archivo hasta que el usuario sea nuevo 
             while (FileManager.Search(txt_User.getText()) != null) {
                 JOptionPane.showMessageDialog(null, "El usuario ya existe, pruebe con otro");
-                
             }
             
             FileManager.WriteFile(USER_FILE, RedSocial.Fill(Data, Length));
@@ -447,49 +458,49 @@ String PicturePath="";
         lbl_PicturePath.setText("");
     }
 
-    private void txt_UserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_UserKeyTyped
+    private void txt_UserKeyTyped(java.awt.event.KeyEvent evt) {                                  
         // TODO add your handling code here:
         if(txt_User.getText().length()>= UserLength){
             evt.consume();
         }
-    }//GEN-LAST:event_txt_UserKeyTyped
+    }                                 
 
-    private void txt_NameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_NameKeyTyped
+    private void txt_NameKeyTyped(java.awt.event.KeyEvent evt) {                                  
         // TODO add your handling code here:
          if(txt_Name.getText().length()>= NameLength){
             evt.consume();
         }
-    }//GEN-LAST:event_txt_NameKeyTyped
+    }                                 
 
-    private void txt_PasswordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_PasswordKeyTyped
+    private void txt_PasswordKeyTyped(java.awt.event.KeyEvent evt) {                                      
         // TODO add your handling code here:
          if(txt_Password.getText().length()>= PasswordLength){
             evt.consume();
         }
-    }//GEN-LAST:event_txt_PasswordKeyTyped
+    }                                     
 
-    private void txt_CheckPasswordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_CheckPasswordKeyTyped
+    private void txt_CheckPasswordKeyTyped(java.awt.event.KeyEvent evt) {                                           
         // TODO add your handling code here:
          if(txt_CheckPassword.getText().length()>= PasswordLength){
             evt.consume();
         }
-    }//GEN-LAST:event_txt_CheckPasswordKeyTyped
+    }                                          
 
-    private void txt_MailKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_MailKeyTyped
+    private void txt_MailKeyTyped(java.awt.event.KeyEvent evt) {                                  
         // TODO add your handling code here:
         if(txt_Mail.getText().length()>= EmailLength){
             evt.consume();
         }
-    }//GEN-LAST:event_txt_MailKeyTyped
+    }                                 
 
-    private void txt_PhoneNumberKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_PhoneNumberKeyTyped
+    private void txt_PhoneNumberKeyTyped(java.awt.event.KeyEvent evt) {                                         
         // TODO add your handling code here:
         if(txt_PhoneNumber.getText().length()>= PhoneNumberLength){
             evt.consume();
         }
-    }//GEN-LAST:event_txt_PhoneNumberKeyTyped
+    }                                        
 
-    private void btn_FindPictureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_FindPictureActionPerformed
+    private void btn_FindPictureActionPerformed(java.awt.event.ActionEvent evt) {                                                
         // TODO add your handling code here:
         try{
             JFileChooser Images = new JFileChooser();
@@ -505,9 +516,9 @@ String PicturePath="";
        
         }catch(Exception e){
         }
-    }//GEN-LAST:event_btn_FindPictureActionPerformed
+    }                                               
 
-    private void txt_PasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_PasswordKeyReleased
+    private void txt_PasswordKeyReleased(java.awt.event.KeyEvent evt) {                                         
         // TODO add your handling code here:
         if(txt_Password.getText().isEmpty()){
             lbl_Level.setVisible(false);
@@ -540,37 +551,45 @@ String PicturePath="";
            PasswordLevel(puntuation); 
         txt_Password.setEnabled(true);
         }
-    }//GEN-LAST:event_txt_PasswordKeyReleased
+    }                                        
 
-    private void txt_LastNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_LastNameKeyTyped
+    private void txt_LastNameKeyTyped(java.awt.event.KeyEvent evt) {                                      
         // TODO add your handling code here:
          if(txt_LastName.getText().length()>= LastNameLength){
             evt.consume();
         }
-    }//GEN-LAST:event_txt_LastNameKeyTyped
+    }                                     
 
-   private void txt_DescriptionKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_txt_DescriptionKeyPressed
-   {//GEN-HEADEREND:event_txt_DescriptionKeyPressed
+   private void txt_DescriptionKeyPressed(java.awt.event.KeyEvent evt)                                           
+   {                                               
       // TODO add your handling code here:
          if(evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER ){
             evt.consume();
          }
-   }//GEN-LAST:event_txt_DescriptionKeyPressed
+   }                                          
 
-   private void txt_DescriptionKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_txt_DescriptionKeyTyped
-   {//GEN-HEADEREND:event_txt_DescriptionKeyTyped
+   private void txt_DescriptionKeyTyped(java.awt.event.KeyEvent evt)                                         
+   {                                             
       // TODO add your handling code here:
       if(txt_Description.getText().length()>=100){
                evt.consume();
      }
-   }//GEN-LAST:event_txt_DescriptionKeyTyped
+   }                                        
 
-    private void btn_regresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_regresarMouseClicked
+    private void btn_regresarMouseClicked(java.awt.event.MouseEvent evt) {                                          
         // TODO add your handling code here:
-        
-        RedSocial.SettingsAdminController();
-        this.dispose();
-    }//GEN-LAST:event_btn_regresarMouseClicked
+        if(LogFrame!=null){
+           this.setVisible(false);
+        }else{
+           RedSocial.SettingsAdminController();
+            this.dispose();
+        }
+    }                                         
+
+   private void btn_regresarActionPerformed(java.awt.event.ActionEvent evt)                                             
+   {                                                 
+      // TODO add your handling code here:
+   }                                            
     
     private boolean ImageExistInMEIA(String Name){
         File ImageDir = new File(DIRECTORY+IMAGES);
@@ -672,11 +691,17 @@ String PicturePath="";
     
     private boolean IsDataValid(){
        //if(txt_User.Existe){return false} //MOSTRAR LABEL
-       if(FileManager.FileExists(BINNACLE +USER_FILE)){
+       if(txt_User.getText().isEmpty()){
+          lbl_UserError.setText("Ingrese un usuario");
+          lbl_UserError.setVisible(true);
+          return false;
+       }else{
+          if(FileManager.FileExists(BINNACLE +USER_FILE)){
           if(FileManager.Search(txt_User.getText())!=null){
             lbl_UserError.setVisible(true);
             return false; 
           }
+       }
        }
         if(lbl_Level.getText().equals("Contraseña insegura") || lbl_Level.getText().equals("Tiene que ser mayor de 6 caracteres")){
             txt_Password.setBackground(Color.RED);
@@ -735,6 +760,7 @@ String PicturePath="";
           return "";
        }
       }
+    
     private void InvisibleComponents(){
         lbl_Level.setVisible(false);
         lbl_UserError.setVisible(false);
@@ -781,7 +807,7 @@ String PicturePath="";
         });
     }
 
-   // Variables declaration - do not modify//GEN-BEGIN:variables
+   // Variables declaration - do not modify                     
    private javax.swing.JSpinner Sp_Birthday;
    private javax.swing.JButton btn_FindPicture;
    private javax.swing.JButton btn_regresar;
@@ -814,5 +840,5 @@ String PicturePath="";
    private javax.swing.JPasswordField txt_Password;
    private javax.swing.JTextField txt_PhoneNumber;
    private javax.swing.JTextField txt_User;
-   // End of variables declaration//GEN-END:variables
+   // End of variables declaration                   
 }

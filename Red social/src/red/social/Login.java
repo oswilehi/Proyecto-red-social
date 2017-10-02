@@ -132,8 +132,7 @@ public class Login extends javax.swing.JFrame {
 
     private void btn_SingUpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SingUpMouseClicked
         // TODO add your handling code here:
-        RedSocial.RegisterController();
-        this.dispose();
+        RedSocial.RegisterController().Login(this);
     }//GEN-LAST:event_btn_SingUpMouseClicked
 
     private void btn_SignInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SignInActionPerformed

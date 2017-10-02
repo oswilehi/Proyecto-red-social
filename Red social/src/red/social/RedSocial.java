@@ -62,9 +62,10 @@ public class RedSocial {
         settings.setVisible(true);
     }
     
-    public static void RegisterController(){
+    public static  Registrarse RegisterController(){
         Registrarse Register = new Registrarse();
         Register.setVisible(true);
+        return Register;
     }
     
     // Este metodo es para cuando el usuario necesite el registrar para agregar usuarios
