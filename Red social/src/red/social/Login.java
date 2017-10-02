@@ -5,6 +5,12 @@
  */
 
 package red.social;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import static red.social.RedSocial.Background;
+import static red.social.RedSocial.SEPARADOR;
+
+import java.util.regex.Pattern;
 
 /**
  *
@@ -15,7 +21,11 @@ public class Login extends javax.swing.JFrame {
     /** Creates new form Login */
     public Login() {
         initComponents();
+        this.getContentPane().setBackground(Background);
         this.setResizable(false);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        lbl_LoginError.setVisible(false);
     }
 
     /** This method is called from within the constructor to
@@ -35,15 +45,23 @@ public class Login extends javax.swing.JFrame {
       txt_password = new javax.swing.JPasswordField();
       btn_SingUp = new javax.swing.JLabel();
       btn_SignIn = new javax.swing.JButton();
+      lbl_LoginError = new javax.swing.JLabel();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-      setBackground(new java.awt.Color(230, 228, 228));
+      setBackground(new java.awt.Color(9, 33, 64));
       setMaximumSize(new java.awt.Dimension(314, 300));
 
+      jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
       jLabel3.setText("Usuario");
 
+      txt_user.setFont(new java.awt.Font("Arial Unicode MS", 0, 14)); // NOI18N
+
+      jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
       jLabel4.setText("Contraseña");
 
+      txt_password.setFont(new java.awt.Font("Arial Unicode MS", 0, 14)); // NOI18N
+
+      btn_SingUp.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
       btn_SingUp.setText("Registrarse");
       btn_SingUp.addMouseListener(new java.awt.event.MouseAdapter()
       {
@@ -53,6 +71,7 @@ public class Login extends javax.swing.JFrame {
          }
       });
 
+      btn_SignIn.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
       btn_SignIn.setText("Iniciar sesión");
       btn_SignIn.addActionListener(new java.awt.event.ActionListener()
       {
@@ -62,37 +81,50 @@ public class Login extends javax.swing.JFrame {
          }
       });
 
+      lbl_LoginError.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+      lbl_LoginError.setForeground(new java.awt.Color(204, 0, 0));
+      lbl_LoginError.setText("El usuario o contraseña son inválidos");
+
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(layout.createSequentialGroup()
-            .addGap(84, 84, 84)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addComponent(jLabel4)
-               .addComponent(jLabel3)
-               .addComponent(btn_SignIn, javax.swing.GroupLayout.Alignment.CENTER)
-               .addComponent(btn_SingUp, javax.swing.GroupLayout.Alignment.CENTER)
-               .addComponent(txt_password, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(txt_user, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(74, 74, 74))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btn_SingUp)
+            .addGap(28, 28, 28))
+         .addGroup(layout.createSequentialGroup()
+            .addGap(69, 69, 69)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+               .addGroup(layout.createSequentialGroup()
+                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addComponent(btn_SignIn)
+                     .addComponent(txt_user, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(jLabel4)
+                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                  .addGap(120, 120, 120))
+               .addComponent(lbl_LoginError))
+            .addGap(0, 156, Short.MAX_VALUE))
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(layout.createSequentialGroup()
-            .addGap(93, 93, 93)
+            .addContainerGap()
+            .addComponent(btn_SingUp)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
             .addComponent(jLabel3)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addComponent(txt_user, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGap(35, 35, 35)
             .addComponent(jLabel4)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGap(27, 27, 27)
             .addComponent(btn_SignIn)
-            .addGap(47, 47, 47)
-            .addComponent(btn_SingUp)
-            .addContainerGap())
+            .addGap(22, 22, 22)
+            .addComponent(lbl_LoginError)
+            .addGap(93, 93, 93))
       );
 
       pack();
@@ -101,10 +133,25 @@ public class Login extends javax.swing.JFrame {
     private void btn_SingUpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SingUpMouseClicked
         // TODO add your handling code here:
         RedSocial.RegisterController();
+        this.dispose();
     }//GEN-LAST:event_btn_SingUpMouseClicked
 
     private void btn_SignInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SignInActionPerformed
         // TODO add your handling code here:
+        String User = FileManager.Search(txt_user.getText());
+        RedSocial.ACTUALUSER = txt_user.getText(); // Guardo usuario actual a variable, esta debera de vaciarse cuando usuario cambie nombre de usuario o cuando cierre sesion
+        try{
+         if(User!=null){
+           if(RedSocial.MD5(txt_password.getText()).equals(User.split(Pattern.quote(SEPARADOR))[3])){
+              RedSocial.ProfileController(User);
+              this.setVisible(false);
+              this.dispose();
+           }
+        }
+        }catch(Exception e){
+           
+        }
+        lbl_LoginError.setVisible(true);
     }//GEN-LAST:event_btn_SignInActionPerformed
 
     /**
@@ -142,13 +189,14 @@ public class Login extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_SignIn;
-    private javax.swing.JLabel btn_SingUp;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JPasswordField txt_password;
-    private javax.swing.JTextField txt_user;
-    // End of variables declaration//GEN-END:variables
+   // Variables declaration - do not modify//GEN-BEGIN:variables
+   private javax.swing.JButton btn_SignIn;
+   private javax.swing.JLabel btn_SingUp;
+   private javax.swing.JLabel jLabel3;
+   private javax.swing.JLabel jLabel4;
+   private javax.swing.JLabel lbl_LoginError;
+   private javax.swing.JPasswordField txt_password;
+   private javax.swing.JTextField txt_user;
+   // End of variables declaration//GEN-END:variables
 
 }

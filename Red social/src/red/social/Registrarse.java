@@ -1,5 +1,7 @@
 package red.social;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.*;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -8,291 +10,442 @@ import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.nio.file.Files;
 import java.util.regex.Pattern;
+import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import static red.social.RedSocial.IMAGES;
 import static red.social.RedSocial.DIRECTORY;
+import static red.social.RedSocial.USER_FILE;
+import static red.social.RedSocial.BINNACLE;
+import static red.social.RedSocial.Background;
+import static red.social.RedSocial.Length;
+import static red.social.RedSocial.SEPARADOR;
 
 
 
 public class Registrarse extends javax.swing.JFrame {
-int UserLength = 10;
-int NameLength = 10;
-int LastNameLength = 20;
-int PasswordLength = 20;
-int EmailLength = 50;
-int PhoneNumberLength = 8;
-int PictureCount = 0;
+public static int UserLength = 10;
+public static int NameLength = 20;
+public static int LastNameLength = 20;
+public static int PasswordLength = 20;
+public static int EmailLength = 50;
+public static int PhoneNumberLength = 8;
+public static int DescriptionLength = 100;
+public static int PictureCount = 0;
+boolean isAdminAddingUsers;
+
+
 String PicturePath="";
     
     public Registrarse() {
         initComponents();
+        this.getContentPane().setBackground(Background);
         InvisibleComponents();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        btn_regresar.setVisible(false);
+    }
+    public Registrarse(boolean AdminIsAddingUsers) {
+        initComponents();
+        InvisibleComponents();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        jButton1.setText("Agregar");
+        btn_regresar.setVisible(true);
+        isAdminAddingUsers = AdminIsAddingUsers;
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+   private void initComponents()
+   {
 
-        jLabel1 = new javax.swing.JLabel();
-        txt_User = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        txt_LastName = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txt_Name = new javax.swing.JTextField();
-        txt_Password = new javax.swing.JPasswordField();
-        txt_CheckPassword = new javax.swing.JPasswordField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        txt_PhoneNumber = new javax.swing.JTextField();
-        txt_Mail = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        lbl_PicturePath = new javax.swing.JLabel();
-        btn_FindPicture = new javax.swing.JButton();
-        lbl_Level = new javax.swing.JLabel();
-        lbl_UserError = new javax.swing.JLabel();
-        lbl_NameError = new javax.swing.JLabel();
-        lbl_LastNameError = new javax.swing.JLabel();
-        lbl_PasswordCheckedError = new javax.swing.JLabel();
-        lbl_MailError = new javax.swing.JLabel();
-        lbl_NumberPhoneError = new javax.swing.JLabel();
-        lbl_PictureError = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+      jLabel1 = new javax.swing.JLabel();
+      txt_User = new javax.swing.JTextField();
+      jLabel2 = new javax.swing.JLabel();
+      txt_LastName = new javax.swing.JTextField();
+      jLabel3 = new javax.swing.JLabel();
+      txt_Name = new javax.swing.JTextField();
+      txt_Password = new javax.swing.JPasswordField();
+      txt_CheckPassword = new javax.swing.JPasswordField();
+      jLabel4 = new javax.swing.JLabel();
+      jLabel5 = new javax.swing.JLabel();
+      jLabel6 = new javax.swing.JLabel();
+      txt_PhoneNumber = new javax.swing.JTextField();
+      txt_Mail = new javax.swing.JTextField();
+      jLabel7 = new javax.swing.JLabel();
+      jButton1 = new javax.swing.JButton();
+      jLabel8 = new javax.swing.JLabel();
+      lbl_PicturePath = new javax.swing.JLabel();
+      btn_FindPicture = new javax.swing.JButton();
+      lbl_Level = new javax.swing.JLabel();
+      lbl_UserError = new javax.swing.JLabel();
+      lbl_NameError = new javax.swing.JLabel();
+      lbl_LastNameError = new javax.swing.JLabel();
+      lbl_PasswordCheckedError = new javax.swing.JLabel();
+      lbl_MailError = new javax.swing.JLabel();
+      lbl_NumberPhoneError = new javax.swing.JLabel();
+      lbl_PictureError = new javax.swing.JLabel();
+      jLabel9 = new javax.swing.JLabel();
+      Sp_Birthday = new javax.swing.JSpinner();
+      jLabel10 = new javax.swing.JLabel();
+      jScrollPane1 = new javax.swing.JScrollPane();
+      txt_Description = new javax.swing.JTextArea();
+      btn_regresar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+      setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+      setResizable(false);
 
-        jLabel1.setText("Usuario");
+      jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      jLabel1.setText("Usuario");
 
-        txt_User.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_UserKeyTyped(evt);
-            }
-        });
+      txt_User.setFont(new java.awt.Font("Arial Unicode MS", 0, 11)); // NOI18N
+      txt_User.addKeyListener(new java.awt.event.KeyAdapter()
+      {
+         public void keyTyped(java.awt.event.KeyEvent evt)
+         {
+            txt_UserKeyTyped(evt);
+         }
+      });
 
-        jLabel2.setText("Apellido");
+      jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      jLabel2.setText("Apellido");
 
-        txt_LastName.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_LastNameKeyTyped(evt);
-            }
-        });
+      txt_LastName.setFont(new java.awt.Font("Arial Unicode MS", 0, 11)); // NOI18N
+      txt_LastName.addKeyListener(new java.awt.event.KeyAdapter()
+      {
+         public void keyTyped(java.awt.event.KeyEvent evt)
+         {
+            txt_LastNameKeyTyped(evt);
+         }
+      });
 
-        jLabel3.setText("Nombre");
+      jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      jLabel3.setText("Nombre");
 
-        txt_Name.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_NameKeyTyped(evt);
-            }
-        });
+      txt_Name.setFont(new java.awt.Font("Arial Unicode MS", 0, 11)); // NOI18N
+      txt_Name.addKeyListener(new java.awt.event.KeyAdapter()
+      {
+         public void keyTyped(java.awt.event.KeyEvent evt)
+         {
+            txt_NameKeyTyped(evt);
+         }
+      });
 
-        txt_Password.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txt_PasswordKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_PasswordKeyTyped(evt);
-            }
-        });
+      txt_Password.setFont(new java.awt.Font("Arial Unicode MS", 0, 11)); // NOI18N
+      txt_Password.addKeyListener(new java.awt.event.KeyAdapter()
+      {
+         public void keyReleased(java.awt.event.KeyEvent evt)
+         {
+            txt_PasswordKeyReleased(evt);
+         }
+         public void keyTyped(java.awt.event.KeyEvent evt)
+         {
+            txt_PasswordKeyTyped(evt);
+         }
+      });
 
-        txt_CheckPassword.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_CheckPasswordKeyTyped(evt);
-            }
-        });
+      txt_CheckPassword.setFont(new java.awt.Font("Arial Unicode MS", 0, 11)); // NOI18N
+      txt_CheckPassword.addKeyListener(new java.awt.event.KeyAdapter()
+      {
+         public void keyTyped(java.awt.event.KeyEvent evt)
+         {
+            txt_CheckPasswordKeyTyped(evt);
+         }
+      });
 
-        jLabel4.setText("Confirmar contraseña");
+      jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      jLabel4.setText("Confirmar contraseña");
 
-        jLabel5.setText("Contraseña");
+      jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      jLabel5.setText("Contraseña");
 
-        jLabel6.setText("Teléfono");
+      jLabel6.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      jLabel6.setText("Teléfono");
 
-        txt_PhoneNumber.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_PhoneNumberKeyTyped(evt);
-            }
-        });
+      txt_PhoneNumber.setFont(new java.awt.Font("Arial Unicode MS", 0, 11)); // NOI18N
+      txt_PhoneNumber.addKeyListener(new java.awt.event.KeyAdapter()
+      {
+         public void keyTyped(java.awt.event.KeyEvent evt)
+         {
+            txt_PhoneNumberKeyTyped(evt);
+         }
+      });
 
-        txt_Mail.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_MailKeyTyped(evt);
-            }
-        });
+      txt_Mail.setFont(new java.awt.Font("Arial Unicode MS", 0, 11)); // NOI18N
+      txt_Mail.addKeyListener(new java.awt.event.KeyAdapter()
+      {
+         public void keyTyped(java.awt.event.KeyEvent evt)
+         {
+            txt_MailKeyTyped(evt);
+         }
+      });
 
-        jLabel7.setText("Correo");
+      jLabel7.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      jLabel7.setText("Correo");
 
-        jButton1.setText("Registrarse");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+      jButton1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      jButton1.setText("Registrarse");
+      jButton1.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            jButton1ActionPerformed(evt);
+         }
+      });
 
-        jLabel8.setText("Seleccionar foto");
+      jLabel8.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      jLabel8.setText("Seleccionar foto");
 
-        lbl_PicturePath.setBackground(new java.awt.Color(255, 255, 255));
-        lbl_PicturePath.setText("Foto");
+      lbl_PicturePath.setBackground(new java.awt.Color(255, 255, 255));
+      lbl_PicturePath.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      lbl_PicturePath.setText("Foto");
 
-        btn_FindPicture.setText("Buscar");
-        btn_FindPicture.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_FindPictureActionPerformed(evt);
-            }
-        });
+      btn_FindPicture.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      btn_FindPicture.setText("Buscar");
+      btn_FindPicture.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            btn_FindPictureActionPerformed(evt);
+         }
+      });
 
-        lbl_Level.setForeground(new java.awt.Color(204, 0, 0));
-        lbl_Level.setText("jLabel9");
+      lbl_Level.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      lbl_Level.setForeground(new java.awt.Color(204, 0, 0));
+      lbl_Level.setText("jLabel9");
 
-        lbl_UserError.setForeground(new java.awt.Color(204, 0, 0));
-        lbl_UserError.setText("El usuario ya existe");
+      lbl_UserError.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      lbl_UserError.setForeground(new java.awt.Color(204, 0, 0));
+      lbl_UserError.setText("El usuario ya existe");
 
-        lbl_NameError.setForeground(new java.awt.Color(204, 0, 0));
-        lbl_NameError.setText("Es necesario un nombre");
+      lbl_NameError.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      lbl_NameError.setForeground(new java.awt.Color(204, 0, 0));
+      lbl_NameError.setText("Es necesario un nombre");
 
-        lbl_LastNameError.setForeground(new java.awt.Color(204, 0, 0));
-        lbl_LastNameError.setText("Es necesario un apellido");
+      lbl_LastNameError.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      lbl_LastNameError.setForeground(new java.awt.Color(204, 0, 0));
+      lbl_LastNameError.setText("Es necesario un apellido");
 
-        lbl_PasswordCheckedError.setForeground(new java.awt.Color(204, 0, 0));
-        lbl_PasswordCheckedError.setText("Inválida");
+      lbl_PasswordCheckedError.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      lbl_PasswordCheckedError.setForeground(new java.awt.Color(204, 0, 0));
+      lbl_PasswordCheckedError.setText("Inválida");
 
-        lbl_MailError.setForeground(new java.awt.Color(204, 0, 0));
-        lbl_MailError.setText("Es necesario un correo");
+      lbl_MailError.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      lbl_MailError.setForeground(new java.awt.Color(204, 0, 0));
+      lbl_MailError.setText("Es necesario un correo");
 
-        lbl_NumberPhoneError.setForeground(new java.awt.Color(204, 0, 0));
-        lbl_NumberPhoneError.setText("Es necesario un teléfono correcto");
+      lbl_NumberPhoneError.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      lbl_NumberPhoneError.setForeground(new java.awt.Color(204, 0, 0));
+      lbl_NumberPhoneError.setText("Es necesario un teléfono correcto");
 
-        lbl_NumberPhoneError.setForeground(new java.awt.Color(204, 0, 0));
-        lbl_NumberPhoneError.setText("Es necesario un teléfono correcto");
-      
-        lbl_PictureError.setForeground(new java.awt.Color(204, 0, 0));
-        lbl_PictureError.setText("Es necesaria una imagen de perfil");
+      lbl_PictureError.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      lbl_PictureError.setForeground(new java.awt.Color(204, 0, 0));
+      lbl_PictureError.setText("Es necesaria una imagen de perfil");
 
-        jFormattedTextField1.setColumns(6);
-        jFormattedTextField1.setText("jFormattedTextField1");
+      jLabel9.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      jLabel9.setText("Fecha de nacimiento");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbl_PicturePath, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(46, 46, 46))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(29, 29, 29)
-                        .addComponent(btn_FindPicture)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lbl_PictureError)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel6))
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txt_User, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                        .addComponent(txt_Name)
-                        .addComponent(txt_LastName)
-                        .addComponent(txt_Password)
-                        .addComponent(txt_Mail)
-                        .addComponent(txt_CheckPassword)
-                        .addComponent(txt_PhoneNumber)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_Level, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+      Sp_Birthday.setFont(new java.awt.Font("Arial Unicode MS", 0, 11)); // NOI18N
+      Sp_Birthday.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(1199234280000L), new java.util.Date(-315526920000L), new java.util.Date(1199236080000L), java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
+
+      jLabel10.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      jLabel10.setText("Descripción");
+
+      txt_Description.setColumns(20);
+      txt_Description.setFont(new java.awt.Font("Arial Unicode MS", 0, 11)); // NOI18N
+      txt_Description.setRows(5);
+      txt_Description.addKeyListener(new java.awt.event.KeyAdapter()
+      {
+         public void keyPressed(java.awt.event.KeyEvent evt)
+         {
+            txt_DescriptionKeyPressed(evt);
+         }
+         public void keyTyped(java.awt.event.KeyEvent evt)
+         {
+            txt_DescriptionKeyTyped(evt);
+         }
+      });
+      jScrollPane1.setViewportView(txt_Description);
+
+      btn_regresar.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      btn_regresar.setText("Regresar");
+      btn_regresar.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            btn_regresarMouseClicked(evt);
+         }
+      });
+
+      javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+      getContentPane().setLayout(layout);
+      layout.setHorizontalGroup(
+         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(layout.createSequentialGroup()
+            .addGap(46, 46, 46)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+               .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_UserError)
-                            .addComponent(lbl_NameError)
-                            .addComponent(lbl_LastNameError)
-                            .addComponent(lbl_PasswordCheckedError)
-                            .addComponent(lbl_MailError)
-                            .addComponent(lbl_NumberPhoneError))
-                        .addGap(0, 115, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txt_User, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_UserError))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_Name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(lbl_NameError))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_LastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(lbl_LastNameError))
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_Password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(lbl_Level))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_CheckPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(lbl_PasswordCheckedError))
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_Mail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(lbl_MailError))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_PhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(lbl_NumberPhoneError))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(btn_FindPicture)
-                            .addComponent(lbl_PictureError))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbl_PicturePath, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                           .addComponent(jLabel3)
+                           .addComponent(jLabel2)
+                           .addComponent(jLabel5)
+                           .addComponent(jLabel4)
+                           .addComponent(jLabel1)
+                           .addComponent(jLabel7)
+                           .addComponent(jLabel6))
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                           .addComponent(txt_User, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                           .addComponent(txt_Name)
+                           .addComponent(txt_LastName)
+                           .addComponent(txt_Password)
+                           .addComponent(txt_Mail)
+                           .addComponent(txt_CheckPassword)
+                           .addComponent(txt_PhoneNumber)
+                           .addComponent(Sp_Birthday))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                           .addComponent(lbl_Level, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                           .addGroup(layout.createSequentialGroup()
+                              .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                 .addComponent(lbl_UserError)
+                                 .addComponent(lbl_NameError)
+                                 .addComponent(lbl_LastNameError)
+                                 .addComponent(lbl_PasswordCheckedError)
+                                 .addComponent(lbl_MailError)
+                                 .addComponent(lbl_NumberPhoneError))
+                              .addGap(0, 0, Short.MAX_VALUE))))
+                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                           .addGroup(layout.createSequentialGroup()
+                              .addComponent(jLabel8)
+                              .addGap(29, 29, 29)
+                              .addComponent(btn_FindPicture)
+                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                              .addComponent(lbl_PictureError))
+                           .addComponent(lbl_PicturePath, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(24, 24, 24)))
-                .addGap(22, 22, 22))
-        );
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                           .addComponent(btn_regresar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                  .addContainerGap())
+               .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(jLabel9))
+                  .addGap(0, 224, Short.MAX_VALUE))))
+      );
+      layout.setVerticalGroup(
+         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(layout.createSequentialGroup()
+            .addGap(34, 34, 34)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(jLabel1)
+               .addComponent(txt_User, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(lbl_UserError))
+            .addGap(18, 18, 18)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(txt_Name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jLabel3)
+               .addComponent(lbl_NameError))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(txt_LastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jLabel2)
+               .addComponent(lbl_LastNameError))
+            .addGap(20, 20, 20)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(txt_Password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jLabel5)
+               .addComponent(lbl_Level))
+            .addGap(18, 18, 18)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(txt_CheckPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jLabel4)
+               .addComponent(lbl_PasswordCheckedError))
+            .addGap(12, 12, 12)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(txt_Mail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jLabel7)
+               .addComponent(lbl_MailError))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(txt_PhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(jLabel6)
+               .addComponent(lbl_NumberPhoneError))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(jLabel9)
+               .addComponent(Sp_Birthday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(31, 31, 31)
+            .addComponent(jLabel10)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(37, 37, 37)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(jLabel8)
+               .addComponent(btn_FindPicture)
+               .addComponent(lbl_PictureError))
+            .addGap(18, 18, 18)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+               .addComponent(lbl_PicturePath, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addGroup(layout.createSequentialGroup()
+                  .addComponent(btn_regresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                  .addGap(18, 18, 18)
+                  .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGap(47, 47, 47))
+      );
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+      pack();
+   }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        if(IsDataValid(ref User)){
-            Profile newProfile = new Profile();
-            newProfile.setVisible(true);
-            this.setVisible(false);
-            this.dispose();
+       InvisibleComponents();
+       if(IsDataValid()){
+             String Data = CreateUser();
+             
+             // No escribe en el archivo hasta que el usuario sea nuevo 
+            while (FileManager.Search(txt_User.getText()) != null) {
+                JOptionPane.showMessageDialog(null, "El usuario ya existe, pruebe con otro");
+                
+            }
+            
+            FileManager.WriteFile(USER_FILE, RedSocial.Fill(Data, Length));
+            
+                
+            // Si un administrador no esta agregando usuarios esto quiere decir
+            // que es un registrar normal
+            if (!isAdminAddingUsers)
+            {
+                 RedSocial.ProfileController(Data);
+                 RedSocial.ACTUALUSER = txt_User.getText();
+                 this.setVisible(false);
+                 this.dispose();
+            }
+            // Si es un admin agregando usuarios se limpian los txt
+            else
+                CleanTxt();       
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }   
+    
+    private void CleanTxt()
+    {
+        txt_User.setText("");
+        txt_Password.setText("");
+        txt_CheckPassword.setText("");
+        txt_Name.setText("");
+        txt_LastName.setText("");
+        txt_Mail.setText("");
+        txt_PhoneNumber.setText("");
+        txt_Description.setText("");
+        lbl_PicturePath.setText("");
+    }
 
     private void txt_UserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_UserKeyTyped
         // TODO add your handling code here:
@@ -395,6 +548,29 @@ String PicturePath="";
             evt.consume();
         }
     }//GEN-LAST:event_txt_LastNameKeyTyped
+
+   private void txt_DescriptionKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_txt_DescriptionKeyPressed
+   {//GEN-HEADEREND:event_txt_DescriptionKeyPressed
+      // TODO add your handling code here:
+         if(evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER ){
+            evt.consume();
+         }
+   }//GEN-LAST:event_txt_DescriptionKeyPressed
+
+   private void txt_DescriptionKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_txt_DescriptionKeyTyped
+   {//GEN-HEADEREND:event_txt_DescriptionKeyTyped
+      // TODO add your handling code here:
+      if(txt_Description.getText().length()>=100){
+               evt.consume();
+     }
+   }//GEN-LAST:event_txt_DescriptionKeyTyped
+
+    private void btn_regresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_regresarMouseClicked
+        // TODO add your handling code here:
+        
+        RedSocial.SettingsAdminController();
+        this.dispose();
+    }//GEN-LAST:event_btn_regresarMouseClicked
     
     private boolean ImageExistInMEIA(String Name){
         File ImageDir = new File(DIRECTORY+IMAGES);
@@ -490,12 +666,19 @@ String PicturePath="";
         }
     }
    
-    private String PasswordMD5(String Password){
-        return Password;
+    private String IsManager(){
+       return FileManager.FileExists(BINNACLE + USER_FILE) ? "0": "1";
     }
+    
     private boolean IsDataValid(){
        //if(txt_User.Existe){return false} //MOSTRAR LABEL
-        if(lbl_Level.getText().equals("Contraseña insegura")){
+       if(FileManager.FileExists(BINNACLE +USER_FILE)){
+          if(FileManager.Search(txt_User.getText())!=null){
+            lbl_UserError.setVisible(true);
+            return false; 
+          }
+       }
+        if(lbl_Level.getText().equals("Contraseña insegura") || lbl_Level.getText().equals("Tiene que ser mayor de 6 caracteres")){
             txt_Password.setBackground(Color.RED);
             return false;}
         if(txt_Name.getText().isEmpty()){
@@ -511,6 +694,16 @@ String PicturePath="";
         if(txt_Mail.getText().isEmpty()){
             lbl_MailError.setVisible(true);
             return false;
+        }else{
+           try{
+              if(txt_Mail.getText().split(Pattern.quote("@")).length !=2 || txt_Mail.getText().split(Pattern.quote("@"))[0].isEmpty() || txt_Mail.getText().split(Pattern.quote("@"))[1].isEmpty()){
+                 lbl_MailError.setText("Es necesario un correo válido");
+                 lbl_MailError.setVisible(true);
+                 return false;
+              }
+           }catch(Exception e){
+              
+           }
         }
         if(txt_PhoneNumber.getText().isEmpty()){
             lbl_NumberPhoneError.setVisible(true);
@@ -536,8 +729,12 @@ String PicturePath="";
     }
     
     private String CreateUser(){
-        return txt_User.getText()+"|"+txt_Name.getText()+"|"+txt_LastName.getText()+"|"+PasswordMD5(txt_Password.getText())+"|"+"0";
-    }
+       try{
+        return (txt_User.getText()+SEPARADOR+ txt_Name.getText()+SEPARADOR+ txt_LastName.getText()+SEPARADOR+ RedSocial.MD5(txt_Password.getText())+SEPARADOR+ IsManager()+SEPARADOR+Sp_Birthday.getValue().toString()+SEPARADOR+ txt_Mail.getText()+SEPARADOR+ txt_PhoneNumber.getText()+SEPARADOR+ PicturePath+SEPARADOR+ txt_Description.getText() +SEPARADOR +"1");   
+       }catch(Exception e){
+          return "";
+       }
+      }
     private void InvisibleComponents(){
         lbl_Level.setVisible(false);
         lbl_UserError.setVisible(false);
@@ -547,6 +744,7 @@ String PicturePath="";
         lbl_MailError.setVisible(false);
         lbl_NumberPhoneError.setVisible(false);
         lbl_PictureError.setVisible(false);
+        txt_Password.setBackground(Color.WHITE);
     }
     /**
      * @param args the command line arguments
@@ -583,33 +781,38 @@ String PicturePath="";
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_FindPicture;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel lbl_LastNameError;
-    private javax.swing.JLabel lbl_Level;
-    private javax.swing.JLabel lbl_MailError;
-    private javax.swing.JLabel lbl_NameError;
-    private javax.swing.JLabel lbl_NumberPhoneError;
-    private javax.swing.JLabel lbl_PasswordCheckedError;
-    private javax.swing.JLabel lbl_PictureError;
-    private javax.swing.JLabel lbl_PicturePath;
-    private javax.swing.JLabel lbl_UserError;
-    private javax.swing.JPasswordField txt_CheckPassword;
-    private javax.swing.JTextField txt_LastName;
-    private javax.swing.JTextField txt_Mail;
-    private javax.swing.JTextField txt_Name;
-    private javax.swing.JPasswordField txt_Password;
-    private javax.swing.JTextField txt_PhoneNumber;
-    private javax.swing.JTextField txt_User;
-    // End of variables declaration//GEN-END:variables
+   // Variables declaration - do not modify//GEN-BEGIN:variables
+   private javax.swing.JSpinner Sp_Birthday;
+   private javax.swing.JButton btn_FindPicture;
+   private javax.swing.JButton btn_regresar;
+   private javax.swing.JButton jButton1;
+   private javax.swing.JLabel jLabel1;
+   private javax.swing.JLabel jLabel10;
+   private javax.swing.JLabel jLabel2;
+   private javax.swing.JLabel jLabel3;
+   private javax.swing.JLabel jLabel4;
+   private javax.swing.JLabel jLabel5;
+   private javax.swing.JLabel jLabel6;
+   private javax.swing.JLabel jLabel7;
+   private javax.swing.JLabel jLabel8;
+   private javax.swing.JLabel jLabel9;
+   private javax.swing.JScrollPane jScrollPane1;
+   private javax.swing.JLabel lbl_LastNameError;
+   private javax.swing.JLabel lbl_Level;
+   private javax.swing.JLabel lbl_MailError;
+   private javax.swing.JLabel lbl_NameError;
+   private javax.swing.JLabel lbl_NumberPhoneError;
+   private javax.swing.JLabel lbl_PasswordCheckedError;
+   private javax.swing.JLabel lbl_PictureError;
+   private javax.swing.JLabel lbl_PicturePath;
+   private javax.swing.JLabel lbl_UserError;
+   private javax.swing.JPasswordField txt_CheckPassword;
+   private javax.swing.JTextArea txt_Description;
+   private javax.swing.JTextField txt_LastName;
+   private javax.swing.JTextField txt_Mail;
+   private javax.swing.JTextField txt_Name;
+   private javax.swing.JPasswordField txt_Password;
+   private javax.swing.JTextField txt_PhoneNumber;
+   private javax.swing.JTextField txt_User;
+   // End of variables declaration//GEN-END:variables
 }
