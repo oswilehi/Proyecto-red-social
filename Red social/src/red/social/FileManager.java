@@ -258,7 +258,16 @@ public class FileManager
       WriteFile("backup.txt", data);
       try
       {
-         copyDirectory(new File(DIRECTORY),new File(data.split(Pattern.quote(SEPARADOR))[0]));
+         String path = data.split(Pattern.quote(SEPARADOR))[0];
+         if (path.endsWith("MEIA_Backup"))
+         {
+            copyDirectory(new File(DIRECTORY),new File(data.split(Pattern.quote(SEPARADOR))[0]));
+         }
+         else
+         {
+            new File(data.split(Pattern.quote(SEPARADOR))[0] + "\\MEIA_Backup").mkdir();
+            copyDirectory(new File(DIRECTORY),new File(data.split(Pattern.quote(SEPARADOR))[0] + "\\MEIA_Backup"));
+         }
       }
       catch (IOException e)
       {
