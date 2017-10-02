@@ -760,7 +760,7 @@ public class InformationEdit extends javax.swing.JFrame
         txt_User.setText(userToEditArray[0]);
         txt_Mail.setText(userToEditArray[6]);
         //userToEditArray[5].split(Pattern.quote(" "))[0],userToEditArray[5].split(Pattern.quote(" "))[1],userToEditArray[5].split(Pattern.quote(" "))[2], userToEditArray[5].split(Pattern.quote(" "))[5]
-        Sp_Birthday.getModel().setValue((Object)userToEditArray[5]);
+        //Sp_Birthday.getModel().setValue((Object)userToEditArray[5]);
         txt_PhoneNumber.setText(userToEditArray[7]);
         PicturePath = userToEditArray[8];
         lbl_PicturePath.setText("");
