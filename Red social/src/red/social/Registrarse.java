@@ -691,11 +691,17 @@ Login LogFrame=null;
     
     private boolean IsDataValid(){
        //if(txt_User.Existe){return false} //MOSTRAR LABEL
-       if(FileManager.FileExists(BINNACLE +USER_FILE)){
+       if(txt_User.getText().isEmpty()){
+          lbl_UserError.setText("Ingrese un usuario");
+          lbl_UserError.setVisible(true);
+          return false;
+       }else{
+          if(FileManager.FileExists(BINNACLE +USER_FILE)){
           if(FileManager.Search(txt_User.getText())!=null){
             lbl_UserError.setVisible(true);
             return false; 
           }
+       }
        }
         if(lbl_Level.getText().equals("Contraseña insegura") || lbl_Level.getText().equals("Tiene que ser mayor de 6 caracteres")){
             txt_Password.setBackground(Color.RED);
@@ -754,6 +760,7 @@ Login LogFrame=null;
           return "";
        }
       }
+    
     private void InvisibleComponents(){
         lbl_Level.setVisible(false);
         lbl_UserError.setVisible(false);
