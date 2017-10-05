@@ -25,9 +25,11 @@ import static red.social.RedSocial.DIRECTORY;
 import static red.social.RedSocial.SEPARADOR;
 import static red.social.RedSocial.pSEPARADOR;
 
+
 public class FileManager
 {
-   
+   private static final String BACKUP_FILE = "backup.txt";
+   private static final String BACKUP_DIRECTORY = File.separator + "MEIA_backup";
    
    public static RandomAccessFile OpenFile(String path) // needs complete file name: binnacle_example.txt or master_example.txt to get the right desc_xxx_example.txt file
    {
@@ -98,12 +100,12 @@ public class FileManager
             /// Crear:
             ///   Descriptor
             ///   Bitacora
-            CreateBinnacle(path, data.split(Pattern.quote(SEPARADOR))[path.equals("backup.txt") ? 1:0]);
+            CreateBinnacle(path, data.split(Pattern.quote(SEPARADOR))[path.equals(BACKUP_FILE) ? 1:0]);
          }
          
          try
          {
-            if (!path.equals("backup.txt") && Search(data.split(Pattern.quote(SEPARADOR))[0]) != null)
+            if (!path.equals(BACKUP_FILE) && Search(data.split(Pattern.quote(SEPARADOR))[0]) != null)
             {
                return false;
             }
@@ -255,18 +257,18 @@ public class FileManager
    
    public static boolean Backup(String data)
    {
-      WriteFile("backup.txt", data);
+      WriteFile(BACKUP_FILE, data);
       try
       {
          String path = data.split(Pattern.quote(SEPARADOR))[0];
-         if (path.endsWith("MEIA_Backup"))
+         if (path.endsWith(BACKUP_DIRECTORY))
          {
             copyDirectory(new File(DIRECTORY),new File(data.split(Pattern.quote(SEPARADOR))[0]));
          }
          else
          {
-            new File(data.split(Pattern.quote(SEPARADOR))[0] + "\\MEIA_Backup").mkdir();
-            copyDirectory(new File(DIRECTORY),new File(data.split(Pattern.quote(SEPARADOR))[0] + "\\MEIA_Backup"));
+            new File(data.split(Pattern.quote(SEPARADOR))[0] + BACKUP_DIRECTORY).mkdir();
+            copyDirectory(new File(DIRECTORY),new File(data.split(Pattern.quote(SEPARADOR))[0] + BACKUP_DIRECTORY));
          }
       }
       catch (IOException e)
@@ -313,7 +315,7 @@ public class FileManager
             /// Crear:
             ///   Descriptor
             ///   Maestro
-            if (path.equals("backup.txt"))
+            if (path.equals(BACKUP_FILE))
             {
                CreateMaster(path, data); // data is user
             }
@@ -365,7 +367,7 @@ public class FileManager
                binnacleFile.close();
             }
             
-            if (path.equals("backup.txt"))
+            if (path.equals(BACKUP_FILE))
             {
                UpdateDescription(MASTER + path, data.split(Pattern.quote(SEPARADOR))[1], lines, 0);
                UpdateDescription(BINNACLE + path, data.split(Pattern.quote(SEPARADOR))[1], 0, 0);
@@ -382,7 +384,7 @@ public class FileManager
                UpdateDescription(MASTER + path, data.split(Pattern.quote(SEPARADOR))[0], lines -inactive, inactive);
                UpdateDescription(BINNACLE + path, data.split(Pattern.quote(SEPARADOR))[0], 0, 0);
             }
-            return true;
+            return WriteFile(path, data);
          }
          catch (IOException | NumberFormatException e)
          {
@@ -399,11 +401,7 @@ public class FileManager
          RandomAccessFile masterFile = OpenFile(MASTER + path);
          RandomAccessFile binnacleFile = OpenFile(BINNACLE + path);
          RandomAccessFile tempFile = OpenFile(TEMP);
-         
-         // add the data to tempfile
-         tempFile.seek(0);
-         tempFile.writeBytes(data + "\r\n");
-         
+                
          // from binnacle first
          while (binnacleFile.getFilePointer() != binnacleFile.length())
          {
@@ -412,7 +410,7 @@ public class FileManager
             String newLine = binnacleFile.readLine();
             String tempLine = "";
             
-            if(!path.equals("backup.txt") && newLine.split(Pattern.quote(SEPARADOR))[10].equals("0")) continue;
+            if(!path.equals(BACKUP_FILE) && newLine.split(Pattern.quote(SEPARADOR))[10].equals("0")) continue;
             
             while (tempFile.getFilePointer() != tempFile.length())
             {
@@ -472,7 +470,7 @@ public class FileManager
             String newLine = masterFile.readLine();
             String tempLine = "";
             
-            if(!path.equals("backup.txt") && newLine.split(Pattern.quote(SEPARADOR))[10].equals("0")) continue;
+            if(!path.equals(BACKUP_FILE) && newLine.split(Pattern.quote(SEPARADOR))[10].equals("0")) continue;
 
             while (tempFile.getFilePointer() != tempFile.length())
             {
