@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Files;
 import java.util.regex.Pattern;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import static red.social.RedSocial.IMAGES;
@@ -23,10 +24,10 @@ import static red.social.RedSocial.DIRECTORY;
 import static red.social.RedSocial.USER_FILE;
 import static red.social.RedSocial.BINNACLE;
 import static red.social.RedSocial.Length;
-import static red.social.Registrarse.UserLength;
-import static red.social.Registrarse.PasswordLength;
-import static red.social.Registrarse.EmailLength;
-import static red.social.Registrarse.PhoneNumberLength;
+import static red.social.Register.UserLength;
+import static red.social.Register.PasswordLength;
+import static red.social.Register.EmailLength;
+import static red.social.Register.PhoneNumberLength;
 import static red.social.RedSocial.SEPARADOR;
 import static red.social.RedSocial.Background;
 
@@ -86,7 +87,6 @@ public class InformationEdit extends javax.swing.JFrame
       txt_PhoneNumber = new javax.swing.JTextField();
       lbl_NumberPhoneError = new javax.swing.JLabel();
       jLabel9 = new javax.swing.JLabel();
-      Sp_Birthday = new javax.swing.JSpinner();
       jLabel10 = new javax.swing.JLabel();
       jScrollPane1 = new javax.swing.JScrollPane();
       txt_Description = new javax.swing.JTextArea();
@@ -98,8 +98,10 @@ public class InformationEdit extends javax.swing.JFrame
       jButton1 = new javax.swing.JButton();
       Rb_Admin = new javax.swing.JRadioButton();
       Rb_User = new javax.swing.JRadioButton();
+      Dp_Birthday = new org.jdesktop.swingx.JXDatePicker();
+      lbl_BirthdayError = new javax.swing.JLabel();
 
-      setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+      setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
       lbl_UserError.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       lbl_UserError.setForeground(new java.awt.Color(204, 0, 0));
@@ -195,9 +197,6 @@ public class InformationEdit extends javax.swing.JFrame
       jLabel9.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       jLabel9.setText("Fecha de nacimiento");
 
-      Sp_Birthday.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
-      Sp_Birthday.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(1199234280000L), new java.util.Date(-315526920000L), new java.util.Date(1199236080000L), java.util.Calendar.DAY_OF_WEEK_IN_MONTH));
-
       jLabel10.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
       jLabel10.setText("Descripción");
 
@@ -283,6 +282,10 @@ public class InformationEdit extends javax.swing.JFrame
          }
       });
 
+      lbl_BirthdayError.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 11)); // NOI18N
+      lbl_BirthdayError.setForeground(new java.awt.Color(204, 0, 0));
+      lbl_BirthdayError.setText("Escoja una fecha");
+
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
@@ -297,10 +300,6 @@ public class InformationEdit extends javax.swing.JFrame
                      .addComponent(btn_Edit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                .addGroup(layout.createSequentialGroup()
                   .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(18, 18, 18)
-                        .addComponent(Sp_Birthday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                      .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                            .addComponent(jLabel5)
@@ -323,6 +322,12 @@ public class InformationEdit extends javax.swing.JFrame
                            .addComponent(lbl_UserError)
                            .addComponent(lbl_MailError)
                            .addComponent(lbl_NumberPhoneError)))
+                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addGap(18, 18, 18)
+                        .addComponent(Dp_Birthday, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lbl_BirthdayError, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                      .addGroup(layout.createSequentialGroup()
                         .addGap(2, 2, 2)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -371,11 +376,12 @@ public class InformationEdit extends javax.swing.JFrame
                .addComponent(txt_PhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addComponent(jLabel6)
                .addComponent(lbl_NumberPhoneError))
-            .addGap(28, 28, 28)
+            .addGap(27, 27, 27)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(Sp_Birthday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(30, 30, 30)
+               .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(Dp_Birthday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(lbl_BirthdayError))
+            .addGap(29, 29, 29)
             .addComponent(Rb_Admin)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(Rb_User)
@@ -665,7 +671,7 @@ public class InformationEdit extends javax.swing.JFrame
     
      private String CreateUser(){
        try{
-        return (txt_User.getText()+SEPARADOR+ userToEditArray[1]+SEPARADOR+ userToEditArray[2]+SEPARADOR+ ValidPassword()+SEPARADOR+ ReturnRol()+SEPARADOR+Sp_Birthday.getValue().toString()+SEPARADOR+ txt_Mail.getText()+SEPARADOR+ txt_PhoneNumber.getText()+SEPARADOR+ PicturePath+SEPARADOR+ txt_Description.getText() +SEPARADOR+"1");   
+        return (txt_User.getText()+SEPARADOR+ userToEditArray[1]+SEPARADOR+ userToEditArray[2]+SEPARADOR+ ValidPassword()+SEPARADOR+ ReturnRol()+SEPARADOR+Dp_Birthday.getDate().toString()+SEPARADOR+ txt_Mail.getText()+SEPARADOR+ txt_PhoneNumber.getText()+SEPARADOR+ PicturePath+SEPARADOR+ txt_Description.getText() +SEPARADOR+"1");   
        }catch(Exception e){
           return "";
        }
@@ -738,7 +744,10 @@ public class InformationEdit extends javax.swing.JFrame
             lbl_NumberPhoneError.setVisible(true);
             return false;
         }
-        
+        if(Dp_Birthday.getDate().toString().isEmpty()){
+           lbl_BirthdayError.setVisible(true);
+           return false;
+        }
         if(PicturePath.equals("")){
             lbl_PictureError.setVisible(true);
             return false;
@@ -754,14 +763,15 @@ public class InformationEdit extends javax.swing.JFrame
         lbl_NumberPhoneError.setVisible(false);
         lbl_PictureError.setVisible(false);
         txt_Password.setBackground(Color.WHITE);
+        lbl_BirthdayError.setVisible(false);
     }
      
      private void InitializeComponents(){
-        txt_User.setText(userToEditArray[0]);
+        
+           txt_User.setText(userToEditArray[0]);
         txt_Mail.setText(userToEditArray[6]);
-        //userToEditArray[5].split(Pattern.quote(" "))[0],userToEditArray[5].split(Pattern.quote(" "))[1],userToEditArray[5].split(Pattern.quote(" "))[2], userToEditArray[5].split(Pattern.quote(" "))[5]
-        //Sp_Birthday.getModel().setValue((Object)userToEditArray[5]);
         txt_PhoneNumber.setText(userToEditArray[7]);
+        txt_Description.setText(userToEditArray[9]);
         PicturePath = userToEditArray[8];
         lbl_PicturePath.setText("");
         lbl_PicturePath.setIcon(new ImageIcon((new ImageIcon(PicturePath)).getImage().getScaledInstance(100, 100,  java.awt.Image.SCALE_SMOOTH)));
@@ -778,14 +788,16 @@ public class InformationEdit extends javax.swing.JFrame
               Rb_Admin.setEnabled(false);
               Rb_User.setEnabled(false);
         }
+        try{
+           Dp_Birthday.setDate(new SimpleDateFormat("dd/MM/yyyy").parse(userToEditArray[5]));
+        
+        }catch(Exception e){
+           
+        }
     }
      
      private String ReturnRol(){
-        if(Rb_Admin.isSelected()){
-           return "1";
-        }else{
-           return "0";
-        }
+        return Rb_Admin.isSelected() ? "1":"0";
      }
      
      public void isManager(boolean is){
@@ -841,9 +853,9 @@ public class InformationEdit extends javax.swing.JFrame
    }
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
+   private org.jdesktop.swingx.JXDatePicker Dp_Birthday;
    private javax.swing.JRadioButton Rb_Admin;
    private javax.swing.JRadioButton Rb_User;
-   private javax.swing.JSpinner Sp_Birthday;
    private javax.swing.JButton btn_Edit;
    private javax.swing.JButton btn_FindPicture;
    private javax.swing.ButtonGroup buttonGroup1;
@@ -858,6 +870,7 @@ public class InformationEdit extends javax.swing.JFrame
    private javax.swing.JLabel jLabel8;
    private javax.swing.JLabel jLabel9;
    private javax.swing.JScrollPane jScrollPane1;
+   private javax.swing.JLabel lbl_BirthdayError;
    private javax.swing.JLabel lbl_Level;
    private javax.swing.JLabel lbl_MailError;
    private javax.swing.JLabel lbl_NumberPhoneError;
