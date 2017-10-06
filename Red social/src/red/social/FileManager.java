@@ -14,7 +14,6 @@ import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
-import java.nio.file.*;
 import static red.social.RedSocial.USER_FILE;
 import static red.social.RedSocial.ENCODING;
 import static red.social.RedSocial.BINNACLE;
@@ -30,6 +29,9 @@ public class FileManager
 {
    private static final String BACKUP_FILE = "backup.txt";
    private static final String BACKUP_DIRECTORY = File.separator + "MEIA_backup";
+   private static final String FRIENDS_FILE = "lista_amigos.txt";
+   private static final String GROUPS_FILE = "grupo.txt";
+   private static final String GROUPS_FRIENDS_FILE = "grupo_amigos_n.txt";
    
    public static RandomAccessFile OpenFile(String path) // needs complete file name: binnacle_example.txt or master_example.txt to get the right desc_xxx_example.txt file
    {
@@ -49,7 +51,7 @@ public class FileManager
       return new File(DIRECTORY + DESCRIPTION + path).getAbsoluteFile().exists();
    }
    
-   public static String Search(String key)
+   public static String SearchUser(String key)
    {
       try
       {
@@ -76,11 +78,159 @@ public class FileManager
             while(File.getFilePointer() != File.length())
             {
                line = File.readLine();
+               
+               ////// CHANGE
+               
+               
                if(line.split(Pattern.quote(SEPARADOR))[0].equals(key) && line.split(Pattern.quote(SEPARADOR))[10].equals("1"))
                {
                   File.close();
                   return line;
                }   
+            }
+            File.close();
+         }
+         return null;
+      }
+      catch (Exception e)
+      {
+         return null;
+      }
+   }
+   
+   public static String SearchFriend(String userKey, String friendKey)
+   {
+      try
+      {
+         String[] keyIndex = GetKeys(FRIENDS_FILE).split(Pattern.quote(","));
+         int statusIndex = GetIndex(FRIENDS_FILE, "status");
+         
+         if (FileExists(MASTER + FRIENDS_FILE))
+         {
+            RandomAccessFile File = OpenFile(MASTER + FRIENDS_FILE);
+            String line;
+            while(File.getFilePointer() != File.length())
+            {
+               line = File.readLine();
+               if(line.split(Pattern.quote(SEPARADOR))[statusIndex].equals("0")) continue;
+               if (line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[0])].equals(userKey) && line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[1])].equals(friendKey))
+               {
+                  File.close();
+                  return line;
+               }
+            }
+            File.close();
+         }
+         
+         if (FileExists(BINNACLE + FRIENDS_FILE))
+         {
+            RandomAccessFile File = OpenFile(BINNACLE + FRIENDS_FILE);
+            String line;
+            while(File.getFilePointer() != File.length())
+            {
+               line = File.readLine();
+               if(line.split(Pattern.quote(SEPARADOR))[statusIndex].equals("0")) continue;
+               if (line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[0])].equals(userKey) && line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[1])].equals(friendKey))
+               {
+                  File.close();
+                  return line;
+               }  
+            }
+            File.close();
+         }
+         return null;
+      }
+      catch (Exception e)
+      {
+         return null;
+      }
+   }
+   
+   public static String SearchGroup(String groupKey, String userKey)
+   {
+      try
+      {
+         String[] keyIndex = GetKeys(GROUPS_FILE).split(Pattern.quote(","));
+         int statusIndex = GetIndex(GROUPS_FILE, "status");
+         
+         if (FileExists(MASTER + GROUPS_FILE))
+         {
+            RandomAccessFile File = OpenFile(MASTER + GROUPS_FILE);
+            String line;
+            while(File.getFilePointer() != File.length())
+            {
+               line = File.readLine();
+               if(line.split(Pattern.quote(SEPARADOR))[statusIndex].equals("0")) continue;
+               if (line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[0])].equals(userKey) && line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[1])].equals(groupKey))
+               {
+                  File.close();
+                  return line;
+               }
+            }
+            File.close();
+         }
+         
+         if (FileExists(BINNACLE + GROUPS_FILE))
+         {
+            RandomAccessFile File = OpenFile(BINNACLE + GROUPS_FILE);
+            String line;
+            while(File.getFilePointer() != File.length())
+            {
+               line = File.readLine();
+               if(line.split(Pattern.quote(SEPARADOR))[statusIndex].equals("0")) continue;
+               if (line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[0])].equals(userKey) && line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[1])].equals(groupKey))
+               {
+                  File.close();
+                  return line;
+               }  
+            }
+            File.close();
+         }
+         return null;
+      }
+      catch (Exception e)
+      {
+         return null;
+      }
+   }
+   
+   public static String SearchFriendInGroup(String groupKey, String userKey, String friendKey)
+   {
+      try
+      {
+         String[] keyIndex = GetKeys(GROUPS_FRIENDS_FILE).split(Pattern.quote(","));
+         int statusIndex = GetIndex(GROUPS_FRIENDS_FILE, "status");
+         
+         if (FileExists(MASTER + GROUPS_FRIENDS_FILE))
+         {
+            RandomAccessFile File = OpenFile(MASTER + GROUPS_FRIENDS_FILE);
+            String line;
+            while(File.getFilePointer() != File.length())
+            {
+               line = File.readLine();
+               if(line.split(Pattern.quote(SEPARADOR))[statusIndex].equals("0")) continue;
+               if (line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[0])].equals(userKey) && line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[1])].equals(groupKey) && line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[2])].equals(friendKey))
+               {
+                  File.close();
+                  return line;
+               }
+            }
+            File.close();
+         }
+         
+         if (FileExists(BINNACLE + GROUPS_FRIENDS_FILE))
+         {
+            RandomAccessFile File = OpenFile(BINNACLE + GROUPS_FRIENDS_FILE);
+            String line;
+            while(File.getFilePointer() != File.length())
+            {
+               line = File.readLine();
+               if(line.split(Pattern.quote(SEPARADOR))[statusIndex].equals("0")) continue;
+               if (line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[0])].equals(userKey) && line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[0])].equals(groupKey) && line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[2])].equals(friendKey))
+               {
+                  File.close();
+                  return line;
+               }  
             }
             File.close();
          }
@@ -100,14 +250,19 @@ public class FileManager
             /// Crear:
             ///   Descriptor
             ///   Bitacora
-            CreateBinnacle(path, data.split(Pattern.quote(SEPARADOR))[path.equals(BACKUP_FILE) ? 1:0]);
+            CreateBinnacle(path, data.split(Pattern.quote(SEPARADOR))[GetIndex(path, "user")]);
          }
          
          try
          {
-            if (!path.equals(BACKUP_FILE) && Search(data.split(Pattern.quote(SEPARADOR))[0]) != null)
+            if (path.equals(BACKUP_FILE))
             {
-               return false;
+               String[] keys = GetKeys(path).split(Pattern.quote(","));
+               
+               if (path.equals(USER_FILE) && SearchUser(data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[0])]) != null) return false;
+               if (path.equals(FRIENDS_FILE) && SearchFriend(data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[0])],data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[1])]) != null) return false;
+               if (path.equals(GROUPS_FILE) && SearchGroup(data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[0])],data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[1])]) != null) return false;
+               if (path.equals(GROUPS_FRIENDS_FILE) && SearchFriendInGroup(data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[0])], data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[1])], data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[2])]) != null) return false;
             }
             
             RandomAccessFile binnacleDescription = OpenFile(DESCRIPTION + BINNACLE + path);
@@ -156,7 +311,7 @@ public class FileManager
          }
    }
    
-   public static boolean Update(String data)
+   public static boolean UpdateUser(String data)//*-
    {
       try
       {
@@ -255,7 +410,7 @@ public class FileManager
       }
    }
    
-   public static boolean Backup(String data)
+   public static boolean Backup(String data)//*-
    {
       WriteFile(BACKUP_FILE, data);
       try
@@ -320,7 +475,7 @@ public class FileManager
                CreateMaster(path, data); // data is user
             }
             
-            CreateMaster(path, data.split(Pattern.quote(SEPARADOR))[0]);
+            CreateMaster(path, data.split(Pattern.quote(SEPARADOR))[GetIndex(path, "user")]);
          }
          
          try
@@ -369,8 +524,8 @@ public class FileManager
             
             if (path.equals(BACKUP_FILE))
             {
-               UpdateDescription(MASTER + path, data.split(Pattern.quote(SEPARADOR))[1], lines, 0);
-               UpdateDescription(BINNACLE + path, data.split(Pattern.quote(SEPARADOR))[1], 0, 0);
+               UpdateDescription(MASTER + path, data.split(Pattern.quote(SEPARADOR))[GetIndex(path, "user")], lines, 0);
+               UpdateDescription(BINNACLE + path, data.split(Pattern.quote(SEPARADOR))[GetIndex(path, "user")], 0, 0);
             }
             else
             {
@@ -378,11 +533,11 @@ public class FileManager
 
                while(masterFile.getFilePointer() != masterFile.length())
                {
-                     inactive += (masterFile.readLine().split(Pattern.quote(SEPARADOR))[10] == ("0")) ? 1:0;
+                     inactive += (masterFile.readLine().split(Pattern.quote(SEPARADOR))[GetIndex(path, "status")].equals("0")) ? 1:0;
                }
                masterFile.close();
-               UpdateDescription(MASTER + path, data.split(Pattern.quote(SEPARADOR))[0], lines -inactive, inactive);
-               UpdateDescription(BINNACLE + path, data.split(Pattern.quote(SEPARADOR))[0], 0, 0);
+               UpdateDescription(MASTER + path, data.split(Pattern.quote(SEPARADOR))[GetIndex(path, "user")], lines -inactive, inactive);
+               UpdateDescription(BINNACLE + path, data.split(Pattern.quote(SEPARADOR))[GetIndex(path, "user")], 0, 0);
             }
             return WriteFile(path, data);
          }
@@ -410,7 +565,7 @@ public class FileManager
             String newLine = binnacleFile.readLine();
             String tempLine = "";
             
-            if(!path.equals(BACKUP_FILE) && newLine.split(Pattern.quote(SEPARADOR))[10].equals("0")) continue;
+            if(!path.equals(BACKUP_FILE) && newLine.split(Pattern.quote(SEPARADOR))[GetIndex(path, "status")].equals("0")) continue;
             
             while (tempFile.getFilePointer() != tempFile.length())
             {
@@ -470,7 +625,7 @@ public class FileManager
             String newLine = masterFile.readLine();
             String tempLine = "";
             
-            if(!path.equals(BACKUP_FILE) && newLine.split(Pattern.quote(SEPARADOR))[10].equals("0")) continue;
+            if(!path.equals(BACKUP_FILE) && newLine.split(Pattern.quote(SEPARADOR))[GetIndex(path, "status")].equals("0")) continue;
 
             while (tempFile.getFilePointer() != tempFile.length())
             {
@@ -644,7 +799,7 @@ public class FileManager
                   writer.write("CREADO" + pSEPARADOR + new SimpleDateFormat("yyyyMMdd'.'hh:mm").format(new Date()) + "\r\n");
                   writer.write("MODIFICADO" + pSEPARADOR + new SimpleDateFormat("yyyyMMdd'.'hh:mm").format(new Date()) + "\r\n");
                   writer.write("SEPARADOR" + pSEPARADOR + "|\r\n");
-                  writer.write("LLAVE" + pSEPARADOR + (path.equals("backup.txt") ? "2":"0") + "\r\n");
+                  writer.write("LLAVE" + pSEPARADOR + GetKeys(path) + "\r\n");
                   writer.write("ORDEN" + pSEPARADOR + "ASC\r\n");
                   writer.write("ACTIVOS" + pSEPARADOR + "0\r\n");
                   writer.write("INACTIVOS" + pSEPARADOR + "0\r\n");
@@ -673,6 +828,88 @@ public class FileManager
       catch(IOException e)
       {
          return false;
+      }
+   }
+   
+   private static String GetKeys(String path)
+   {
+      String[] fileName = path.split(Pattern.quote(File.separator));
+      String name = fileName[fileName.length -1];
+      
+      switch (name)
+      {
+         case USER_FILE:
+            return "0";//user
+         case BACKUP_FILE:
+            return "2";//date
+         case FRIENDS_FILE:
+            return "0,1"; //user, user's friend
+         case GROUPS_FILE:
+            return "0,1"; //user, group
+         case GROUPS_FRIENDS_FILE:
+            return "0,1,2"; //user, group,  user's friend
+         default:
+            return "0";
+      }
+   }
+   
+   private static int GetIndex(String path, String value)
+   {
+      String[] fileName = path.split(Pattern.quote(File.separator));
+      String name = fileName[fileName.length -1];
+      
+      switch (name)
+      {
+         case USER_FILE:
+            switch (value.toUpperCase())
+            {
+               case "STATUS":
+                  return 10;
+               case "USER":
+                  return 0;
+               default:
+                  return -1;
+            }
+         case BACKUP_FILE:
+            switch (value.toUpperCase())
+            {
+               case "USER":
+                  return 1;
+               default:
+                  return -1;
+            }
+         case FRIENDS_FILE:
+            switch (value.toUpperCase())
+            {
+               case "STATUS":
+                  return 5;
+               case "USER":
+                  return 0;
+               default:
+                  return -1;
+            }
+         case GROUPS_FILE:
+            switch (value.toUpperCase())
+            {
+               case "STATUS":
+                  return 5;
+               case "USER":
+                  return 0;
+               default:
+                  return -1;
+            }
+         case GROUPS_FRIENDS_FILE:
+            switch (value.toUpperCase())
+            {
+               case "STATUS":
+                  return 4;
+               case "USER":
+                  return 0;
+               default:
+                  return -1;
+            }
+         default:
+            return -1;
       }
    }
 }
