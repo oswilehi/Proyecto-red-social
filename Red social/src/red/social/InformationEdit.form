@@ -8,7 +8,7 @@
     </Component>
   </NonVisualComponents>
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="0"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -41,11 +41,6 @@
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="Sp_Birthday" min="-2" max="-2" attributes="0"/>
-                          </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
@@ -72,6 +67,13 @@
                                   <Component id="lbl_MailError" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lbl_NumberPhoneError" min="-2" max="-2" attributes="0"/>
                               </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="Dp_Birthday" min="-2" pref="218" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="lbl_BirthdayError" min="-2" pref="118" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
@@ -136,12 +138,13 @@
                   <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lbl_NumberPhoneError" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="Sp_Birthday" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel9" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                  <Component id="Dp_Birthday" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbl_BirthdayError" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
               <Component id="Rb_Admin" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="Rb_User" min="-2" max="-2" attributes="0"/>
@@ -326,16 +329,6 @@
         <Property name="text" type="java.lang.String" value="Fecha de nacimiento"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JSpinner" name="Sp_Birthday">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Arial Rounded MT Bold" size="11" style="0"/>
-        </Property>
-        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-          <SpinnerModel initial="1199234280000" maximum="1199236080000" minimum="-315526920000" stepSize="8" type="date"/>
-        </Property>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel10">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -445,6 +438,19 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Rb_UserActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXDatePicker" name="Dp_Birthday">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbl_BirthdayError">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial Rounded MT Bold" size="11" style="0"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="0" red="cc" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Escoja una fecha"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

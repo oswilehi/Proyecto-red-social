@@ -2,7 +2,7 @@
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="0"/>
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
@@ -30,16 +30,16 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="lbl_usuario" min="-2" pref="168" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_Return" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="btn_eliminar" min="-2" max="-2" attributes="0"/>
+                              <Component id="btn_Delete" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btn_modificar" min="-2" max="-2" attributes="0"/>
+                              <Component id="btn_Modify" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                               <Group type="102" attributes="0">
@@ -49,20 +49,20 @@
                                   </Group>
                                   <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btn_realizarBackup" alignment="1" min="-2" max="-2" attributes="0"/>
-                                      <Component id="btb_modificarInfo" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btn_DoBackup" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btn_ModifyInformation" alignment="1" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="btn_ingresarUsuarios" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btn_EnterUsers" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="txt_buscar" min="-2" pref="168" max="-2" attributes="0"/>
+                              <Component id="txt_Search" min="-2" pref="168" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
-                              <Component id="btn_buscar" min="-2" max="-2" attributes="0"/>
+                              <Component id="btn_Find" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="0" pref="244" max="32767" attributes="0"/>
@@ -80,29 +80,29 @@
               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btb_modificarInfo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_ModifyInformation" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btn_realizarBackup" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_DoBackup" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btn_ingresarUsuarios" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_EnterUsers" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txt_buscar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btn_buscar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txt_Search" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_Find" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btn_modificar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btn_eliminar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_Modify" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_Delete" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="89" max="32767" attributes="0"/>
               <Component id="lbl_usuario" min="-2" max="-2" attributes="0"/>
@@ -110,7 +110,7 @@
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+              <Component id="btn_Return" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -133,7 +133,7 @@
         <Property name="text" type="java.lang.String" value="OPCIONES"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btb_modificarInfo">
+    <Component class="javax.swing.JButton" name="btn_ModifyInformation">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial Rounded MT Bold" size="12" style="0"/>
@@ -141,11 +141,10 @@
         <Property name="text" type="java.lang.String" value="Ir"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btb_modificarInfoMouseClicked"/>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btb_modificarInfoActionPerformed"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ModifyInformationMouseClicked"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btn_realizarBackup">
+    <Component class="javax.swing.JButton" name="btn_DoBackup">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial Rounded MT Bold" size="12" style="0"/>
@@ -153,10 +152,10 @@
         <Property name="text" type="java.lang.String" value="Ir"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_realizarBackupActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_DoBackupActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="btn_Return">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial Rounded MT Bold" size="12" style="0"/>
@@ -164,7 +163,7 @@
         <Property name="text" type="java.lang.String" value="Regresar"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton1MouseClicked"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ReturnMouseClicked"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
@@ -183,7 +182,7 @@
         <Property name="text" type="java.lang.String" value="Ingresar Nuevos Usuarios"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btn_ingresarUsuarios">
+    <Component class="javax.swing.JButton" name="btn_EnterUsers">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial Rounded MT Bold" size="12" style="0"/>
@@ -191,17 +190,17 @@
         <Property name="text" type="java.lang.String" value="Ir"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ingresarUsuariosMouseClicked"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_EnterUsersMouseClicked"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="txt_buscar">
+    <Component class="javax.swing.JTextField" name="txt_Search">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial Unicode MS" size="12" style="0"/>
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btn_buscar">
+    <Component class="javax.swing.JButton" name="btn_Find">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial Rounded MT Bold" size="12" style="0"/>
@@ -209,13 +208,12 @@
         <Property name="text" type="java.lang.String" value="Buscar"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_buscarMouseClicked"/>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_buscarActionPerformed"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_FindMouseClicked"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lbl_usuario">
     </Component>
-    <Component class="javax.swing.JButton" name="btn_modificar">
+    <Component class="javax.swing.JButton" name="btn_Modify">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial Rounded MT Bold" size="12" style="0"/>
@@ -223,11 +221,10 @@
         <Property name="text" type="java.lang.String" value="Modificar"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_modificarMouseClicked"/>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_modificarActionPerformed"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ModifyMouseClicked"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btn_eliminar">
+    <Component class="javax.swing.JButton" name="btn_Delete">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial Rounded MT Bold" size="12" style="0"/>
@@ -235,7 +232,7 @@
         <Property name="text" type="java.lang.String" value="Eliminar"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_eliminarMouseClicked"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_DeleteMouseClicked"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
