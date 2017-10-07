@@ -244,7 +244,44 @@ public class FileManager
    
    public static boolean WriteFile(String path, String data)  // only used to add new lines to text file
    {
-         if(!FileExists(BINNACLE + path))
+         if (path.equals(USER_FILE) || path.equals(FRIENDS_FILE) || path.equals(GROUPS_FILE) || path.equals(BACKUP_FILE)) return Secuencial(path, data);
+         if (path.equals(GROUPS_FRIENDS_FILE)) return false; // debe retornar del metodo secuencial indiza (a crear)...
+         return false;
+   }
+   
+   public static boolean Update(String path, String data)//*-
+   {
+      if (path.equals(USER_FILE) || path.equals(FRIENDS_FILE) || path.equals(GROUPS_FILE)) return UpdateSecuencial(path, data);
+      if (path.equals(GROUPS_FRIENDS_FILE)) return false; // debe retornar del metodo update secuencial indiza (a crear)...
+      return false;
+   }
+   
+   public static boolean Backup(String data)//*-
+   {
+      WriteFile(BACKUP_FILE, data);
+      try
+      {
+         String path = data.split(Pattern.quote(SEPARADOR))[0];
+         if (path.endsWith(BACKUP_DIRECTORY))
+         {
+            copyDirectory(new File(DIRECTORY),new File(data.split(Pattern.quote(SEPARADOR))[0]));
+         }
+         else
+         {
+            new File(data.split(Pattern.quote(SEPARADOR))[0] + BACKUP_DIRECTORY).mkdir();
+            copyDirectory(new File(DIRECTORY),new File(data.split(Pattern.quote(SEPARADOR))[0] + BACKUP_DIRECTORY));
+         }
+      }
+      catch (IOException e)
+      {
+         return false;
+      }
+      return true;
+   }
+   
+   private static boolean Secuencial(String path, String data)
+   {
+      if(!FileExists(BINNACLE + path))
          {
             // El archivo no existe ->
             /// Crear:
@@ -255,16 +292,17 @@ public class FileManager
          
          try
          {
-            if (path.equals(BACKUP_FILE))
-            {
-               String[] keys = GetKeys(path).split(Pattern.quote(","));
-               
-               if (path.equals(USER_FILE) && SearchUser(data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[0])]) != null) return false;
-               if (path.equals(FRIENDS_FILE) && SearchFriend(data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[0])],data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[1])]) != null) return false;
-               if (path.equals(GROUPS_FILE) && SearchGroup(data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[0])],data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[1])]) != null) return false;
-               if (path.equals(GROUPS_FRIENDS_FILE) && SearchFriendInGroup(data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[0])], data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[1])], data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[2])]) != null) return false;
-            }
-            
+            //Validamos que no exista otra clave igual
+            String[] keys = GetKeys(path).split(Pattern.quote(","));
+            if (path.equals(USER_FILE) && SearchUser(data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[0])]) != null) return false;
+            if (path.equals(FRIENDS_FILE) && SearchFriend(data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[0])],data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[1])]) != null) return false;
+            if (path.equals(GROUPS_FILE) && SearchGroup(data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[0])],data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[1])]) != null) return false;
+            if (path.equals(GROUPS_FRIENDS_FILE) && SearchFriendInGroup(data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[0])], data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[1])], data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keys[2])]) != null) return false;
+
+            //Clave validad
+            //Abrimos el descriptor de la bitacora del archivo
+            //para obtener los registra activos, inactivos y el límite 
+            //de inactivos para reorganizar
             RandomAccessFile binnacleDescription = OpenFile(DESCRIPTION + BINNACLE + path);
             int active = 0;
             int inactive = 0;
@@ -286,21 +324,23 @@ public class FileManager
                      break;
                }
             }
-            
+            //se cierra el discriptor de bitacora.
             binnacleDescription.close();
             
+            
+            //se valida si es necesario reorganizar
             if (active + inactive >=  max)
             {
-               Reorganize(path, data);
+               ReorganizeSecuencial(path, data);
             }
             else
             {
-               // Write to binnacle
+               // No se reorganiza; se escribe a bitacora
                RandomAccessFile binnacleFile = OpenFile(BINNACLE + path);
                binnacleFile.seek(binnacleFile.length());
                binnacleFile.writeBytes(data + "\r\n");
                binnacleFile.close();
-               //update desc_binnacle
+               //se actualiza el descriptor
                UpdateDescription(BINNACLE + path, null, active + 1, inactive);
             }
             return true;
@@ -309,25 +349,32 @@ public class FileManager
          {
             return false;
          }
-   }
+   }   
    
-   public static boolean UpdateUser(String data)//*-
+   private static boolean UpdateSecuencial(String path, String data)
    {
       try
       {
-         if (FileExists(BINNACLE + USER_FILE))
+         if (FileExists(BINNACLE + path))
          {
-            RandomAccessFile File = OpenFile(BINNACLE + USER_FILE);
+            RandomAccessFile File = OpenFile(BINNACLE + path);
             long seek;
             String line;
-
+            String[] keys = GetKeys(path).split(Pattern.quote(","));
+            boolean matchKeys = true;
+            
             while(File.getFilePointer() != File.length())
             {
                seek = File.getFilePointer();
                line = File.readLine();
-               if(line.split(Pattern.quote(SEPARADOR))[0].equals(data.split(Pattern.quote(SEPARADOR))[0]))
+               for (String key : keys)
                {
-                  File.seek(seek);
+                  matchKeys = (line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(key)].equals(data.split(Pattern.quote(SEPARADOR))[Integer.parseInt(key)]));
+                  if(!matchKeys) break;
+               }
+               if(!matchKeys) continue;
+               
+               File.seek(seek);
                   File.writeBytes(data);
                   File.close();
                   
@@ -354,7 +401,6 @@ public class FileManager
                   UpdateDescription(BINNACLE + USER_FILE, null, active + x, inactive - x);
                   
                   return true;
-               }   
             }
             File.close();
          }
@@ -410,29 +456,6 @@ public class FileManager
       }
    }
    
-   public static boolean Backup(String data)//*-
-   {
-      WriteFile(BACKUP_FILE, data);
-      try
-      {
-         String path = data.split(Pattern.quote(SEPARADOR))[0];
-         if (path.endsWith(BACKUP_DIRECTORY))
-         {
-            copyDirectory(new File(DIRECTORY),new File(data.split(Pattern.quote(SEPARADOR))[0]));
-         }
-         else
-         {
-            new File(data.split(Pattern.quote(SEPARADOR))[0] + BACKUP_DIRECTORY).mkdir();
-            copyDirectory(new File(DIRECTORY),new File(data.split(Pattern.quote(SEPARADOR))[0] + BACKUP_DIRECTORY));
-         }
-      }
-      catch (IOException e)
-      {
-         return false;
-      }
-      return true;
-   }
-   
     private static void copyDirectory(File sourceLocation , File targetLocation)
     throws IOException {
 
@@ -462,7 +485,7 @@ public class FileManager
         }
     }
    
-   private static boolean Reorganize(String path, String data)
+   private static boolean ReorganizeSecuencial(String path, String data)
    {
       if(!FileExists(MASTER + path))
          {
@@ -470,19 +493,15 @@ public class FileManager
             /// Crear:
             ///   Descriptor
             ///   Maestro
-            if (path.equals(BACKUP_FILE))
-            {
-               CreateMaster(path, data); // data is user
-            }
             
-            CreateMaster(path, data.split(Pattern.quote(SEPARADOR))[GetIndex(path, "user")]);
+            CreateMaster(path, path.equals(BACKUP_FILE) ? data : data.split(Pattern.quote(SEPARADOR))[GetIndex(path, "user")]);
          }
          
          try
          {
             RandomAccessFile masterDescription = OpenFile(DESCRIPTION + MASTER + path);
             int inactive = 0;
-            int keyPosition = 0;
+            String[] keys = null;
             int lines = 0;
             String sort = "NULL";
             
@@ -498,7 +517,7 @@ public class FileManager
                      sort = line.split(Pattern.quote(pSEPARADOR))[1];
                      break;
                   case "LLAVE":
-                     keyPosition = Integer.parseInt(line.split(Pattern.quote(pSEPARADOR))[1]);
+                     keys = (line.split(Pattern.quote(pSEPARADOR))[1]).split(Pattern.quote(","));
                      break;
                }
             }
@@ -508,7 +527,7 @@ public class FileManager
             if (CreateFile(DIRECTORY + TEMP))
             {
                // second, Transfer values from binnacle and master to temp
-               lines = TransferData(path, data, sort, keyPosition);
+               lines = TransferDataSecuencial(path, data, sort, keys);
                
                //change name
                File masterFile = new File(DIRECTORY + MASTER + path);
@@ -548,76 +567,18 @@ public class FileManager
    
    }
   
-   private static  int TransferData(String path, String data, String sort, int keyPosition)
+   private static  int TransferDataSecuencial(String path, String data, String sort, String[] keys)
    {
       try
       {
+         // inciamos una variable que guardara el número de lineas que se transfieren...
          int length = 0;
          RandomAccessFile masterFile = OpenFile(MASTER + path);
          RandomAccessFile binnacleFile = OpenFile(BINNACLE + path);
          RandomAccessFile tempFile = OpenFile(TEMP);
                 
-         // from binnacle first
-         while (binnacleFile.getFilePointer() != binnacleFile.length())
-         {
-            tempFile.seek(0);
-            long seek = 0;
-            String newLine = binnacleFile.readLine();
-            String tempLine = "";
-            
-            if(!path.equals(BACKUP_FILE) && newLine.split(Pattern.quote(SEPARADOR))[GetIndex(path, "status")].equals("0")) continue;
-            
-            while (tempFile.getFilePointer() != tempFile.length())
-            {
-               seek = tempFile.getFilePointer();
-               tempLine = tempFile.readLine();
-               // Sort
-               if ("ASC".equals(sort))
-               {
-                  // first, transfer register from binnacle
-                  if (newLine.split(Pattern.quote(SEPARADOR))[keyPosition].compareTo(tempLine.split(Pattern.quote(SEPARADOR))[keyPosition]) <= 0)
-                  {
-                     break;
-                  }
-
-               }
-               else if ("DES".equals(sort))
-               {
-                  if (newLine.split(Pattern.quote(SEPARADOR))[keyPosition].compareTo(tempLine.split(Pattern.quote(SEPARADOR))[keyPosition]) > 0)
-                  {
-                     break;
-                  }
-
-               }
-               if (tempFile.getFilePointer() == tempFile.length())
-               {
-                  seek = tempFile.getFilePointer();
-               }
-            }
-            if (seek >= tempFile.length())
-            {
-               tempFile.writeBytes(newLine+ "\r\n");
-            }
-            else 
-            {
-               while(true)
-               {
-                  tempFile.seek(seek);
-                  tempFile.writeBytes(newLine + "\r\n");
-                  newLine = tempLine;
-                  seek = tempFile.getFilePointer();
-                  tempLine = tempFile.readLine();
-                  if (tempLine == null)
-                  {
-                     tempFile.writeBytes(newLine+ "\r\n");
-                     break;
-                  }
-               }
-            }
-            length++;
-         }
+         // se traslada primero el maestro porque ya está ordenado:
          
-         // from master last
          while (masterFile.getFilePointer() != masterFile.length())
          {
             tempFile.seek(0);
@@ -631,11 +592,18 @@ public class FileManager
             {
                seek = tempFile.getFilePointer();
                tempLine = tempFile.readLine();
-               // Sort
+               String newLineKeyJoined = "", tempLineKeyJoined = "";
+               
+               for (String key : keys)
+               {
+                  newLineKeyJoined += newLine.split(Pattern.quote(SEPARADOR))[Integer.parseInt(key)];
+                  tempLineKeyJoined += tempLine.split(Pattern.quote(SEPARADOR))[Integer.parseInt(key)];
+               }
+               // Se verifica que tipo de ordenamiento se requiere
                if ("ASC".equals(sort))
                {
                   // first, transfer register from binnacle
-                  if (newLine.split(Pattern.quote(SEPARADOR))[keyPosition].compareTo(tempLine.split(Pattern.quote(SEPARADOR))[keyPosition]) <= 0)
+                  if (newLineKeyJoined.compareTo(tempLineKeyJoined) <= 0)
                   {
                      break;
                   }
@@ -643,7 +611,7 @@ public class FileManager
                }
                else if ("DES".equals(sort))
                {
-                  if (newLine.split(Pattern.quote(SEPARADOR))[keyPosition].compareTo(tempLine.split(Pattern.quote(SEPARADOR))[keyPosition]) > 0)
+                  if (newLineKeyJoined.compareTo(tempLineKeyJoined) >= 0)
                   {
                      break;
                   }
@@ -677,6 +645,73 @@ public class FileManager
             length++;
          }
          
+         // luego se traslada la bitacora 
+         while (binnacleFile.getFilePointer() != binnacleFile.length())
+         {
+            tempFile.seek(0);
+            long seek = 0;
+            String newLine = binnacleFile.readLine();
+            String tempLine = "";
+            
+            if(!path.equals(BACKUP_FILE) && newLine.split(Pattern.quote(SEPARADOR))[GetIndex(path, "status")].equals("0")) continue;
+            
+            while (tempFile.getFilePointer() != tempFile.length())
+            {
+               seek = tempFile.getFilePointer();
+               tempLine = tempFile.readLine();
+               
+               String newLineKeyJoined = "", tempLineKeyJoined = "";
+               
+               for (String key : keys)
+               {
+                  newLineKeyJoined += newLine.split(Pattern.quote(SEPARADOR))[Integer.parseInt(key)];
+                  tempLineKeyJoined += tempLine.split(Pattern.quote(SEPARADOR))[Integer.parseInt(key)];
+               }
+               // Sort
+               if ("ASC".equals(sort))
+               {
+                  // first, transfer register from binnacle
+                  if (newLineKeyJoined.compareTo(tempLineKeyJoined) <= 0)
+                  {
+                     break;
+                  }
+
+               }
+               else if ("DES".equals(sort))
+               {
+                  if (newLineKeyJoined.compareTo(tempLineKeyJoined) >= 0)
+                  {
+                     break;
+                  }
+
+               }
+               if (tempFile.getFilePointer() == tempFile.length())
+               {
+                  seek = tempFile.getFilePointer();
+               }
+            }
+            if (seek >= tempFile.length())
+            {
+               tempFile.writeBytes(newLine+ "\r\n");
+            }
+            else 
+            {
+               while(true)
+               {
+                  tempFile.seek(seek);
+                  tempFile.writeBytes(newLine + "\r\n");
+                  newLine = tempLine;
+                  seek = tempFile.getFilePointer();
+                  tempLine = tempFile.readLine();
+                  if (tempLine == null)
+                  {
+                     tempFile.writeBytes(newLine+ "\r\n");
+                     break;
+                  }
+               }
+            }
+            length++;
+         }
          
          tempFile.close();
          masterFile.close();
