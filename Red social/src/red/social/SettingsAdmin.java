@@ -45,31 +45,45 @@ public class SettingsAdmin extends javax.swing.JFrame {
    private void initComponents()
    {
 
-      jLabel2 = new javax.swing.JLabel();
-      jLabel3 = new javax.swing.JLabel();
+      jPanel1 = new javax.swing.JPanel();
+      jPanel2 = new javax.swing.JPanel();
+      jPanel3 = new javax.swing.JPanel();
       btn_ModifyInformation = new javax.swing.JButton();
-      btn_DoBackup = new javax.swing.JButton();
-      btn_Return = new javax.swing.JButton();
       jLabel1 = new javax.swing.JLabel();
+      jLabel2 = new javax.swing.JLabel();
+      btn_DoBackup = new javax.swing.JButton();
+      jLabel5 = new javax.swing.JLabel();
+      txt_Search = new javax.swing.JTextField();
+      btn_Delete = new javax.swing.JButton();
+      btn_Modify = new javax.swing.JButton();
+      btn_Find = new javax.swing.JButton();
+      btn_Return = new javax.swing.JButton();
+      jPanel4 = new javax.swing.JPanel();
       jLabel4 = new javax.swing.JLabel();
       btn_EnterUsers = new javax.swing.JButton();
-      txt_Search = new javax.swing.JTextField();
-      btn_Find = new javax.swing.JButton();
+      jLabel3 = new javax.swing.JLabel();
       lbl_usuario = new javax.swing.JLabel();
-      btn_Modify = new javax.swing.JButton();
-      btn_Delete = new javax.swing.JButton();
-      jLabel5 = new javax.swing.JLabel();
+
+      javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+      jPanel1.setLayout(jPanel1Layout);
+      jPanel1Layout.setHorizontalGroup(
+         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGap(0, 100, Short.MAX_VALUE)
+      );
+      jPanel1Layout.setVerticalGroup(
+         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGap(0, 100, Short.MAX_VALUE)
+      );
 
       setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
       setResizable(false);
 
-      jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-      jLabel2.setText("Realizar Backup");
+      jPanel2.setBackground(new java.awt.Color(55, 160, 166));
 
-      jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-      jLabel3.setText("OPCIONES");
+      jPanel3.setBackground(new java.awt.Color(253, 211, 92));
 
-      btn_ModifyInformation.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+      btn_ModifyInformation.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      btn_ModifyInformation.setForeground(new java.awt.Color(71, 79, 89));
       btn_ModifyInformation.setText("Ir");
       btn_ModifyInformation.addMouseListener(new java.awt.event.MouseAdapter()
       {
@@ -79,7 +93,37 @@ public class SettingsAdmin extends javax.swing.JFrame {
          }
       });
 
-      btn_DoBackup.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+      jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      jLabel1.setForeground(new java.awt.Color(71, 79, 89));
+      jLabel1.setText("Modificar Información");
+
+      javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+      jPanel3.setLayout(jPanel3Layout);
+      jPanel3Layout.setHorizontalGroup(
+         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+            .addGap(42, 42, 42)
+            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 637, Short.MAX_VALUE)
+            .addComponent(btn_ModifyInformation)
+            .addGap(191, 191, 191))
+      );
+      jPanel3Layout.setVerticalGroup(
+         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel3Layout.createSequentialGroup()
+            .addGap(26, 26, 26)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(btn_ModifyInformation)
+               .addComponent(jLabel1))
+            .addContainerGap(31, Short.MAX_VALUE))
+      );
+
+      jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      jLabel2.setForeground(new java.awt.Color(71, 79, 89));
+      jLabel2.setText("Realizar Backup");
+
+      btn_DoBackup.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      btn_DoBackup.setForeground(new java.awt.Color(71, 79, 89));
       btn_DoBackup.setText("Ir");
       btn_DoBackup.addActionListener(new java.awt.event.ActionListener()
       {
@@ -89,55 +133,14 @@ public class SettingsAdmin extends javax.swing.JFrame {
          }
       });
 
-      btn_Return.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-      btn_Return.setText("Regresar");
-      btn_Return.addMouseListener(new java.awt.event.MouseAdapter()
-      {
-         public void mouseClicked(java.awt.event.MouseEvent evt)
-         {
-            btn_ReturnMouseClicked(evt);
-         }
-      });
-
-      jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-      jLabel1.setText("Modificar Información");
-
-      jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-      jLabel4.setText("Ingresar Nuevos Usuarios");
-
-      btn_EnterUsers.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-      btn_EnterUsers.setText("Ir");
-      btn_EnterUsers.addMouseListener(new java.awt.event.MouseAdapter()
-      {
-         public void mouseClicked(java.awt.event.MouseEvent evt)
-         {
-            btn_EnterUsersMouseClicked(evt);
-         }
-      });
+      jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      jLabel5.setForeground(new java.awt.Color(71, 79, 89));
+      jLabel5.setText("Buscar Usuarios");
 
       txt_Search.setFont(new java.awt.Font("Arial Unicode MS", 0, 12)); // NOI18N
 
-      btn_Find.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-      btn_Find.setText("Buscar");
-      btn_Find.addMouseListener(new java.awt.event.MouseAdapter()
-      {
-         public void mouseClicked(java.awt.event.MouseEvent evt)
-         {
-            btn_FindMouseClicked(evt);
-         }
-      });
-
-      btn_Modify.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-      btn_Modify.setText("Modificar");
-      btn_Modify.addMouseListener(new java.awt.event.MouseAdapter()
-      {
-         public void mouseClicked(java.awt.event.MouseEvent evt)
-         {
-            btn_ModifyMouseClicked(evt);
-         }
-      });
-
-      btn_Delete.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+      btn_Delete.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      btn_Delete.setForeground(new java.awt.Color(71, 79, 89));
       btn_Delete.setText("Eliminar");
       btn_Delete.addMouseListener(new java.awt.event.MouseAdapter()
       {
@@ -147,82 +150,160 @@ public class SettingsAdmin extends javax.swing.JFrame {
          }
       });
 
-      jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-      jLabel5.setText("Buscar Usuarios");
+      btn_Modify.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      btn_Modify.setForeground(new java.awt.Color(71, 79, 89));
+      btn_Modify.setText("Modificar");
+      btn_Modify.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            btn_ModifyMouseClicked(evt);
+         }
+      });
+
+      btn_Find.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      btn_Find.setForeground(new java.awt.Color(71, 79, 89));
+      btn_Find.setText("Buscar");
+      btn_Find.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            btn_FindMouseClicked(evt);
+         }
+      });
+
+      btn_Return.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      btn_Return.setForeground(new java.awt.Color(71, 79, 89));
+      btn_Return.setText("Regresar");
+      btn_Return.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            btn_ReturnMouseClicked(evt);
+         }
+      });
+
+      jPanel4.setBackground(new java.awt.Color(253, 211, 92));
+
+      jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      jLabel4.setForeground(new java.awt.Color(71, 79, 89));
+      jLabel4.setText("Ingresar Nuevos Usuarios");
+
+      btn_EnterUsers.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      btn_EnterUsers.setForeground(new java.awt.Color(71, 79, 89));
+      btn_EnterUsers.setText("Ir");
+      btn_EnterUsers.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            btn_EnterUsersMouseClicked(evt);
+         }
+      });
+
+      javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+      jPanel4.setLayout(jPanel4Layout);
+      jPanel4Layout.setHorizontalGroup(
+         jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel4Layout.createSequentialGroup()
+            .addGap(34, 34, 34)
+            .addComponent(jLabel4)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btn_EnterUsers)
+            .addGap(186, 186, 186))
+      );
+      jPanel4Layout.setVerticalGroup(
+         jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel4Layout.createSequentialGroup()
+            .addGap(24, 24, 24)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(jLabel4)
+               .addComponent(btn_EnterUsers))
+            .addContainerGap(31, Short.MAX_VALUE))
+      );
+
+      jLabel3.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
+      jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+      jLabel3.setText("Funciones Lynx");
+
+      javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+      jPanel2.setLayout(jPanel2Layout);
+      jPanel2Layout.setHorizontalGroup(
+         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGap(42, 42, 42)
+            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btn_DoBackup)
+            .addGap(189, 189, 189))
+         .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+               .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+               .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 0, Short.MAX_VALUE))
+         .addGroup(jPanel2Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jLabel3)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+         .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGap(35, 35, 35)
+            .addComponent(jLabel5)
+            .addGap(49, 49, 49)
+            .addComponent(txt_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(29, 29, 29)
+            .addComponent(btn_Find)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btn_Modify)
+            .addGap(31, 31, 31)
+            .addComponent(btn_Delete)
+            .addGap(105, 105, 105))
+         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btn_Return)
+            .addContainerGap())
+      );
+      jPanel2Layout.setVerticalGroup(
+         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGap(16, 16, 16)
+            .addComponent(jLabel3)
+            .addGap(18, 18, 18)
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(31, 31, 31)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(jLabel2)
+               .addComponent(btn_DoBackup))
+            .addGap(34, 34, 34)
+            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(jLabel5)
+               .addComponent(txt_Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(btn_Find)
+               .addComponent(btn_Modify)
+               .addComponent(btn_Delete))
+            .addGap(18, 18, 18)
+            .addComponent(btn_Return)
+            .addGap(5, 5, 5))
+      );
 
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(layout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addGroup(layout.createSequentialGroup()
-                  .addComponent(lbl_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                  .addComponent(btn_Return))
-               .addGroup(layout.createSequentialGroup()
-                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                     .addComponent(jLabel3)
-                     .addComponent(jLabel5)
-                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_Delete)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_Modify))
-                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                              .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                              .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
-                           .addGap(57, 57, 57)
-                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                              .addComponent(btn_DoBackup, javax.swing.GroupLayout.Alignment.TRAILING)
-                              .addComponent(btn_ModifyInformation, javax.swing.GroupLayout.Alignment.TRAILING)))
-                        .addGroup(layout.createSequentialGroup()
-                           .addComponent(jLabel4)
-                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                           .addComponent(btn_EnterUsers)))
-                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txt_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(57, 57, 57)
-                        .addComponent(btn_Find)))
-                  .addGap(0, 244, Short.MAX_VALUE)))
-            .addContainerGap())
+            .addGap(40, 40, 40)
+            .addComponent(lbl_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+         .addGroup(layout.createSequentialGroup()
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 0, Short.MAX_VALUE))
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(layout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(jLabel3)
-            .addGap(26, 26, 26)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jLabel1)
-               .addComponent(btn_ModifyInformation))
-            .addGap(35, 35, 35)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jLabel2)
-               .addComponent(btn_DoBackup))
-            .addGap(49, 49, 49)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jLabel4)
-               .addComponent(btn_EnterUsers))
-            .addGap(36, 36, 36)
-            .addComponent(jLabel5)
-            .addGap(8, 8, 8)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(txt_Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(btn_Find))
-            .addGap(18, 18, 18)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(btn_Modify)
-               .addComponent(btn_Delete))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
-            .addComponent(lbl_usuario)
-            .addGap(0, 25, Short.MAX_VALUE))
-         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btn_Return)
-            .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(lbl_usuario))
       );
 
       pack();
@@ -370,6 +451,10 @@ public class SettingsAdmin extends javax.swing.JFrame {
    private javax.swing.JLabel jLabel3;
    private javax.swing.JLabel jLabel4;
    private javax.swing.JLabel jLabel5;
+   private javax.swing.JPanel jPanel1;
+   private javax.swing.JPanel jPanel2;
+   private javax.swing.JPanel jPanel3;
+   private javax.swing.JPanel jPanel4;
    private javax.swing.JLabel lbl_usuario;
    private javax.swing.JTextField txt_Search;
    // End of variables declaration//GEN-END:variables
