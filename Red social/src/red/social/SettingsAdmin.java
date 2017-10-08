@@ -75,7 +75,6 @@ public class SettingsAdmin extends javax.swing.JFrame {
          .addGap(0, 100, Short.MAX_VALUE)
       );
 
-      setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
       setResizable(false);
 
       jPanel2.setBackground(new java.awt.Color(55, 160, 166));

@@ -101,7 +101,7 @@ public class InformationEdit extends javax.swing.JFrame
       lbl_PictureError = new javax.swing.JLabel();
       lbl_PicturePath = new javax.swing.JLabel();
       btn_Edit = new javax.swing.JButton();
-      jButton1 = new javax.swing.JButton();
+      btn_Cancel = new javax.swing.JButton();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -152,13 +152,6 @@ public class InformationEdit extends javax.swing.JFrame
       jLabel4.setText("Confirmar contraseña");
 
       txt_CheckPassword.setFont(new java.awt.Font("Arial Unicode MS", 0, 11)); // NOI18N
-      txt_CheckPassword.addActionListener(new java.awt.event.ActionListener()
-      {
-         public void actionPerformed(java.awt.event.ActionEvent evt)
-         {
-            txt_CheckPasswordActionPerformed(evt);
-         }
-      });
       txt_CheckPassword.addKeyListener(new java.awt.event.KeyAdapter()
       {
          public void keyTyped(java.awt.event.KeyEvent evt)
@@ -284,21 +277,14 @@ public class InformationEdit extends javax.swing.JFrame
             btn_EditMouseClicked(evt);
          }
       });
-      btn_Edit.addActionListener(new java.awt.event.ActionListener()
-      {
-         public void actionPerformed(java.awt.event.ActionEvent evt)
-         {
-            btn_EditActionPerformed(evt);
-         }
-      });
 
-      jButton1.setFont(new java.awt.Font("Century Gothic", 1, 11)); // NOI18N
-      jButton1.setText("Cancelar");
-      jButton1.addActionListener(new java.awt.event.ActionListener()
+      btn_Cancel.setFont(new java.awt.Font("Century Gothic", 1, 11)); // NOI18N
+      btn_Cancel.setText("Cancelar");
+      btn_Cancel.addActionListener(new java.awt.event.ActionListener()
       {
          public void actionPerformed(java.awt.event.ActionEvent evt)
          {
-            jButton1ActionPerformed(evt);
+            btn_CancelActionPerformed(evt);
          }
       });
 
@@ -371,7 +357,7 @@ public class InformationEdit extends javax.swing.JFrame
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                .addComponent(btn_Edit, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+               .addComponent(btn_Cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(30, 30, 30))
       );
       jPanel1Layout.setVerticalGroup(
@@ -428,7 +414,7 @@ public class InformationEdit extends javax.swing.JFrame
             .addGap(2, 2, 2)
             .addComponent(btn_Edit)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jButton1)
+            .addComponent(btn_Cancel)
             .addContainerGap(23, Short.MAX_VALUE))
       );
 
@@ -586,20 +572,15 @@ public class InformationEdit extends javax.swing.JFrame
          }else{
             FileManager.Update(RedSocial.Fill(Data, Length));
          }
-         this.setVisible(false);
+         this.dispose();
       }
    }//GEN-LAST:event_btn_EditMouseClicked
 
-   private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
-   {//GEN-HEADEREND:event_jButton1ActionPerformed
+   private void btn_CancelActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_CancelActionPerformed
+   {//GEN-HEADEREND:event_btn_CancelActionPerformed
       // TODO add your handling code here:
-      this.setVisible(false);
-   }//GEN-LAST:event_jButton1ActionPerformed
-
-   private void txt_CheckPasswordActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_txt_CheckPasswordActionPerformed
-   {//GEN-HEADEREND:event_txt_CheckPasswordActionPerformed
-      // TODO add your handling code here:
-   }//GEN-LAST:event_txt_CheckPasswordActionPerformed
+      this.dispose();
+   }//GEN-LAST:event_btn_CancelActionPerformed
 
    private void Rb_UserActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_Rb_UserActionPerformed
    {//GEN-HEADEREND:event_Rb_UserActionPerformed
@@ -607,11 +588,6 @@ public class InformationEdit extends javax.swing.JFrame
       Rb_Admin.setSelected(false);
       Rb_User.setSelected(true);
    }//GEN-LAST:event_Rb_UserActionPerformed
-
-   private void btn_EditActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_EditActionPerformed
-   {//GEN-HEADEREND:event_btn_EditActionPerformed
-      // TODO add your handling code here:
-   }//GEN-LAST:event_btn_EditActionPerformed
 
    private void Rb_AdminActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_Rb_AdminActionPerformed
    {//GEN-HEADEREND:event_Rb_AdminActionPerformed
@@ -894,11 +870,11 @@ public class InformationEdit extends javax.swing.JFrame
    private org.jdesktop.swingx.JXDatePicker Dp_Birthday;
    private javax.swing.JRadioButton Rb_Admin;
    private javax.swing.JRadioButton Rb_User;
+   private javax.swing.JButton btn_Cancel;
    private javax.swing.JButton btn_Edit;
    private javax.swing.JButton btn_FindPicture;
    private javax.swing.ButtonGroup buttonGroup1;
    private javax.swing.ButtonGroup buttonGroup2;
-   private javax.swing.JButton jButton1;
    private javax.swing.JLabel jLabel1;
    private javax.swing.JLabel jLabel10;
    private javax.swing.JLabel jLabel2;

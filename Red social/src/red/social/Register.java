@@ -61,7 +61,7 @@ public class Register extends javax.swing.JFrame
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         btn_Register.setText("Agregar");
-        btn_regresar.setVisible(true);
+        btn_Return.setVisible(true);
         isAdminAddingUsers = AdminIsAddingUsers;
     }
     
@@ -114,11 +114,9 @@ public class Register extends javax.swing.JFrame
       lbl_PictureError = new javax.swing.JLabel();
       lbl_PicturePath = new javax.swing.JLabel();
       btn_Register = new javax.swing.JButton();
-      btn_regresar = new javax.swing.JButton();
+      btn_Return = new javax.swing.JButton();
 
       jLabel12.setText("jLabel12");
-
-      setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
       jPanel1.setBackground(new java.awt.Color(253, 211, 92));
 
@@ -322,22 +320,15 @@ public class Register extends javax.swing.JFrame
          }
       });
 
-      btn_regresar.setBackground(new java.awt.Color(234, 104, 0));
-      btn_regresar.setFont(new java.awt.Font("Century Gothic", 1, 11)); // NOI18N
-      btn_regresar.setForeground(new java.awt.Color(255, 255, 255));
-      btn_regresar.setText("Regresar");
-      btn_regresar.addMouseListener(new java.awt.event.MouseAdapter()
-      {
-         public void mouseClicked(java.awt.event.MouseEvent evt)
-         {
-            btn_regresarMouseClicked(evt);
-         }
-      });
-      btn_regresar.addActionListener(new java.awt.event.ActionListener()
+      btn_Return.setBackground(new java.awt.Color(234, 104, 0));
+      btn_Return.setFont(new java.awt.Font("Century Gothic", 1, 11)); // NOI18N
+      btn_Return.setForeground(new java.awt.Color(255, 255, 255));
+      btn_Return.setText("Regresar");
+      btn_Return.addActionListener(new java.awt.event.ActionListener()
       {
          public void actionPerformed(java.awt.event.ActionEvent evt)
          {
-            btn_regresarActionPerformed(evt);
+            btn_ReturnActionPerformed(evt);
          }
       });
 
@@ -364,7 +355,7 @@ public class Register extends javax.swing.JFrame
                         .addComponent(lbl_PicturePath, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(312, 312, 312)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                           .addComponent(btn_regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addComponent(btn_Return, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                            .addComponent(btn_Register, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                .addGroup(jPanel1Layout.createSequentialGroup()
                   .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -468,7 +459,7 @@ public class Register extends javax.swing.JFrame
                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                   .addComponent(btn_Register, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                  .addComponent(btn_regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addComponent(btn_Return, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                   .addContainerGap())))
       );
 
@@ -579,21 +570,14 @@ public class Register extends javax.swing.JFrame
      }
    }//GEN-LAST:event_txt_DescriptionKeyTyped
 
-   private void btn_regresarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_btn_regresarMouseClicked
-   {//GEN-HEADEREND:event_btn_regresarMouseClicked
+   private void btn_ReturnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_ReturnActionPerformed
+   {//GEN-HEADEREND:event_btn_ReturnActionPerformed
       // TODO add your handling code here:
-   }//GEN-LAST:event_btn_regresarMouseClicked
-
-   private void btn_regresarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_regresarActionPerformed
-   {//GEN-HEADEREND:event_btn_regresarActionPerformed
-      // TODO add your handling code here:
-      if(LogFrame!=null){
-           this.setVisible(false);
-        }else{
-           RedSocial.SettingsAdminController();
-            this.dispose();
-        }
-   }//GEN-LAST:event_btn_regresarActionPerformed
+      if(LogFrame==null){
+         RedSocial.SettingsAdminController(); 
+      }
+      this.dispose();
+   }//GEN-LAST:event_btn_ReturnActionPerformed
 
    private void txt_PhoneNumberKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_txt_PhoneNumberKeyTyped
    {//GEN-HEADEREND:event_txt_PhoneNumberKeyTyped
@@ -929,7 +913,7 @@ public class Register extends javax.swing.JFrame
    private org.jdesktop.swingx.JXDatePicker Dp_Birthday;
    private javax.swing.JButton btn_FindPicture;
    private javax.swing.JButton btn_Register;
-   private javax.swing.JButton btn_regresar;
+   private javax.swing.JButton btn_Return;
    private javax.swing.JLabel jLabel1;
    private javax.swing.JLabel jLabel10;
    private javax.swing.JLabel jLabel11;

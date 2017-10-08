@@ -8,9 +8,6 @@
       </Properties>
     </Component>
   </NonVisualComponents>
-  <Properties>
-    <Property name="defaultCloseOperation" type="int" value="0"/>
-  </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
@@ -70,7 +67,7 @@
                                   <Component id="lbl_PicturePath" min="-2" pref="120" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="312" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btn_regresar" min="-2" pref="125" max="-2" attributes="0"/>
+                                      <Component id="btn_Return" min="-2" pref="125" max="-2" attributes="0"/>
                                       <Component id="btn_Register" min="-2" pref="125" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -199,7 +196,7 @@
                           <EmptySpace pref="65" max="32767" attributes="0"/>
                           <Component id="btn_Register" min="-2" pref="43" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="btn_regresar" min="-2" pref="39" max="-2" attributes="0"/>
+                          <Component id="btn_Return" min="-2" pref="39" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -577,7 +574,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_RegisterActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btn_regresar">
+        <Component class="javax.swing.JButton" name="btn_Return">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="68" red="ea" type="rgb"/>
@@ -591,8 +588,7 @@
             <Property name="text" type="java.lang.String" value="Regresar"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_regresarMouseClicked"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_regresarActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_ReturnActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
