@@ -50,196 +50,33 @@ public class FileManager
    {
       return new File(DIRECTORY + DESCRIPTION + path).getAbsoluteFile().exists();
    }
-   
    public static String SearchUser(String key)
    {
-      try
-      {
-         if (FileExists(MASTER + USER_FILE))
-         {
-            RandomAccessFile File = OpenFile(MASTER + USER_FILE);
-            String line;
-            while(File.getFilePointer() != File.length())
-            {
-               line = File.readLine();
-               if(line.split(Pattern.quote(SEPARADOR))[0].equals(key) && line.split(Pattern.quote(SEPARADOR))[10].equals("1"))
-               {
-                  File.close();
-                  return line;
-               }
-            }
-            File.close();
-         }
-         
-         if (FileExists(BINNACLE + USER_FILE))
-         {
-            RandomAccessFile File = OpenFile(BINNACLE + USER_FILE);
-            String line;
-            while(File.getFilePointer() != File.length())
-            {
-               line = File.readLine();
-               
-               ////// CHANGE
-               
-               
-               if(line.split(Pattern.quote(SEPARADOR))[0].equals(key) && line.split(Pattern.quote(SEPARADOR))[10].equals("1"))
-               {
-                  File.close();
-                  return line;
-               }   
-            }
-            File.close();
-         }
-         return null;
-      }
-      catch (Exception e)
-      {
-         return null;
-      }
+      if (key == null || key == "") return null;
+      return SearchSecuencial(USER_FILE, GetKeys(USER_FILE), key);
    }
    
    public static String SearchFriend(String userKey, String friendKey)
    {
-      try
-      {
-         String[] keyIndex = GetKeys(FRIENDS_FILE).split(Pattern.quote(","));
-         int statusIndex = GetIndex(FRIENDS_FILE, "status");
-         
-         if (FileExists(MASTER + FRIENDS_FILE))
-         {
-            RandomAccessFile File = OpenFile(MASTER + FRIENDS_FILE);
-            String line;
-            while(File.getFilePointer() != File.length())
-            {
-               line = File.readLine();
-               if(line.split(Pattern.quote(SEPARADOR))[statusIndex].equals("0")) continue;
-               if (line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[0])].equals(userKey) && line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[1])].equals(friendKey))
-               {
-                  File.close();
-                  return line;
-               }
-            }
-            File.close();
-         }
-         
-         if (FileExists(BINNACLE + FRIENDS_FILE))
-         {
-            RandomAccessFile File = OpenFile(BINNACLE + FRIENDS_FILE);
-            String line;
-            while(File.getFilePointer() != File.length())
-            {
-               line = File.readLine();
-               if(line.split(Pattern.quote(SEPARADOR))[statusIndex].equals("0")) continue;
-               if (line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[0])].equals(userKey) && line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[1])].equals(friendKey))
-               {
-                  File.close();
-                  return line;
-               }  
-            }
-            File.close();
-         }
-         return null;
-      }
-      catch (Exception e)
-      {
-         return null;
-      }
+      if (userKey == null || userKey == "") return null;
+      if (friendKey == null || friendKey == "") return null;
+      return SearchSecuencial(FRIENDS_FILE, GetKeys(FRIENDS_FILE), userKey + friendKey);
    }
    
    public static String SearchGroup(String groupKey, String userKey)
    {
-      try
-      {
-         String[] keyIndex = GetKeys(GROUPS_FILE).split(Pattern.quote(","));
-         int statusIndex = GetIndex(GROUPS_FILE, "status");
-         
-         if (FileExists(MASTER + GROUPS_FILE))
-         {
-            RandomAccessFile File = OpenFile(MASTER + GROUPS_FILE);
-            String line;
-            while(File.getFilePointer() != File.length())
-            {
-               line = File.readLine();
-               if(line.split(Pattern.quote(SEPARADOR))[statusIndex].equals("0")) continue;
-               if (line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[0])].equals(userKey) && line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[1])].equals(groupKey))
-               {
-                  File.close();
-                  return line;
-               }
-            }
-            File.close();
-         }
-         
-         if (FileExists(BINNACLE + GROUPS_FILE))
-         {
-            RandomAccessFile File = OpenFile(BINNACLE + GROUPS_FILE);
-            String line;
-            while(File.getFilePointer() != File.length())
-            {
-               line = File.readLine();
-               if(line.split(Pattern.quote(SEPARADOR))[statusIndex].equals("0")) continue;
-               if (line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[0])].equals(userKey) && line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[1])].equals(groupKey))
-               {
-                  File.close();
-                  return line;
-               }  
-            }
-            File.close();
-         }
-         return null;
-      }
-      catch (Exception e)
-      {
-         return null;
-      }
+      if (userKey == null || userKey == "") return null;
+      if (groupKey == null || groupKey == "") return null;
+      return SearchSecuencial(GROUPS_FILE, GetKeys(GROUPS_FILE), groupKey + userKey);
    }
    
    public static String SearchFriendInGroup(String groupKey, String userKey, String friendKey)
    {
-      try
-      {
-         String[] keyIndex = GetKeys(GROUPS_FRIENDS_FILE).split(Pattern.quote(","));
-         int statusIndex = GetIndex(GROUPS_FRIENDS_FILE, "status");
-         
-         if (FileExists(MASTER + GROUPS_FRIENDS_FILE))
-         {
-            RandomAccessFile File = OpenFile(MASTER + GROUPS_FRIENDS_FILE);
-            String line;
-            while(File.getFilePointer() != File.length())
-            {
-               line = File.readLine();
-               if(line.split(Pattern.quote(SEPARADOR))[statusIndex].equals("0")) continue;
-               if (line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[0])].equals(userKey) && line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[1])].equals(groupKey) && line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[2])].equals(friendKey))
-               {
-                  File.close();
-                  return line;
-               }
-            }
-            File.close();
-         }
-         
-         if (FileExists(BINNACLE + GROUPS_FRIENDS_FILE))
-         {
-            RandomAccessFile File = OpenFile(BINNACLE + GROUPS_FRIENDS_FILE);
-            String line;
-            while(File.getFilePointer() != File.length())
-            {
-               line = File.readLine();
-               if(line.split(Pattern.quote(SEPARADOR))[statusIndex].equals("0")) continue;
-               if (line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[0])].equals(userKey) && line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[0])].equals(groupKey) && line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keyIndex[2])].equals(friendKey))
-               {
-                  File.close();
-                  return line;
-               }  
-            }
-            File.close();
-         }
-         return null;
-      }
-      catch (Exception e)
-      {
-         return null;
-      }
+      if (groupKey == null || groupKey == "") return null;
+      if (userKey == null || userKey == "") return null;
+      if (friendKey == null || friendKey == "") return null;
+      //return SearchIndizado(GROUPS_FRIENDS_FILE, GetKeys(GROUPS_FRIENDS_FILE), groupKey + userKey + friendKey);
+      return null;
    }
    
    public static boolean WriteFile(String path, String data)  // only used to add new lines to text file
@@ -453,6 +290,71 @@ public class FileManager
       catch (Exception e)
       {
          return false;
+      }
+   }
+   
+   private static String SearchSecuencial(String path, String keys, String values)
+   {
+      try
+      {
+         if (FileExists(MASTER + path))
+         {
+            RandomAccessFile File = OpenFile(MASTER + path);
+            String[] keysPosition = keys.split(Pattern.quote(","));
+            int statusIndex = GetIndex(path, "status");
+            
+            while(File.getFilePointer() != File.length())
+            {
+               String line = File.readLine();
+               
+               if (line.split(Pattern.quote(SEPARADOR))[statusIndex].equals("0")) continue;
+               
+               String tempLine = "";
+               for (int i = 0; i < keysPosition.length; i++)
+               {
+                  tempLine += line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keysPosition[i])];
+               }
+               
+               if(tempLine.equals(values))
+               {
+                  File.close();
+                  return line;
+               }
+            }
+            File.close();
+         }
+         
+         if (FileExists(BINNACLE + path))
+         {
+            RandomAccessFile File = OpenFile(BINNACLE + path);
+            String[] keysPosition = keys.split(Pattern.quote(","));
+            int statusIndex = GetIndex(path, "status");
+            
+            while(File.getFilePointer() != File.length())
+            {
+               String line = File.readLine();
+               
+               if (line.split(Pattern.quote(SEPARADOR))[statusIndex].equals("0")) continue;
+               
+               String tempLine = "";
+               for (int i = 0; i < keysPosition.length; i++)
+               {
+                  tempLine += line.split(Pattern.quote(SEPARADOR))[Integer.parseInt(keysPosition[i])];
+               }
+               
+               if(tempLine.equals(values))
+               {
+                  File.close();
+                  return line;
+               }
+            }
+            File.close();
+         }
+         return null;
+      }
+      catch (Exception e)
+      {
+         return null;
       }
    }
    
