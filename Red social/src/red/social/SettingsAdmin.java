@@ -310,14 +310,14 @@ public class SettingsAdmin extends javax.swing.JFrame {
 
     private void btn_ReturnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ReturnMouseClicked
         // TODO add your handling code here:
-        String actualUser = FileManager.Search(RedSocial.ACTUALUSER);
+        String actualUser = FileManager.SearchUser(RedSocial.ACTUALUSER);
         RedSocial.ProfileController(actualUser);
         this.dispose();
     }//GEN-LAST:event_btn_ReturnMouseClicked
 
     private void btn_FindMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_FindMouseClicked
         // TODO add your handling code here:
-        String userToSearch = FileManager.Search(txt_Search.getText());
+        String userToSearch = FileManager.SearchUser(txt_Search.getText());
         
         
         if (userToSearch != null){

@@ -771,7 +771,7 @@ public class Register extends javax.swing.JFrame
           return false;
        }else{
           if(FileManager.FileExists(BINNACLE +USER_FILE)){
-          if(FileManager.Search(txt_User.getText())!=null){
+          if(FileManager.SearchUser(txt_User.getText())!=null){
             lbl_UserError.setVisible(true);
             return false; 
           }

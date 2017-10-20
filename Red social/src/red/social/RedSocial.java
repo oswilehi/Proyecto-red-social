@@ -106,7 +106,7 @@ public class RedSocial {
     
     // Cambia el status de 1 a 0
     public static void Delete(String userToDelete){
-        String actualUser = FileManager.Search(userToDelete);
+        String actualUser = FileManager.SearchUser(userToDelete);
         String actualUserArray[] = actualUser.split(Pattern.quote(SEPARADOR));
         actualUser = actualUserArray[0]+ SEPARADOR
                      + actualUserArray[1]+ SEPARADOR
@@ -120,6 +120,6 @@ public class RedSocial {
                      + actualUserArray[9]+ SEPARADOR
                      + "0";
         actualUser = RedSocial.Fill(actualUser, Length);
-        FileManager.Update(actualUser);
+        FileManager.Update(USER_FILE,actualUser);
     }
 }

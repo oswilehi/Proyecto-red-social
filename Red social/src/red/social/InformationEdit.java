@@ -55,7 +55,7 @@ public class InformationEdit extends javax.swing.JFrame
    
    public void ShowInformation(String userToEdit_){
       userToEdit = userToEdit_;
-      userToEditArray = FileManager.Search(userToEdit).split(Pattern.quote(SEPARADOR));
+      userToEditArray = FileManager.SearchUser(userToEdit).split(Pattern.quote(SEPARADOR));
       InitializeComponents();
    }
 
@@ -567,10 +567,10 @@ public class InformationEdit extends javax.swing.JFrame
          String Data = CreateUser();
          if(!(txt_User.getText().equals(userToEditArray[0]))){
             userToEditArray[10] = "0";
-            FileManager.Update(RedSocial.Fill(joinArray(userToEditArray), Length)); //it is logic erasered.
+            FileManager.Update(USER_FILE,RedSocial.Fill(joinArray(userToEditArray), Length)); //it is logic erasered.
             FileManager.WriteFile(USER_FILE, RedSocial.Fill(Data, Length));
          }else{
-            FileManager.Update(RedSocial.Fill(Data, Length));
+            FileManager.Update(USER_FILE, RedSocial.Fill(Data, Length));
          }
          this.dispose();
       }
@@ -715,7 +715,7 @@ public class InformationEdit extends javax.swing.JFrame
        
        if(!(txt_User.getText().equals(userToEditArray[0]))){
           if(FileManager.FileExists(BINNACLE +USER_FILE)){
-            if(FileManager.Search(txt_User.getText())!=null){
+            if(FileManager.SearchUser(txt_User.getText())!=null){
               lbl_UserError.setVisible(true);
               return false; 
             }
