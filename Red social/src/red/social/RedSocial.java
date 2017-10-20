@@ -27,7 +27,10 @@ public class RedSocial {
     public static String ACTUALUSER;
     
     //colors for decoration.
-    public static Color Background = new Color(242,132,35);
+    //public static Color Background = new Color(242,132,35);
+    public static Color Background = new Color(55,160,166);
+    
+    
     
     public static void main(String[] args) {
        try
@@ -47,6 +50,7 @@ public class RedSocial {
     
     public static void LoginController(){
         Login log = new Login();
+        //log.setLocationRelativeTo(null);
         log.setVisible(true);
     }
     
@@ -62,16 +66,17 @@ public class RedSocial {
         settings.setVisible(true);
     }
     
-    public static  Registrarse RegisterController(){
-        Registrarse Register = new Registrarse();
-        Register.setVisible(true);
-        return Register;
+    public static  Register RegisterController(){
+        Register register = new Register();
+        register.setVisible(true);
+        return register;
     }
     
     // Este metodo es para cuando el usuario necesite el registrar para agregar usuarios
-    public static void RegisterController(boolean AdminIsAddingUsers){
-        Registrarse Register = new Registrarse(AdminIsAddingUsers);
-        Register.setVisible(true);
+    public static  Register RegisterController(boolean AdminIsAddingUsers){
+        Register register = new Register();
+        register.setVisible(true);
+        return register;
     }
     
     public static String MD5(String Password) throws Exception{
@@ -101,7 +106,7 @@ public class RedSocial {
     
     // Cambia el status de 1 a 0
     public static void Delete(String userToDelete){
-        String actualUser = FileManager.Search(userToDelete);
+        String actualUser = FileManager.SearchUser(userToDelete);
         String actualUserArray[] = actualUser.split(Pattern.quote(SEPARADOR));
         actualUser = actualUserArray[0]+ SEPARADOR
                      + actualUserArray[1]+ SEPARADOR
@@ -115,6 +120,6 @@ public class RedSocial {
                      + actualUserArray[9]+ SEPARADOR
                      + "0";
         actualUser = RedSocial.Fill(actualUser, Length);
-        FileManager.Update(actualUser);
+        FileManager.Update(USER_FILE,actualUser);
     }
 }

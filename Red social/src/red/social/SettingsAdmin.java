@@ -31,8 +31,8 @@ public class SettingsAdmin extends javax.swing.JFrame {
         this.getContentPane().setBackground(Background);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-        btn_eliminar.setEnabled(false);
-        btn_modificar.setEnabled(false);
+        btn_Delete.setEnabled(false);
+        btn_Modify.setEnabled(false);
     }
 
     /**
@@ -45,220 +45,279 @@ public class SettingsAdmin extends javax.swing.JFrame {
    private void initComponents()
    {
 
-      jLabel2 = new javax.swing.JLabel();
-      jLabel3 = new javax.swing.JLabel();
-      btb_modificarInfo = new javax.swing.JButton();
-      btn_realizarBackup = new javax.swing.JButton();
-      jButton1 = new javax.swing.JButton();
+      jPanel1 = new javax.swing.JPanel();
+      jPanel2 = new javax.swing.JPanel();
+      jPanel3 = new javax.swing.JPanel();
+      btn_ModifyInformation = new javax.swing.JButton();
       jLabel1 = new javax.swing.JLabel();
-      jLabel4 = new javax.swing.JLabel();
-      btn_ingresarUsuarios = new javax.swing.JButton();
-      txt_buscar = new javax.swing.JTextField();
-      btn_buscar = new javax.swing.JButton();
-      lbl_usuario = new javax.swing.JLabel();
-      btn_modificar = new javax.swing.JButton();
-      btn_eliminar = new javax.swing.JButton();
+      jLabel2 = new javax.swing.JLabel();
+      btn_DoBackup = new javax.swing.JButton();
       jLabel5 = new javax.swing.JLabel();
+      txt_Search = new javax.swing.JTextField();
+      btn_Delete = new javax.swing.JButton();
+      btn_Modify = new javax.swing.JButton();
+      btn_Find = new javax.swing.JButton();
+      btn_Return = new javax.swing.JButton();
+      jPanel4 = new javax.swing.JPanel();
+      jLabel4 = new javax.swing.JLabel();
+      btn_EnterUsers = new javax.swing.JButton();
+      jLabel3 = new javax.swing.JLabel();
+      lbl_usuario = new javax.swing.JLabel();
 
-      setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+      javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+      jPanel1.setLayout(jPanel1Layout);
+      jPanel1Layout.setHorizontalGroup(
+         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGap(0, 100, Short.MAX_VALUE)
+      );
+      jPanel1Layout.setVerticalGroup(
+         jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGap(0, 100, Short.MAX_VALUE)
+      );
+
       setResizable(false);
 
-      jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-      jLabel2.setText("Realizar Backup");
+      jPanel2.setBackground(new java.awt.Color(55, 160, 166));
 
-      jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-      jLabel3.setText("OPCIONES");
+      jPanel3.setBackground(new java.awt.Color(253, 211, 92));
 
-      btb_modificarInfo.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-      btb_modificarInfo.setText("Ir");
-      btb_modificarInfo.addMouseListener(new java.awt.event.MouseAdapter()
+      btn_ModifyInformation.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      btn_ModifyInformation.setForeground(new java.awt.Color(71, 79, 89));
+      btn_ModifyInformation.setText("Ir");
+      btn_ModifyInformation.addMouseListener(new java.awt.event.MouseAdapter()
       {
          public void mouseClicked(java.awt.event.MouseEvent evt)
          {
-            btb_modificarInfoMouseClicked(evt);
-         }
-      });
-      btb_modificarInfo.addActionListener(new java.awt.event.ActionListener()
-      {
-         public void actionPerformed(java.awt.event.ActionEvent evt)
-         {
-            btb_modificarInfoActionPerformed(evt);
+            btn_ModifyInformationMouseClicked(evt);
          }
       });
 
-      btn_realizarBackup.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-      btn_realizarBackup.setText("Ir");
-      btn_realizarBackup.addActionListener(new java.awt.event.ActionListener()
-      {
-         public void actionPerformed(java.awt.event.ActionEvent evt)
-         {
-            btn_realizarBackupActionPerformed(evt);
-         }
-      });
-
-      jButton1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-      jButton1.setText("Regresar");
-      jButton1.addMouseListener(new java.awt.event.MouseAdapter()
-      {
-         public void mouseClicked(java.awt.event.MouseEvent evt)
-         {
-            jButton1MouseClicked(evt);
-         }
-      });
-
-      jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+      jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      jLabel1.setForeground(new java.awt.Color(71, 79, 89));
       jLabel1.setText("Modificar Información");
 
-      jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+      javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+      jPanel3.setLayout(jPanel3Layout);
+      jPanel3Layout.setHorizontalGroup(
+         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+            .addGap(42, 42, 42)
+            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 637, Short.MAX_VALUE)
+            .addComponent(btn_ModifyInformation)
+            .addGap(191, 191, 191))
+      );
+      jPanel3Layout.setVerticalGroup(
+         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel3Layout.createSequentialGroup()
+            .addGap(26, 26, 26)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(btn_ModifyInformation)
+               .addComponent(jLabel1))
+            .addContainerGap(31, Short.MAX_VALUE))
+      );
+
+      jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      jLabel2.setForeground(new java.awt.Color(71, 79, 89));
+      jLabel2.setText("Realizar Backup");
+
+      btn_DoBackup.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      btn_DoBackup.setForeground(new java.awt.Color(71, 79, 89));
+      btn_DoBackup.setText("Ir");
+      btn_DoBackup.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            btn_DoBackupActionPerformed(evt);
+         }
+      });
+
+      jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      jLabel5.setForeground(new java.awt.Color(71, 79, 89));
+      jLabel5.setText("Buscar Usuarios");
+
+      txt_Search.setFont(new java.awt.Font("Arial Unicode MS", 0, 12)); // NOI18N
+
+      btn_Delete.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      btn_Delete.setForeground(new java.awt.Color(71, 79, 89));
+      btn_Delete.setText("Eliminar");
+      btn_Delete.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            btn_DeleteMouseClicked(evt);
+         }
+      });
+
+      btn_Modify.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      btn_Modify.setForeground(new java.awt.Color(71, 79, 89));
+      btn_Modify.setText("Modificar");
+      btn_Modify.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            btn_ModifyMouseClicked(evt);
+         }
+      });
+
+      btn_Find.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      btn_Find.setForeground(new java.awt.Color(71, 79, 89));
+      btn_Find.setText("Buscar");
+      btn_Find.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            btn_FindMouseClicked(evt);
+         }
+      });
+
+      btn_Return.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      btn_Return.setForeground(new java.awt.Color(71, 79, 89));
+      btn_Return.setText("Regresar");
+      btn_Return.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            btn_ReturnMouseClicked(evt);
+         }
+      });
+
+      jPanel4.setBackground(new java.awt.Color(253, 211, 92));
+
+      jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      jLabel4.setForeground(new java.awt.Color(71, 79, 89));
       jLabel4.setText("Ingresar Nuevos Usuarios");
 
-      btn_ingresarUsuarios.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-      btn_ingresarUsuarios.setText("Ir");
-      btn_ingresarUsuarios.addMouseListener(new java.awt.event.MouseAdapter()
+      btn_EnterUsers.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      btn_EnterUsers.setForeground(new java.awt.Color(71, 79, 89));
+      btn_EnterUsers.setText("Ir");
+      btn_EnterUsers.addMouseListener(new java.awt.event.MouseAdapter()
       {
          public void mouseClicked(java.awt.event.MouseEvent evt)
          {
-            btn_ingresarUsuariosMouseClicked(evt);
+            btn_EnterUsersMouseClicked(evt);
          }
       });
 
-      txt_buscar.setFont(new java.awt.Font("Arial Unicode MS", 0, 12)); // NOI18N
+      javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+      jPanel4.setLayout(jPanel4Layout);
+      jPanel4Layout.setHorizontalGroup(
+         jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel4Layout.createSequentialGroup()
+            .addGap(34, 34, 34)
+            .addComponent(jLabel4)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btn_EnterUsers)
+            .addGap(186, 186, 186))
+      );
+      jPanel4Layout.setVerticalGroup(
+         jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel4Layout.createSequentialGroup()
+            .addGap(24, 24, 24)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(jLabel4)
+               .addComponent(btn_EnterUsers))
+            .addContainerGap(31, Short.MAX_VALUE))
+      );
 
-      btn_buscar.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-      btn_buscar.setText("Buscar");
-      btn_buscar.addMouseListener(new java.awt.event.MouseAdapter()
-      {
-         public void mouseClicked(java.awt.event.MouseEvent evt)
-         {
-            btn_buscarMouseClicked(evt);
-         }
-      });
-      btn_buscar.addActionListener(new java.awt.event.ActionListener()
-      {
-         public void actionPerformed(java.awt.event.ActionEvent evt)
-         {
-            btn_buscarActionPerformed(evt);
-         }
-      });
+      jLabel3.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
+      jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+      jLabel3.setText("Funciones Lynx");
 
-      btn_modificar.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-      btn_modificar.setText("Modificar");
-      btn_modificar.addMouseListener(new java.awt.event.MouseAdapter()
-      {
-         public void mouseClicked(java.awt.event.MouseEvent evt)
-         {
-            btn_modificarMouseClicked(evt);
-         }
-      });
-      btn_modificar.addActionListener(new java.awt.event.ActionListener()
-      {
-         public void actionPerformed(java.awt.event.ActionEvent evt)
-         {
-            btn_modificarActionPerformed(evt);
-         }
-      });
-
-      btn_eliminar.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-      btn_eliminar.setText("Eliminar");
-      btn_eliminar.addMouseListener(new java.awt.event.MouseAdapter()
-      {
-         public void mouseClicked(java.awt.event.MouseEvent evt)
-         {
-            btn_eliminarMouseClicked(evt);
-         }
-      });
-
-      jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-      jLabel5.setText("Buscar Usuarios");
+      javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+      jPanel2.setLayout(jPanel2Layout);
+      jPanel2Layout.setHorizontalGroup(
+         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGap(42, 42, 42)
+            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btn_DoBackup)
+            .addGap(189, 189, 189))
+         .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+               .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+               .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 0, Short.MAX_VALUE))
+         .addGroup(jPanel2Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jLabel3)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+         .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGap(35, 35, 35)
+            .addComponent(jLabel5)
+            .addGap(49, 49, 49)
+            .addComponent(txt_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(29, 29, 29)
+            .addComponent(btn_Find)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btn_Modify)
+            .addGap(31, 31, 31)
+            .addComponent(btn_Delete)
+            .addGap(105, 105, 105))
+         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btn_Return)
+            .addContainerGap())
+      );
+      jPanel2Layout.setVerticalGroup(
+         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGap(16, 16, 16)
+            .addComponent(jLabel3)
+            .addGap(18, 18, 18)
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(31, 31, 31)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(jLabel2)
+               .addComponent(btn_DoBackup))
+            .addGap(34, 34, 34)
+            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(jLabel5)
+               .addComponent(txt_Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(btn_Find)
+               .addComponent(btn_Modify)
+               .addComponent(btn_Delete))
+            .addGap(18, 18, 18)
+            .addComponent(btn_Return)
+            .addGap(5, 5, 5))
+      );
 
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(layout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addGroup(layout.createSequentialGroup()
-                  .addComponent(lbl_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                  .addComponent(jButton1))
-               .addGroup(layout.createSequentialGroup()
-                  .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                     .addComponent(jLabel3)
-                     .addComponent(jLabel5)
-                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_eliminar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_modificar))
-                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                              .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                              .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
-                           .addGap(57, 57, 57)
-                           .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                              .addComponent(btn_realizarBackup, javax.swing.GroupLayout.Alignment.TRAILING)
-                              .addComponent(btb_modificarInfo, javax.swing.GroupLayout.Alignment.TRAILING)))
-                        .addGroup(layout.createSequentialGroup()
-                           .addComponent(jLabel4)
-                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                           .addComponent(btn_ingresarUsuarios)))
-                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(57, 57, 57)
-                        .addComponent(btn_buscar)))
-                  .addGap(0, 244, Short.MAX_VALUE)))
-            .addContainerGap())
+            .addGap(40, 40, 40)
+            .addComponent(lbl_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+         .addGroup(layout.createSequentialGroup()
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 0, Short.MAX_VALUE))
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(layout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(jLabel3)
-            .addGap(26, 26, 26)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jLabel1)
-               .addComponent(btb_modificarInfo))
-            .addGap(35, 35, 35)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jLabel2)
-               .addComponent(btn_realizarBackup))
-            .addGap(49, 49, 49)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jLabel4)
-               .addComponent(btn_ingresarUsuarios))
-            .addGap(36, 36, 36)
-            .addComponent(jLabel5)
-            .addGap(8, 8, 8)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(txt_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(btn_buscar))
-            .addGap(18, 18, 18)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(btn_modificar)
-               .addComponent(btn_eliminar))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
-            .addComponent(lbl_usuario)
-            .addGap(0, 25, Short.MAX_VALUE))
-         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton1)
-            .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(lbl_usuario))
       );
 
       pack();
    }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+    private void btn_ReturnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ReturnMouseClicked
         // TODO add your handling code here:
-        String actualUser = FileManager.Search(RedSocial.ACTUALUSER);
+        String actualUser = FileManager.SearchUser(RedSocial.ACTUALUSER);
         RedSocial.ProfileController(actualUser);
         this.dispose();
-    }//GEN-LAST:event_jButton1MouseClicked
+    }//GEN-LAST:event_btn_ReturnMouseClicked
 
-    private void btn_buscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_buscarMouseClicked
+    private void btn_FindMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_FindMouseClicked
         // TODO add your handling code here:
-        String userToSearch = FileManager.Search(txt_buscar.getText());
+        String userToSearch = FileManager.SearchUser(txt_Search.getText());
         
         
         if (userToSearch != null){
@@ -267,8 +326,8 @@ public class SettingsAdmin extends javax.swing.JFrame {
                 && !userToSearchArray[0].equals(RedSocial.ACTUALUSER) /*Despues vemos si es igual al usuarioActual*/
                 && userToSearchArray[4].equals("0")) /*Por ultimo revisamos si es usuario*/ /*Para comparar strings mejor usar equals*/{           
                 lbl_usuario.setText("Si existe.");
-                btn_eliminar.setEnabled(true);
-                btn_modificar.setEnabled(true);
+                btn_Delete.setEnabled(true);
+                btn_Modify.setEnabled(true);
             }
             /*Si el usuario que se busco es igual al usuario que esta
             usando el sistema solo muestra que si existe*/            
@@ -280,49 +339,51 @@ public class SettingsAdmin extends javax.swing.JFrame {
             else if (userToSearchArray[10].equals("1")
                      && userToSearchArray[4].equals("1")){
                 lbl_usuario.setText("Si existe.");
-                btn_modificar.setEnabled(true);
+                btn_Modify.setEnabled(true);
             }
         }
         else
         {
             lbl_usuario.setText("No existe");
-            btn_modificar.setEnabled(false);
-            btn_eliminar.setEnabled(false);
+            btn_Modify.setEnabled(false);
+            btn_Delete.setEnabled(false);
         }            
-    }//GEN-LAST:event_btn_buscarMouseClicked
+    }//GEN-LAST:event_btn_FindMouseClicked
 
-    private void btn_eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_eliminarMouseClicked
+    private void btn_DeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DeleteMouseClicked
         // TODO add your handling code here:
-        RedSocial.Delete(txt_buscar.getText());
-        txt_buscar.setText("");
-    }//GEN-LAST:event_btn_eliminarMouseClicked
+        RedSocial.Delete(txt_Search.getText());
+        txt_Search.setText("");
+    }//GEN-LAST:event_btn_DeleteMouseClicked
 
-    private void btb_modificarInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btb_modificarInfoMouseClicked
+    private void btn_ModifyInformationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModifyInformationMouseClicked
         // TODO add your handling code here:
-        InformationEdit editMyInfo = new InformationEdit();
-        editMyInfo.ShowInformation(RedSocial.ACTUALUSER);
-        editMyInfo.setVisible(true);
-    }//GEN-LAST:event_btb_modificarInfoMouseClicked
+        InformationEdit edit = new InformationEdit();
+        edit.ShowInformation(RedSocial.ACTUALUSER);
+        edit.isManager(true);
+        edit.setVisible(true);
+    }//GEN-LAST:event_btn_ModifyInformationMouseClicked
 
-    private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
+    private void btn_ModifyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModifyMouseClicked
         // TODO add your handling code here:
         
-        InformationEdit editMyInfo = new InformationEdit();
-        editMyInfo.ShowInformation(txt_buscar.getText());
-         editMyInfo.isManager(true);
-        editMyInfo.setVisible(true);  
-        txt_buscar.setText("");
-       // this.dispose();
-    }//GEN-LAST:event_btn_modificarMouseClicked
+        InformationEdit edit = new InformationEdit();
+        edit.ShowInformation(txt_Search.getText());
+        edit.isManager(true);
+        edit.setVisible(true);  
+        txt_Search.setText("");
+        btn_Delete.setEnabled(false);
+        btn_Modify.setEnabled(false);
+    }//GEN-LAST:event_btn_ModifyMouseClicked
 
-    private void btn_ingresarUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ingresarUsuariosMouseClicked
+    private void btn_EnterUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EnterUsersMouseClicked
         // TODO add your handling code here:
         RedSocial.RegisterController(true);
         this.dispose();
-    }//GEN-LAST:event_btn_ingresarUsuariosMouseClicked
+    }//GEN-LAST:event_btn_EnterUsersMouseClicked
 
-   private void btn_realizarBackupActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_realizarBackupActionPerformed
-   {//GEN-HEADEREND:event_btn_realizarBackupActionPerformed
+   private void btn_DoBackupActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_DoBackupActionPerformed
+   {//GEN-HEADEREND:event_btn_DoBackupActionPerformed
       // TODO add your handling code here:
       String PathBackup="";
       JFileChooser Chooser = new JFileChooser(); 
@@ -334,23 +395,7 @@ public class SettingsAdmin extends javax.swing.JFrame {
          PathBackup = Chooser.getSelectedFile().getAbsolutePath();
          FileManager.Backup(RedSocial.Fill(PathBackup +SEPARADOR+ RedSocial.ACTUALUSER +SEPARADOR+ Today(), BackupLength));
       }
-   }//GEN-LAST:event_btn_realizarBackupActionPerformed
-
-   private void btb_modificarInfoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btb_modificarInfoActionPerformed
-   {//GEN-HEADEREND:event_btb_modificarInfoActionPerformed
-      // TODO add your handling code here:
-   }//GEN-LAST:event_btb_modificarInfoActionPerformed
-
-   private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_modificarActionPerformed
-   {//GEN-HEADEREND:event_btn_modificarActionPerformed
-      // TODO add your handling code here:
-   }//GEN-LAST:event_btn_modificarActionPerformed
-
-   private void btn_buscarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_buscarActionPerformed
-   {//GEN-HEADEREND:event_btn_buscarActionPerformed
-      // TODO add your handling code here:
-      
-   }//GEN-LAST:event_btn_buscarActionPerformed
+   }//GEN-LAST:event_btn_DoBackupActionPerformed
 
    private String Today(){
       Date fechaActual = new Date(); 
@@ -393,19 +438,23 @@ public class SettingsAdmin extends javax.swing.JFrame {
     }
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
-   private javax.swing.JButton btb_modificarInfo;
-   private javax.swing.JButton btn_buscar;
-   private javax.swing.JButton btn_eliminar;
-   private javax.swing.JButton btn_ingresarUsuarios;
-   private javax.swing.JButton btn_modificar;
-   private javax.swing.JButton btn_realizarBackup;
-   private javax.swing.JButton jButton1;
+   private javax.swing.JButton btn_Delete;
+   private javax.swing.JButton btn_DoBackup;
+   private javax.swing.JButton btn_EnterUsers;
+   private javax.swing.JButton btn_Find;
+   private javax.swing.JButton btn_Modify;
+   private javax.swing.JButton btn_ModifyInformation;
+   private javax.swing.JButton btn_Return;
    private javax.swing.JLabel jLabel1;
    private javax.swing.JLabel jLabel2;
    private javax.swing.JLabel jLabel3;
    private javax.swing.JLabel jLabel4;
    private javax.swing.JLabel jLabel5;
+   private javax.swing.JPanel jPanel1;
+   private javax.swing.JPanel jPanel2;
+   private javax.swing.JPanel jPanel3;
+   private javax.swing.JPanel jPanel4;
    private javax.swing.JLabel lbl_usuario;
-   private javax.swing.JTextField txt_buscar;
+   private javax.swing.JTextField txt_Search;
    // End of variables declaration//GEN-END:variables
 }
