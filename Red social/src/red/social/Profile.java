@@ -10,7 +10,7 @@ import java.awt.Toolkit;
 import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import static red.social.RedSocial.Background;
-import static red.social.RedSocial.SEPARADOR;
+import static red.social.FileManager.SEPARADOR;
 /**
  *
  * @author Krle__000
