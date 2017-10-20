@@ -10,7 +10,7 @@ import java.awt.Toolkit;
 import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import static red.social.RedSocial.Background;
-import static red.social.RedSocial.SEPARADOR;
+import static red.social.FileManager.SEPARADOR;
 /**
  *
  * @author Krle__000
@@ -324,7 +324,7 @@ public class Profile extends javax.swing.JFrame {
     
     private void btn_settingsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_settingsMouseClicked
         // TODO add your handling code here:
-        String actualUser[] = FileManager.Search(RedSocial.ACTUALUSER).split(Pattern.quote(SEPARADOR));
+        String actualUser[] = FileManager.SearchUser(RedSocial.ACTUALUSER).split(Pattern.quote(SEPARADOR));
         
         // Si el usuario no es administrador le muestra su menu donde se le indica lo que puede hacer 
         if ("0".equals(actualUser[4])){

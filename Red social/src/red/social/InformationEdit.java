@@ -19,16 +19,16 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import static red.social.RedSocial.IMAGES;
-import static red.social.RedSocial.DIRECTORY;
-import static red.social.RedSocial.USER_FILE;
-import static red.social.RedSocial.BINNACLE;
-import static red.social.RedSocial.Length;
+import static red.social.FileManager.IMAGES;
+import static red.social.FileManager.DIRECTORY;
+import static red.social.FileManager.USER_FILE;
+import static red.social.FileManager.BINNACLE;
+import static red.social.FileManager.Length;
 import static red.social.Register.UserLength;
 import static red.social.Register.PasswordLength;
 import static red.social.Register.EmailLength;
 import static red.social.Register.PhoneNumberLength;
-import static red.social.RedSocial.SEPARADOR;
+import static red.social.FileManager.SEPARADOR;
 import static red.social.RedSocial.Background;
 
 public class InformationEdit extends javax.swing.JFrame
@@ -55,7 +55,7 @@ public class InformationEdit extends javax.swing.JFrame
    
    public void ShowInformation(String userToEdit_){
       userToEdit = userToEdit_;
-      userToEditArray = FileManager.Search(userToEdit).split(Pattern.quote(SEPARADOR));
+      userToEditArray = FileManager.SearchUser(userToEdit).split(Pattern.quote(SEPARADOR));
       InitializeComponents();
    }
 
@@ -567,10 +567,10 @@ public class InformationEdit extends javax.swing.JFrame
          String Data = CreateUser();
          if(!(txt_User.getText().equals(userToEditArray[0]))){
             userToEditArray[10] = "0";
-            FileManager.Update(RedSocial.Fill(joinArray(userToEditArray), Length)); //it is logic erasered.
+            FileManager.Update(USER_FILE,RedSocial.Fill(joinArray(userToEditArray), Length)); //it is logic erasered.
             FileManager.WriteFile(USER_FILE, RedSocial.Fill(Data, Length));
          }else{
-            FileManager.Update(RedSocial.Fill(Data, Length));
+            FileManager.Update(USER_FILE, RedSocial.Fill(Data, Length));
          }
          this.dispose();
       }
@@ -715,7 +715,7 @@ public class InformationEdit extends javax.swing.JFrame
        
        if(!(txt_User.getText().equals(userToEditArray[0]))){
           if(FileManager.FileExists(BINNACLE +USER_FILE)){
-            if(FileManager.Search(txt_User.getText())!=null){
+            if(FileManager.SearchUser(txt_User.getText())!=null){
               lbl_UserError.setVisible(true);
               return false; 
             }

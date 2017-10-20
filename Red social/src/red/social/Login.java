@@ -8,7 +8,7 @@ package red.social;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import static red.social.RedSocial.Background;
-import static red.social.RedSocial.SEPARADOR;
+import static red.social.FileManager.SEPARADOR;
 
 import java.util.regex.Pattern;
 
@@ -227,7 +227,7 @@ public class Login extends javax.swing.JFrame {
    }//GEN-LAST:event_txt_UserKeyReleased
 
    private void LogIn(){
-       String User = FileManager.Search(txt_User.getText());
+       String User = FileManager.SearchUser(txt_User.getText());
         RedSocial.ACTUALUSER = txt_User.getText(); // Guardo usuario actual a variable, esta debera de vaciarse cuando usuario cambie nombre de usuario o cuando cierre sesion
         try{
          if(User!=null){
