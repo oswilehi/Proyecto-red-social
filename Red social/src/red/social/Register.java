@@ -19,16 +19,16 @@ import java.util.regex.Pattern;
 import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import static red.social.RedSocial.BINNACLE;
-import static red.social.RedSocial.IMAGES;
-import static red.social.RedSocial.DIRECTORY;
-import static red.social.RedSocial.USER_FILE;
+import static red.social.FileManager.BINNACLE;
+import static red.social.FileManager.IMAGES;
+import static red.social.FileManager.DIRECTORY;
+import static red.social.FileManager.USER_FILE;
 import static red.social.RedSocial.Background;
-import static red.social.RedSocial.DIRECTORY;
-import static red.social.RedSocial.IMAGES;
-import static red.social.RedSocial.Length;
-import static red.social.RedSocial.SEPARADOR;
-import static red.social.RedSocial.USER_FILE;
+import static red.social.FileManager.DIRECTORY;
+import static red.social.FileManager.IMAGES;
+import static red.social.FileManager.Length;
+import static red.social.FileManager.SEPARADOR;
+import static red.social.FileManager.USER_FILE;
 
 public class Register extends javax.swing.JFrame
 {

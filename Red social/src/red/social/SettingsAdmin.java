@@ -8,8 +8,8 @@ import javax.swing.JFileChooser;
 import java.util.regex.Pattern;
 import java.util.GregorianCalendar;
 import static red.social.RedSocial.Background;
-import static red.social.RedSocial.SEPARADOR;
-import static red.social.RedSocial.BackupLength;
+import static red.social.FileManager.SEPARADOR;
+import static red.social.FileManager.BackupLength;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

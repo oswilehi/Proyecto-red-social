@@ -8,7 +8,7 @@ package red.social;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import static red.social.RedSocial.Background;
-import static red.social.RedSocial.SEPARADOR;
+import static red.social.FileManager.SEPARADOR;
 
 import java.util.regex.Pattern;
 

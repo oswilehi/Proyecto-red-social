@@ -11,19 +11,7 @@ import java.awt.Color;
 
 public class RedSocial {
 
-    //const
-    public static final String DIRECTORY = "C:" + File.separator + "MEIA" + File.separator; 
-    public static final String USER_FILE = "Usuario.txt";
-    public static final String BINNACLE = "bitacora_";
-    public static final String MASTER = "";
-    public static final String TEMP = "data.temp";
-    public static final String DESCRIPTION ="Desc_";
-    public static final String IMAGES = "fotografia";
-    public static final String ENCODING = "utf-8";
-    public static final String SEPARADOR = "|";
-    public static final String pSEPARADOR = "::";
-    public static final int Length = 260;
-    public static final int BackupLength = 150;
+    //CONSTANTES
     public static String ACTUALUSER;
     
     //colors for decoration.
@@ -35,7 +23,7 @@ public class RedSocial {
     public static void main(String[] args) {
        try
       {
-         File directory = new File(DIRECTORY); 
+         File directory = new File(FileManager.DIRECTORY); 
          if(!directory.exists())
          {
            directory.getAbsoluteFile().mkdirs();
@@ -107,19 +95,19 @@ public class RedSocial {
     // Cambia el status de 1 a 0
     public static void Delete(String userToDelete){
         String actualUser = FileManager.SearchUser(userToDelete);
-        String actualUserArray[] = actualUser.split(Pattern.quote(SEPARADOR));
-        actualUser = actualUserArray[0]+ SEPARADOR
-                     + actualUserArray[1]+ SEPARADOR
-                     + actualUserArray[2]+ SEPARADOR
-                     + actualUserArray[3]+ SEPARADOR
-                     + actualUserArray[4]+ SEPARADOR
-                     + actualUserArray[5]+ SEPARADOR
-                     + actualUserArray[6]+ SEPARADOR
-                     + actualUserArray[7]+ SEPARADOR
-                     + actualUserArray[8]+ SEPARADOR
-                     + actualUserArray[9]+ SEPARADOR
+        String actualUserArray[] = actualUser.split(Pattern.quote(FileManager.SEPARADOR));
+        actualUser = actualUserArray[0]+ FileManager.SEPARADOR
+                     + actualUserArray[1]+ FileManager.SEPARADOR
+                     + actualUserArray[2]+ FileManager.SEPARADOR
+                     + actualUserArray[3]+ FileManager.SEPARADOR
+                     + actualUserArray[4]+ FileManager.SEPARADOR
+                     + actualUserArray[5]+ FileManager.SEPARADOR
+                     + actualUserArray[6]+ FileManager.SEPARADOR
+                     + actualUserArray[7]+ FileManager.SEPARADOR
+                     + actualUserArray[8]+ FileManager.SEPARADOR
+                     + actualUserArray[9]+ FileManager.SEPARADOR
                      + "0";
-        actualUser = RedSocial.Fill(actualUser, Length);
-        FileManager.Update(USER_FILE,actualUser);
+        actualUser = RedSocial.Fill(actualUser, FileManager.Length);
+        FileManager.Update(FileManager.USER_FILE,actualUser);
     }
 }
