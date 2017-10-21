@@ -23,13 +23,13 @@ import static red.social.FileManager.IMAGES;
 import static red.social.FileManager.DIRECTORY;
 import static red.social.FileManager.USER_FILE;
 import static red.social.FileManager.BINNACLE;
-import static red.social.FileManager.Length;
-import static red.social.Register.UserLength;
 import static red.social.Register.PasswordLength;
 import static red.social.Register.EmailLength;
 import static red.social.Register.PhoneNumberLength;
 import static red.social.FileManager.SEPARADOR;
-import static red.social.RedSocial.Background;
+import static red.social.FileManager.UserLength;
+import static red.social.RedSocial.Fill;
+import static red.social.Register.UserFieldLength;
 
 public class InformationEdit extends javax.swing.JFrame
 {
@@ -47,7 +47,6 @@ public class InformationEdit extends javax.swing.JFrame
    public InformationEdit()
    {
       initComponents();
-      this.getContentPane().setBackground(Background);
       InvisibleComponents();
       Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
       this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);   
@@ -104,6 +103,7 @@ public class InformationEdit extends javax.swing.JFrame
       btn_Cancel = new javax.swing.JButton();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+      setUndecorated(true);
 
       jPanel1.setBackground(new java.awt.Color(55, 160, 166));
 
@@ -435,7 +435,7 @@ public class InformationEdit extends javax.swing.JFrame
    private void txt_UserKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_txt_UserKeyTyped
    {//GEN-HEADEREND:event_txt_UserKeyTyped
       // TODO add your handling code here:
-      if(txt_User.getText().length()>= UserLength)
+      if(txt_User.getText().length()>= UserFieldLength)
       {
          evt.consume();
       }
@@ -567,10 +567,10 @@ public class InformationEdit extends javax.swing.JFrame
          String Data = CreateUser();
          if(!(txt_User.getText().equals(userToEditArray[0]))){
             userToEditArray[10] = "0";
-            FileManager.Update(USER_FILE,RedSocial.Fill(joinArray(userToEditArray), Length)); //it is logic erasered.
-            FileManager.WriteFile(USER_FILE, RedSocial.Fill(Data, Length));
+            FileManager.Update(USER_FILE, Fill(joinArray(userToEditArray), UserLength)); //it is logic erasered.
+            FileManager.WriteFile(USER_FILE, Fill(Data, UserLength));
          }else{
-            FileManager.Update(USER_FILE, RedSocial.Fill(Data, Length));
+            FileManager.Update(USER_FILE, Fill(Data, UserLength));
          }
          this.dispose();
       }
