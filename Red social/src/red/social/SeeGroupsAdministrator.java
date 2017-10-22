@@ -15,8 +15,11 @@ import javax.swing.ImageIcon;
 import static red.social.FileManager.BINNACLE;
 import static red.social.FileManager.GROUPS_FILE;
 import static red.social.FileManager.SEPARADOR;
+import static red.social.FileManager.pSEPARADOR;
+import static red.social.FileManager.GroupLength;
 import static red.social.FriendsGroups.DescriptionLength;
 import static red.social.FriendsGroups.groupFieldLength;
+import static red.social.RedSocial.Fill;
 import red.social.Icons.ListIcon;
 import red.social.Icons.Renderer;
 
@@ -363,13 +366,13 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
       if(IsValid()){
          if(txt_GroupName.getText().equals(thisGroup)){
             //Overwrite
-             FileManager.Update(GROUPS_FILE, NewGroup());
+             FileManager.Update(GROUPS_FILE, Fill(NewGroup(), GroupLength) );
          }else{
             //Delete logicaly and add new gruop
-            FileManager.Update(GROUPS_FILE, OldGroupForDelete());
-            FileManager.WriteFile(GROUPS_FILE, NewGroup());
+            FileManager.WriteFile(GROUPS_FILE, Fill(NewGroup(), GroupLength));
+            FileManager.Update(GROUPS_FILE, Fill(OldGroupForDelete(), GroupLength));
          }
-         
+         myProfile.ShowGroups();
          myProfile.setVisible(true);
          this.dispose();
       }
@@ -388,7 +391,7 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
    
    private String OldGroupForDelete(){
       String[] old = FileManager.SearchGroup(myUser, thisGroup).split(Pattern.quote(SEPARADOR));
-      return myUser+SEPARADOR+thisGroup+SEPARADOR+old[2]+SEPARADOR+old[3]+SEPARADOR+old[4]+SEPARADOR+"0";
+      return old[0]+SEPARADOR+old[1]+SEPARADOR+old[2]+SEPARADOR+old[3]+SEPARADOR+old[4]+SEPARADOR+"0";
    }
 
    public void FillComponents(String user, String group, Profile form){
@@ -401,8 +404,21 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
       lbl_MembersNumber.setText(FileManager.SearchGroup(myUser, thisGroup).split(Pattern.quote(SEPARADOR))[3]);
       
       //inicializar miembros....
-       ImageIcon icon;
-      String pathIcon;
+         try{
+            ImageIcon icon;
+            String[] allMyFriends = FileManager.GetFriendsOfUser(myUser).split(Pattern.quote(pSEPARADOR));
+            String[] friend;
+            for (int i = 0; i < allMyFriends.length; i++)
+            {
+               list_Friends.setCellRenderer(renderer);
+               list_Friends.setModel(friendList);
+               friend = FileManager.SearchUser(allMyFriends[i].split(Pattern.quote(SEPARADOR))[1]).split(Pattern.quote(SEPARADOR));
+               icon = new ImageIcon((new ImageIcon(friend[8])).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
+               friendList.addElement(new ListIcon(friend[0], icon));
+            }
+         }catch(Exception e){
+            
+         }
       
     if(FileManager.FileExists(BINNACLE + GROUPS_FILE)){
          
@@ -421,7 +437,7 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
    private boolean IsValid(){
       
       //Revisar este método
-      if(!FileManager.SearchGroup(myUser, txt_GroupName.getText()).equals(thisGroup) && FileManager.SearchGroup(myUser, txt_GroupName.getText())!=null){
+      if(!txt_GroupName.getText().equals(thisGroup) && FileManager.SearchGroup(myUser, txt_GroupName.getText())!=null){
          lbl_NameError.setVisible(true);
          return false;
       }

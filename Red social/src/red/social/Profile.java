@@ -422,6 +422,7 @@ public class Profile extends javax.swing.JFrame {
       myGroups.setVisible(true);
       myGroups.myProfile = this;
       myGroups.myUser = txt_userInfo.getText();
+      myGroups.ShowFriends();
       this.setVisible(false);  
    }//GEN-LAST:event_lbl_CreateGroupMouseClicked
 
@@ -478,7 +479,6 @@ public class Profile extends javax.swing.JFrame {
    public void ShowGroups(){
       groupList.clear();
       try{
-         String n = FileManager.GetGroupsOfUser(RedSocial.ACTUALUSER);
          String[] registers = FileManager.GetGroupsOfUser(RedSocial.ACTUALUSER).split(Pattern.quote(pSEPARADOR));
          for(int i = 0; i < registers.length; i++)
          {

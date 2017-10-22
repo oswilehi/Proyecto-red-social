@@ -17,7 +17,10 @@ import javax.swing.DefaultListModel;
 import static red.social.FileManager.FRIENDS_FILE;
 import static red.social.FileManager.GROUPS_FILE;
 import static red.social.FileManager.SEPARADOR;
+import static red.social.FileManager.pSEPARADOR;
 import static red.social.FileManager.BINNACLE;
+import static red.social.FileManager.GroupLength;
+import static red.social.RedSocial.Fill;
 import red.social.Icons.ListIcon;
 import red.social.Icons.Renderer;
 
@@ -45,7 +48,6 @@ public class FriendsGroups extends javax.swing.JFrame
       Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
       this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
       InvisibleComponents();
-      ShowFriends();
    }
 
    /**
@@ -371,38 +373,31 @@ public class FriendsGroups extends javax.swing.JFrame
       // TODO add your handling code here:
       InvisibleComponents();
       if(IsValid()){
-         FileManager.WriteFile(GROUPS_FILE, ThisGroup());
+         FileManager.WriteFile(GROUPS_FILE, Fill(ThisGroup(), GroupLength));
          myProfile.setVisible(true);
          myProfile.ShowGroups();
+         AddFriendsToGroup();
          this.dispose();
       }
    }//GEN-LAST:event_btn_CreateGroupActionPerformed
 
-   private void ShowFriends(){
-      //Mostrar todos los amigos del usuario en cuestion.
+   public void ShowFriends(){
       ImageIcon icon;
-      String pathIcon;
       
-    if(FileManager.FileExists(BINNACLE + FRIENDS_FILE)){
-         
-         list_Friends.setCellRenderer(renderer);
-         list_Friends.setModel(friendList);
-         pathIcon = FileManager.SearchUser("Mario").split(Pattern.quote(SEPARADOR))[8];
-         icon = new ImageIcon((new ImageIcon(pathIcon)).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
-         friendList.addElement(new ListIcon("Mario", icon));
-         
-         pathIcon = FileManager.SearchUser("Juana").split(Pattern.quote(SEPARADOR))[8];
-         icon = new ImageIcon((new ImageIcon(pathIcon)).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
-         friendList.addElement(new ListIcon("Juana", icon));
-         
-         pathIcon = FileManager.SearchUser("Pedro").split(Pattern.quote(SEPARADOR))[8];
-         icon = new ImageIcon((new ImageIcon(pathIcon)).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
-         friendList.addElement(new ListIcon("Pedro", icon));
-         
-         pathIcon = FileManager.SearchUser("Alicia").split(Pattern.quote(SEPARADOR))[8];
-         icon = new ImageIcon((new ImageIcon(pathIcon)).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
-         friendList.addElement(new ListIcon("Alicia", icon));
-      }  
+      try{
+         String[] allMyFriends = FileManager.GetFriendsOfUser(myUser).split(Pattern.quote(pSEPARADOR));
+         String[] friend;
+         for (int i = 0; i < allMyFriends.length; i++)
+         {
+            list_Friends.setCellRenderer(renderer);
+            list_Friends.setModel(friendList);
+            friend = FileManager.SearchUser(allMyFriends[i].split(Pattern.quote(SEPARADOR))[1]).split(Pattern.quote(SEPARADOR));
+            icon = new ImageIcon((new ImageIcon(friend[8])).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
+            friendList.addElement(new ListIcon(friend[0], icon));
+         }
+      }catch(Exception e){
+
+      }
    }
    
    private void InvisibleComponents(){
@@ -412,6 +407,13 @@ public class FriendsGroups extends javax.swing.JFrame
    
    private String ThisGroup(){
       return myUser+SEPARADOR+txt_GroupName.getText()+SEPARADOR+txt_Description.getText()+SEPARADOR+lbl_MembersNumber.getText()+SEPARADOR+new SimpleDateFormat("dd/MM/yyyy").format(new Date())+SEPARADOR+"1";
+   }
+   
+   private void AddFriendsToGroup(){
+      //for (int i = 0; i < groupList.size(); i++)
+      {
+         //Crear la relacion del amigo con el grupo
+      }
    }
    private boolean IsValid(){
       
