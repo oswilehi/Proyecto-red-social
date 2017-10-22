@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import javax.swing.JFileChooser;
 import java.util.regex.Pattern;
 import java.util.GregorianCalendar;
-import static red.social.RedSocial.Background;
 import static red.social.FileManager.SEPARADOR;
 import static red.social.FileManager.BackupLength;
 
@@ -28,7 +27,6 @@ public class SettingsAdmin extends javax.swing.JFrame {
      */
     public SettingsAdmin() {
         initComponents();
-        this.getContentPane().setBackground(Background);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         btn_Delete.setEnabled(false);
@@ -75,6 +73,7 @@ public class SettingsAdmin extends javax.swing.JFrame {
          .addGap(0, 100, Short.MAX_VALUE)
       );
 
+      setUndecorated(true);
       setResizable(false);
 
       jPanel2.setBackground(new java.awt.Color(55, 160, 166));

@@ -23,16 +23,15 @@ import static red.social.FileManager.BINNACLE;
 import static red.social.FileManager.IMAGES;
 import static red.social.FileManager.DIRECTORY;
 import static red.social.FileManager.USER_FILE;
-import static red.social.RedSocial.Background;
 import static red.social.FileManager.DIRECTORY;
 import static red.social.FileManager.IMAGES;
-import static red.social.FileManager.Length;
 import static red.social.FileManager.SEPARADOR;
 import static red.social.FileManager.USER_FILE;
+import static red.social.FileManager.UserLength;
 
 public class Register extends javax.swing.JFrame
 {
-   public static int UserLength = 10;
+   public static int UserFieldLength = 20;
    public static int NameLength = 20;
    public static int LastNameLength = 20;
    public static int PasswordLength = 20;
@@ -49,7 +48,6 @@ public class Register extends javax.swing.JFrame
    public Register()
    {
       initComponents();
-     this.getContentPane().setBackground(Background);
      InvisibleComponents();
      Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
      this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
@@ -117,6 +115,8 @@ public class Register extends javax.swing.JFrame
       btn_Return = new javax.swing.JButton();
 
       jLabel12.setText("jLabel12");
+
+      setUndecorated(true);
 
       jPanel1.setBackground(new java.awt.Color(253, 211, 92));
 
@@ -480,7 +480,7 @@ public class Register extends javax.swing.JFrame
    private void txt_UserKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_txt_UserKeyTyped
    {//GEN-HEADEREND:event_txt_UserKeyTyped
       // TODO add your handling code here:
-      if(txt_User.getText().length()>= UserLength){
+      if(txt_User.getText().length()>= UserFieldLength){
             evt.consume();
         }
    }//GEN-LAST:event_txt_UserKeyTyped
@@ -602,7 +602,7 @@ public class Register extends javax.swing.JFrame
        if(IsDataValid()){ 
             LogFrame.dispose();
              String Data = CreateUser();
-            FileManager.WriteFile(USER_FILE, RedSocial.Fill(Data, Length));             
+            FileManager.WriteFile(USER_FILE, RedSocial.Fill(Data, UserLength));             
             // Si un administrador no esta agregando usuarios esto quiere decir
             // que es un registrar normal
             if (!isAdminAddingUsers)
