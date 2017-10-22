@@ -7,8 +7,10 @@
 package red.social;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import static red.social.RedSocial.Background;
+import static red.social.RedSocial.Fill;
 import static red.social.FileManager.SEPARADOR;
+import static red.social.FileManager.FRIENDS_FILE;
+import static red.social.FileManager.FriendLength;
 
 import java.util.regex.Pattern;
 
@@ -20,8 +22,14 @@ public class Login extends javax.swing.JFrame {
 
     /** Creates new form Login */
     public Login() {
-        initComponents();
-        this.getContentPane().setBackground(Background);
+       //
+//       FileManager.WriteFile(FRIENDS_FILE, Fill("krle_10|Mario|1|20/10/2017|123|1", FriendLength));
+//       FileManager.WriteFile(FRIENDS_FILE, Fill("krle_10|Juana|1|20/10/2017|123|1", FriendLength));
+//       FileManager.WriteFile(FRIENDS_FILE, Fill("krle_10|Pedro|1|20/10/2017|123|1", FriendLength));
+//       FileManager.WriteFile(FRIENDS_FILE, Fill("krle_10|Alicia|1|20/10/2017|123|1", FriendLength));
+       
+       // 
+       initComponents();
         this.setResizable(false);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
