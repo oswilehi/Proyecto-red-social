@@ -438,6 +438,7 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
       
       //Revisar este método
       if(!txt_GroupName.getText().equals(thisGroup) && FileManager.SearchGroup(myUser, txt_GroupName.getText())!=null){
+         lbl_NameError.setText("Ya existe");
          lbl_NameError.setVisible(true);
          return false;
       }
