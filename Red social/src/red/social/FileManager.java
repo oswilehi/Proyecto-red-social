@@ -90,6 +90,11 @@ public class FileManager
       return SecuencialIndizado.Search(GROUPS_FRIENDS_FILE, GetKeys(GROUPS_FRIENDS_FILE), groupKey + userKey + friendKey);
    }
    
+   public static String SearchByKey(String path, String keys, String values)
+   {
+      return Secuencial.GetAllOfUser(path, keys, values);
+   }
+   
    public static boolean WriteFile(String path, String data)  // only used to add new lines to text file
    {
          if (path.equals(USER_FILE) || path.equals(FRIENDS_FILE) || path.equals(GROUPS_FILE) || path.equals(BACKUP_FILE)) return Secuencial.Write(path, data);
@@ -106,12 +111,12 @@ public class FileManager
    
    public static String GetFriendsOfUser(String userKey)
    {
-      return Secuencial.GetAllOfUser(FRIENDS_FILE, userKey);
+      return Secuencial.GetAllOfUser(FRIENDS_FILE, "0", userKey);
    }
    
    public static String GetGroupsOfUser(String userKey)
    {
-      return Secuencial.GetAllOfUser(GROUPS_FILE, userKey);
+      return Secuencial.GetAllOfUser(GROUPS_FILE, "0", userKey);
    }
    
    protected static void copyDirectory(File sourceLocation , File targetLocation)
@@ -889,26 +894,33 @@ class Secuencial
       return false;
    }
    
-   protected static String GetAllOfUser(String path, String userKey)
+   protected static String GetAllOfUser(String path, String keys, String values)
    {
       try
       {
          String data = "";
+         String[] Keys = keys.split(Pattern.quote(","));
+         String[] Values = values.split(Pattern.quote(","));
+         int statusIndex = FileManager.GetIndexOf(path, "status");
+         
+         if (Keys.length != Values.length) return null;
          
          if(FileManager.FileExists(FileManager.BINNACLE + path))
          {
             RandomAccessFile File = FileManager.OpenFile(FileManager.BINNACLE + path);
-            String[] keysPosition = FileManager.GetKeys(path).split(Pattern.quote(","));
-            int statusIndex = FileManager.GetIndexOf(path, "status");
             
             while(File.getFilePointer() != File.length())
             {
                String line = File.readLine();
-               
                if (line.split(Pattern.quote(FileManager.SEPARADOR))[statusIndex].equals("0")) continue;
+               boolean ok = false;
+               for (int i = 0; i < Keys.length; i++)
+               {
+                  if (!line.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(Keys[i])].toUpperCase().startsWith(Values[i].toUpperCase())) break;
+                  ok = i == Keys.length - 1;
+               }
                
-               String currentKey = line.split(Pattern.quote(FileManager.SEPARADOR))[0];
-               if(currentKey.equals(userKey)) data += line.replace("¬", "") + FileManager.pSEPARADOR;
+               if (ok) data += line.replace("¬", "") + FileManager.pSEPARADOR;
             }
             File.close();
          }
@@ -916,21 +928,22 @@ class Secuencial
          if(FileManager.FileExists(FileManager.MASTER + path))
          {
             RandomAccessFile File = FileManager.OpenFile(FileManager.MASTER + path);
-            String[] keysPosition = FileManager.GetKeys(path).split(Pattern.quote(","));
-            int statusIndex = FileManager.GetIndexOf(path, "status");
             
             while(File.getFilePointer() != File.length())
             {
                String line = File.readLine();
                if (line.split(Pattern.quote(FileManager.SEPARADOR))[statusIndex].equals("0")) continue;
+               boolean ok = false;
+               for (int i = 0; i < Keys.length; i++)
+               {
+                  if (!line.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(Keys[i])].toUpperCase().startsWith(Values[i].toUpperCase())) break;
+                  ok = i == Keys.length - 1;
+               }
                
-               String currentKey = line.split(Pattern.quote(FileManager.SEPARADOR))[0];
-               if(currentKey.equals(userKey)) data += line.replace("¬", "") + FileManager.pSEPARADOR;
+               if (ok) data += line.replace("¬", "") + FileManager.pSEPARADOR;
             }
             File.close();
          }
-         
-         
          
          if (data.equals("")) return null;
          return data.substring(0, data.length() - 2);
