@@ -34,6 +34,8 @@ public class FileManager
 
    public static final String GROUPS_FRIENDS_FILE = "grupo_amigos.txt";
    public static final String INDEX  = "indice_";
+   
+   public static final int Length = 260;
    public static final int UserLength = 260;
    public static final int FriendLength = 77;
    public static final int GroupLength = 130; 
