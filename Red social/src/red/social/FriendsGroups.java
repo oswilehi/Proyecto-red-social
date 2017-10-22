@@ -19,6 +19,7 @@ import static red.social.FileManager.GROUPS_FILE;
 import static red.social.FileManager.SEPARADOR;
 import static red.social.FileManager.pSEPARADOR;
 import static red.social.FileManager.BINNACLE;
+import static red.social.FileManager.GROUPS_FRIENDS_FILE;
 import static red.social.FileManager.GroupLength;
 import static red.social.RedSocial.Fill;
 import red.social.Icons.ListIcon;
@@ -410,10 +411,15 @@ public class FriendsGroups extends javax.swing.JFrame
    }
    
    private void AddFriendsToGroup(){
-      //for (int i = 0; i < groupList.size(); i++)
+      for (int i = 0; i < groupList.size(); i++)
       {
-         //Crear la relacion del amigo con el grupo
+         String name = ((ListIcon)groupList.elementAt(i)).name;
+         FileManager.WriteFile(GROUPS_FRIENDS_FILE, CreateAsociationToGroup(((ListIcon)groupList.elementAt(i)).name));
       }
+   }
+   
+   private String CreateAsociationToGroup(String friend){
+      return myUser+SEPARADOR+txt_GroupName.getText()+SEPARADOR+friend+SEPARADOR+"1";
    }
    private boolean IsValid(){
       
