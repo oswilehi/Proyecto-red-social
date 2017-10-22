@@ -373,7 +373,7 @@ class Secuencial
                   File.writeBytes(data);
                   File.close();
                   
-                  RandomAccessFile binnacleDescription = FileManager.OpenFile(FileManager.DESCRIPTION + FileManager.BINNACLE + FileManager.USER_FILE);
+                  RandomAccessFile binnacleDescription = FileManager.OpenFile(FileManager.DESCRIPTION + FileManager.BINNACLE + path);
                   int active = 0;
                   int inactive = 0;
                   while(binnacleDescription.getFilePointer() != binnacleDescription.length())
@@ -393,32 +393,39 @@ class Secuencial
                   binnacleDescription.close();
                   
                   int x = Integer.parseInt(data.split(Pattern.quote(FileManager.SEPARADOR))[10]) - 1;
-                  UpdateDescription(FileManager.BINNACLE + FileManager.USER_FILE, null, active + x, inactive - x);
+                  UpdateDescription(FileManager.BINNACLE + path, null, active + x, inactive - x);
                   
                   return true;
             }
             File.close();
          }
-         if (FileManager.FileExists(FileManager.MASTER + FileManager.USER_FILE))
+         
+         if (FileManager.FileExists(FileManager.MASTER + path))
          {
-            RandomAccessFile File = FileManager.OpenFile(FileManager.MASTER + FileManager.USER_FILE);
+            RandomAccessFile File = FileManager.OpenFile(FileManager.MASTER + path);
             long seek;
             String line;
-
+            String[] keys = FileManager.GetKeys(path).split(Pattern.quote(","));
+            boolean matchKeys = true;
+            
             while(File.getFilePointer() != File.length())
             {
                seek = File.getFilePointer();
                line = File.readLine();
-               if(line.split(Pattern.quote(FileManager.SEPARADOR))[0].equals(data.split(Pattern.quote(FileManager.SEPARADOR))[0]))
+               for (String key : keys)
                {
-                  File.seek(seek);
+                  matchKeys = (line.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)].equals(data.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)]));
+                  if(!matchKeys) break;
+               }
+               if(!matchKeys) continue;
+               
+               File.seek(seek);
                   File.writeBytes(data);
                   File.close();
                   
-                  RandomAccessFile masterDescription = FileManager.OpenFile(FileManager.DESCRIPTION + FileManager.MASTER + FileManager.USER_FILE);
+                  RandomAccessFile masterDescription = FileManager.OpenFile(FileManager.DESCRIPTION + FileManager.MASTER + path);
                   int active = 0;
                   int inactive = 0;
-                  
                   while(masterDescription.getFilePointer() != masterDescription.length())
                   {
                      line = masterDescription.readLine();
@@ -436,10 +443,9 @@ class Secuencial
                   masterDescription.close();
                   
                   int x = Integer.parseInt(data.split(Pattern.quote(FileManager.SEPARADOR))[10]) - 1;
-                  UpdateDescription(FileManager.MASTER + FileManager.USER_FILE, null, active + x, inactive - x);
+                  UpdateDescription(FileManager.MASTER + path, null, active + x, inactive - x);
                   
                   return true;
-               }   
             }
             File.close();
          }
