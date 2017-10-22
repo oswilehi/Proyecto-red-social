@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import static red.social.FileManager.SEPARADOR;
+import static red.social.FileManager.pSEPARADOR;
 import static red.social.FileManager.GROUPS_FILE;
 import static red.social.FileManager.FRIENDS_FILE;
 import red.social.Icons.Renderer;
@@ -34,8 +35,6 @@ public class Profile extends javax.swing.JFrame {
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-        ShowGroups();
-           
     }
     
 
@@ -375,6 +374,9 @@ public class Profile extends javax.swing.JFrame {
         else
             txt_rolInfo.setText("No Administrador");
         txt_descripcionInfo.setText(userInformation[9]);
+        
+        //Show groups
+        ShowGroups();
     }
     
     private void btn_settingsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_settingsMouseClicked
@@ -472,10 +474,19 @@ public class Profile extends javax.swing.JFrame {
       String[] old = FileManager.SearchGroup(txt_userInfo.getText(), RightClickGroup).split(Pattern.quote(SEPARADOR));
       return old[0]+SEPARADOR+old[1]+SEPARADOR+old[2]+SEPARADOR+old[3]+SEPARADOR+old[4]+SEPARADOR+"0";
    }
-   private void ShowGroups(){
-      //Si el archivo de grupos existe agregar en la lista todos los grupos de esta persona
-      groupList.addElement("Amigos");
-      groupList.addElement("Universidad");
+   
+   public void ShowGroups(){
+      groupList.clear();
+      try{
+         String n = FileManager.GetGroupsOfUser(RedSocial.ACTUALUSER);
+         String[] registers = FileManager.GetGroupsOfUser(RedSocial.ACTUALUSER).split(Pattern.quote(pSEPARADOR));
+         for(int i = 0; i < registers.length; i++)
+         {
+            groupList.addElement(registers[i].split(Pattern.quote(SEPARADOR))[1]);
+         }
+      }catch(Exception e){
+         
+      }
       List_Groups.setModel(groupList);
    }
     /**

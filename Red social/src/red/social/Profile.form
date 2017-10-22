@@ -45,10 +45,6 @@
             <Property name="text" type="java.lang.String" value="Informaci&#xf3;n del grupo"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
-          <AccessibilityProperties>
-            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Informaci&#xf3;n del grupo"/>
-            <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value=""/>
-          </AccessibilityProperties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mI_ShowGroupActionPerformed"/>
           </Events>
@@ -66,9 +62,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Eliminar grupo"/>
           </Properties>
-          <AccessibilityProperties>
-            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Eliminar grupo"/>
-          </AccessibilityProperties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mI_DeleteGroupActionPerformed"/>
           </Events>
