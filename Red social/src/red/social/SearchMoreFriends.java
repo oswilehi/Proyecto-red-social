@@ -49,6 +49,7 @@ public class SearchMoreFriends extends javax.swing.JFrame
       jList1 = new javax.swing.JList<>();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+      setUndecorated(true);
 
       jPanel1.setBackground(new java.awt.Color(55, 160, 166));
 

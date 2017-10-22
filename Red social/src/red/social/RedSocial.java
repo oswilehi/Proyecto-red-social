@@ -7,18 +7,11 @@ package red.social;
 import java.io.*;
 import java.security.MessageDigest;
 import java.util.regex.Pattern;
-import java.awt.Color;
 
 public class RedSocial {
 
     //CONSTANTES
     public static String ACTUALUSER;
-    
-    //colors for decoration.
-    //public static Color Background = new Color(242,132,35);
-    public static Color Background = new Color(55,160,166);
-    
-    
     
     public static void main(String[] args) {
        try
@@ -107,7 +100,7 @@ public class RedSocial {
                      + actualUserArray[8]+ FileManager.SEPARADOR
                      + actualUserArray[9]+ FileManager.SEPARADOR
                      + "0";
-        actualUser = RedSocial.Fill(actualUser, FileManager.Length);
+        actualUser = RedSocial.Fill(actualUser, FileManager.UserLength);
         FileManager.Update(FileManager.USER_FILE,actualUser);
     }
 }

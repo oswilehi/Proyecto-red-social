@@ -45,6 +45,7 @@ public class FriendRequest extends javax.swing.JFrame
       btn_Return = new javax.swing.JButton();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+      setUndecorated(true);
 
       jPanel1.setBackground(new java.awt.Color(234, 104, 0));
 
