@@ -55,6 +55,7 @@ public class FileManager
    {
       return new File(DIRECTORY + DESCRIPTION + path).getAbsoluteFile().exists();
    }
+   
    public static String SearchUser(String key)
    {
       if (key == null || key == "") return null;
@@ -68,11 +69,11 @@ public class FileManager
       return Secuencial.Search(FRIENDS_FILE, GetKeys(FRIENDS_FILE), userKey + friendKey);
    }
    
-   public static String SearchGroup(String groupKey, String userKey)
+   public static String SearchGroup(String userKey, String groupKey)
    {
       if (userKey == null || userKey == "") return null;
       if (groupKey == null || groupKey == "") return null;
-      return Secuencial.Search(GROUPS_FILE, GetKeys(GROUPS_FILE), groupKey + userKey);
+      return Secuencial.Search(GROUPS_FILE, GetKeys(GROUPS_FILE), userKey + groupKey);
    }
    
    public static String SearchFriendInGroup(String groupKey, String userKey, String friendKey)
@@ -80,8 +81,7 @@ public class FileManager
       if (groupKey == null || groupKey == "") return null;
       if (userKey == null || userKey == "") return null;
       if (friendKey == null || friendKey == "") return null;
-      //return SearchIndizado(GROUPS_FRIENDS_FILE, GetKeys(GROUPS_FRIENDS_FILE), groupKey + userKey + friendKey);
-      return null;
+      return SecuencialIndizado.Search(GROUPS_FRIENDS_FILE, GetKeys(GROUPS_FRIENDS_FILE), groupKey + userKey + friendKey);
    }
    
    public static boolean WriteFile(String path, String data)  // only used to add new lines to text file
@@ -94,7 +94,7 @@ public class FileManager
    public static boolean Update(String path, String data)//*-
    {
       if (path.equals(USER_FILE) || path.equals(FRIENDS_FILE) || path.equals(GROUPS_FILE)) return Secuencial.Update(path, data);
-      if (path.equals(GROUPS_FRIENDS_FILE)) return false; // debe retornar del metodo update secuencial indiza (a crear)...
+      if (path.equals(GROUPS_FRIENDS_FILE)) return SecuencialIndizado.Update(path, data); // debe retornar del metodo update secuencial indiza (a crear)...
       return false;
    }
    
@@ -945,7 +945,7 @@ class SecuencialIndizado
             if (count >=  max)
             {
                //El bloque ya esta lleno, se crea el siguiente.
-               count++;
+               current++;
                CreateMaster(current + "_" +path, data.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "user")]);
                //Se actualizan los datos con los valores correctos
                count = 0;
@@ -971,10 +971,15 @@ class SecuencialIndizado
             }
             //Ahora se obtiene la posicion en la que se debe ubicar de forma logica, pues el registro siempre se escribe al final
             String dataToAdd = "";
-            String dataToUpdate = null;
+            String dataToUpdate = "";
+            
+            
             if (first == 0)
             {
                dataToAdd = "1" + FileManager.SEPARADOR + current + "." + (count+1) + FileManager.SEPARADOR + key + FileManager.SEPARADOR + "0" + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
+               indexFile.seek(indexFile.length());
+               indexFile.writeBytes(FileManager.FixSize(dataToAdd, FileManager.Length)+"\r\n");
+               indexFile.close();
                first++;
             }
             else
@@ -990,10 +995,10 @@ class SecuencialIndizado
                   {
                      dataToAdd = (int)(indexFile.length() / FileManager.Length + 1) + FileManager.SEPARADOR + current + "." + (count+1) + FileManager.SEPARADOR + key + FileManager.SEPARADOR + "0" + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
                      String[] temp = line.split(Pattern.quote(FileManager.SEPARADOR));
-                     temp[3] = Float.toString(indexFile.length() / FileManager.Length + 1);
+                     temp[3] = Integer.toString((int)(indexFile.length() / FileManager.Length + 1));
                      for (int i = 0; i < temp.length - 1; i++)
                      {
-                        dataToUpdate += temp[i];
+                        dataToUpdate += temp[i] + FileManager.SEPARADOR;
                      }
                      break;
                   }
@@ -1008,31 +1013,231 @@ class SecuencialIndizado
                      dataToAdd = (int)(indexFile.length() / FileManager.Length + 1) + FileManager.SEPARADOR + current + "." + (count+1) + FileManager.SEPARADOR + key + FileManager.SEPARADOR + newR + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
                      indexFile.seek((lastR-1) * FileManager.Length);
                      String[] temp = indexFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
-                     temp[3] = Float.toString(indexFile.length() / FileManager.Length + 1);
+                     temp[3] = Integer.toString((int)(indexFile.length() / FileManager.Length + 1));
                      for (int i = 0; i < temp.length - 1; i++)
                      {
-                        dataToUpdate += temp[i];
+                        dataToUpdate += temp[i]+ FileManager.SEPARADOR;
                      }
+                     newR = lastR;
                      break;
                   }
                   
                   lastR = newR;
                   newR = Integer.parseInt(line.split(Pattern.quote(FileManager.SEPARADOR))[3]);
                }
+               
+               indexFile.seek(indexFile.length());
+               indexFile.writeBytes(FileManager.FixSize(dataToAdd, FileManager.Length)+"\r\n");
+               if (!dataToUpdate.equals(""))
+               {
+                  indexFile.seek((newR-1) * FileManager.Length);
+                  indexFile.writeBytes(dataToUpdate);
+               }
+               indexFile.close();
             }
-            indexFile.seek(indexFile.length());
-            indexFile.writeBytes(FileManager.FixSize(dataToAdd, FileManager.Length)+"\r\n");
-            indexFile.close();
             //Actualizamos los descriptores
             UpdateMasterDescription(current + "_" + path, null, count+1);
             UpdateIndexDescription(path, null, current, first);
-            //FileManager.Update(path, dataToUpdate);
             return true;
          }
          catch (IOException | NumberFormatException e)
          {
             return false;
          }
+   }
+   
+   protected static boolean Update(String path, String data)
+   {
+      try
+      {
+         //Se verifica que el archivo exista
+         if(FileManager.FileExists(FileManager.INDEX + path))
+         {
+            //Se abre el descriptor para obtener el puntero al primer elemento
+            RandomAccessFile indexDescription = FileManager.OpenFile(FileManager.DESCRIPTION + FileManager.INDEX + path);
+            int first = 0;
+            while(indexDescription.getFilePointer() != indexDescription.length())
+            {
+               String line = indexDescription.readLine();
+
+               switch (line.split(Pattern.quote(FileManager.pSEPARADOR))[0])
+               {
+                  case "INICIAL":
+                     first = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     break;
+               }
+            }
+            indexDescription.close();
+            //Obtenemos las llaves
+            String[] keys = FileManager.GetKeys(path).split(Pattern.quote(","));
+            String newKey = "";
+            String oldKey = null;
+            
+            //Generamos la llave que se va a actualizar
+            for (String key : keys)
+            {
+               newKey += data.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)];
+            }
+            
+            //Variables puntero
+            int newR = first;
+            int lastR = first;
+            
+            //Cargamos el indice para buscar
+            RandomAccessFile indexFile = FileManager.OpenFile(FileManager.INDEX + path);
+            while (true)
+            {
+               //Establecemos el puntero en el lugar correcto para leer la línea
+               indexFile.seek((newR -1) * FileManager.Length);
+               String line = indexFile.readLine();
+               
+               //Obtenemos la llave
+               oldKey = line.split(Pattern.quote(FileManager.SEPARADOR))[2];
+               
+               //Encaja la llave vieja con la nueva?
+               if (newKey.equals(oldKey)) // Son iguales pero no esta dado de baja
+               {
+                     
+                  //Movemos el puntero a la posicion correcta
+                  indexFile.seek((newR -1) * FileManager.Length);
+                  
+                  //Separamos los datos para obtenerlos más facil
+                  String[] temp = line.split(Pattern.quote(FileManager.SEPARADOR));
+                  
+                  //Escribimos la cadena ya actualizada en el indice
+                  indexFile.writeBytes(FileManager.FixSize((temp[0] + FileManager.SEPARADOR + temp[1] + FileManager.SEPARADOR + oldKey + FileManager.SEPARADOR + temp[3] + FileManager.SEPARADOR + data.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "status")] + FileManager.SEPARADOR), FileManager.Length)+ "\r\n");
+                  
+                  //Escribimos el registro ya actualizado
+                  //Primero abrimos el master del archivo
+                  RandomAccessFile masterFile = FileManager.OpenFile(FileManager.MASTER + temp[1].split(Pattern.quote("."))[0] + "_" + path);
+                  //Colocamos el punteoro en la posicion correcta
+                  masterFile.seek((Integer.parseInt(temp[1].split(Pattern.quote("."))[1]) - 1 ) * FileManager.Length);
+                  //Escribimos el puntero
+                  masterFile.writeBytes(data);
+                  //Se actualiza el descriptor
+                  
+                  RandomAccessFile masterDescription = FileManager.OpenFile(FileManager.DESCRIPTION + FileManager.MASTER + temp[1].split(Pattern.quote("."))[0] + "_" + path);
+                  int count = 0;
+                  while(masterDescription.getFilePointer() != masterDescription.length())
+                  {
+                     String c = masterDescription.readLine();
+
+                     switch (c.split(Pattern.quote(FileManager.pSEPARADOR))[0])
+                     {
+                        case "REGISTROS":
+                           count = Integer.parseInt(c.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                           break;
+                     }
+                  }
+                  masterDescription.close();
+                  masterFile.close();//Se cierra el archivo
+                  UpdateMasterDescription(FileManager.MASTER + temp[1].split(Pattern.quote("."))[0] + "_" + path, null, count-1);
+                  
+                  
+                  //Se valida si la data actualizada fue dada de baja
+                  if (data.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "status")].equals("0") && newR == first)
+                  {
+                     //El registro se dio de baja y era el primer registro del indice... 
+                     //Solo se cambia el puntero del descriptor del archivo.
+                     first = Integer.parseInt(temp[3]);
+                  }
+                  else if(data.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "status")].equals("0"))
+                  {
+                     //El registro se dio de baja pero no era el primer registro del indice...
+                     //Se recupera el puntero al siguiente registro que guarda el anterior registro ahora dado de baja
+                     String pointer = temp[3];
+                     //Se coloca el puntero en el registro anterior al registro dado de baja
+                     indexFile.seek((lastR -1) * FileManager.Length);
+                     //Se obtienen los datos para manejarlos mejor
+                     temp = indexFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
+                     //Se coloca el puntero en la posicion correcta
+                     indexFile.seek((lastR -1) * FileManager.Length);
+                     //Se actualiza el anterior registro con el punto que el registro dado de baja tenia
+                     indexFile.writeBytes(FileManager.FixSize((temp[0] + FileManager.SEPARADOR + temp[1] + FileManager.SEPARADOR + temp[2] + FileManager.SEPARADOR + pointer + FileManager.SEPARADOR + temp[4] + FileManager.SEPARADOR), FileManager.Length)+ "\r\n");
+                  }
+                  
+                  //Se actualizan el descriptor del indice
+                  //Al final siempre se cierra el archivo y se retorna true
+                  indexFile.close();
+                  UpdateIndexDescription(path, null, -1, first);
+                  return true;
+               }
+               
+               // El registro a actualizar no existe
+               if (line.split(Pattern.quote(FileManager.SEPARADOR))[3].equals("0"))// No se ha encontrado la llave -> el puntero siguiente es 0 o null 
+               {
+                  indexFile.close();
+                  break;
+               }
+               lastR = newR;
+               newR = Integer.parseInt(line.split(Pattern.quote(FileManager.SEPARADOR))[3]);
+            }
+            indexFile.close();
+            UpdateIndexDescription(path, null, -1, first);
+            return false;
+         }
+         //El archivo no existe, nada que actualizar
+         return false;
+      }
+      catch (Exception e)
+      {
+         return false;
+      }
+   }
+   
+   protected static String Search(String path, String keys, String values)
+   {
+      try
+      {
+         if (FileManager.FileExists(FileManager.INDEX + path))
+         {
+            RandomAccessFile indexDescription = FileManager.OpenFile(FileManager.DESCRIPTION + FileManager.INDEX + path);
+            int first = 0;
+            
+            while(indexDescription.getFilePointer() != indexDescription.length())
+            {
+               String line = indexDescription.readLine();
+
+               switch (line.split(Pattern.quote(FileManager.pSEPARADOR))[0])
+               {
+                  case "INICIAL":
+                     first = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     break;
+               }
+            }
+            indexDescription.close();
+            
+            RandomAccessFile indexFile = FileManager.OpenFile(FileManager.INDEX + path);
+            String[] keysPosition = keys.split(Pattern.quote(","));
+            int statusIndex = FileManager.GetIndexOf(path, "status");
+            
+            while(true)
+            {
+               String line = indexFile.readLine();
+               
+               String currentKey = line.split(Pattern.quote(FileManager.SEPARADOR))[2];
+               
+               if(currentKey.equals(values))
+               {
+                  indexFile.close();
+                  if (line.split(Pattern.quote(FileManager.SEPARADOR))[statusIndex].equals("0")) return null;
+                  return line;
+               }
+               if (line.split(Pattern.quote(FileManager.SEPARADOR))[3].equals("0"))
+               {
+                  break;
+               }
+               indexFile.seek((Integer.parseInt(line.split(Pattern.quote(FileManager.SEPARADOR))[3]) - 1) * FileManager.Length);
+            }
+            indexFile.close();
+            return null;
+         }
+         return null;
+      }
+      catch (Exception e)
+      {
+         return null;
+      }
    }
    
    protected static boolean UpdateIndexDescription(String path, String author, int current_block, int first) // needs complete file name: binnacle_example.txt or master_example.txt to get the right desc_xxx_example.txt file
@@ -1054,7 +1259,10 @@ class SecuencialIndizado
                   fileTempDescription.writeBytes(line);
                   break;
                case "BLOQUE_ACTUAL":
-                  line = line.split(Pattern.quote(FileManager.pSEPARADOR))[0] + FileManager.pSEPARADOR + current_block + "\r\n";
+                  if (current_block >= 0)
+                  {
+                     line = line.split(Pattern.quote(FileManager.pSEPARADOR))[0] + FileManager.pSEPARADOR + current_block + "\r\n";
+                  }
                   fileTempDescription.writeBytes(line);
                   break;
                case "INICIAL":
@@ -1079,9 +1287,8 @@ class SecuencialIndizado
          //change name
          File oldDescription = new File(FileManager.DIRECTORY + FileManager.DESCRIPTION + FileManager.INDEX + path);
          oldDescription.delete();
-         File newDescription = new File(FileManager.DIRECTORY + FileManager.TEMP + FileManager.DESCRIPTION + FileManager.INDEX + path);
+         File newDescription = new File(FileManager.DIRECTORY + FileManager.TEMP + FileManager.DESCRIPTION + FileManager.INDEX+ path);
          newDescription.renameTo(new File(FileManager.DIRECTORY + FileManager.DESCRIPTION + FileManager.INDEX + path));
-         
          return true;
       }
       catch (Exception e)
