@@ -373,6 +373,7 @@ public class FriendsGroups extends javax.swing.JFrame
       if(IsValid()){
          FileManager.WriteFile(GROUPS_FILE, ThisGroup());
          myProfile.setVisible(true);
+         myProfile.ShowGroups();
          this.dispose();
       }
    }//GEN-LAST:event_btn_CreateGroupActionPerformed
