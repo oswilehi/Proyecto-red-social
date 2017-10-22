@@ -830,11 +830,7 @@ class Secuencial
                
                if (line.split(Pattern.quote(FileManager.SEPARADOR))[statusIndex].equals("0")) continue;
                
-               String currentKey = "";
-               for (String key : keysPosition)
-               {
-                  currentKey += line.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)];
-               }
+               String currentKey = line.split(Pattern.quote(FileManager.SEPARADOR))[0];
                if(currentKey.equals(userKey)) data += line.replace("¬", "") + FileManager.pSEPARADOR;
             }
             File.close();
@@ -851,11 +847,7 @@ class Secuencial
                String line = File.readLine();
                if (line.split(Pattern.quote(FileManager.SEPARADOR))[statusIndex].equals("0")) continue;
                
-               String currentKey = "";
-               for (String key : keysPosition)
-               {
-                  currentKey += line.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)];
-               }
+               String currentKey = line.split(Pattern.quote(FileManager.SEPARADOR))[0];
                if(currentKey.equals(userKey)) data += line.replace("¬", "") + FileManager.pSEPARADOR;
             }
             File.close();
