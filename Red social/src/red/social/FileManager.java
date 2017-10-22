@@ -1240,6 +1240,89 @@ class SecuencialIndizado
       }
    }
    
+   protected static boolean Reorganize(String path, String user)
+   {
+      try
+      {
+         // Primero, se crea un archivo temporal
+         if (FileManager.CreateFile(FileManager.DIRECTORY + FileManager.INDEX + "_" +FileManager.TEMP))
+         {  
+            
+            //Abrimos el archivo temporal
+             RandomAccessFile tempFile = FileManager.OpenFile(FileManager.INDEX + "_" +FileManager.TEMP);
+            
+            //Ahora abrimos el index para obtener el numero de bloques
+            //Obtenemos el primer puntero
+            RandomAccessFile indexDescription = FileManager.OpenFile(FileManager.DESCRIPTION + FileManager.INDEX + path);
+            int count = 0;
+            
+            while(indexDescription.getFilePointer() != indexDescription.length())
+            {
+               String line = indexDescription.readLine();
+
+               switch (line.split(Pattern.quote(FileManager.pSEPARADOR))[0])
+               {
+                  case "BLOQUE_ACTUAL":
+                     count = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     break;
+               }
+            }
+            indexDescription.close();
+            
+            //Ahora recorremos los archivos y tomamos los datos activos
+            for (int i = 1; i < count + 1; i++)
+            {
+               // abrimos el archivo i
+               RandomAccessFile masterFile = FileManager.OpenFile(FileManager.MASTER + i + "_" + path);
+               if (masterFile == null) continue ;
+               while(masterFile.getFilePointer() != masterFile.length())
+               {
+                  String line = masterFile.readLine();
+                  if (line.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "status")].equals("0")) continue;
+                  tempFile.writeBytes(line + "\r\n");
+               }
+               masterFile.close();
+               
+               //Ya se validó el archivo, se borra
+               File oldMasterFile = new File(FileManager.DIRECTORY + FileManager.MASTER + i + "_" + path);
+               oldMasterFile.delete();
+               File oldMasterDescription = new File(FileManager.DIRECTORY + FileManager.DESCRIPTION + FileManager.MASTER + i + "_" + path);
+               oldMasterDescription.delete();
+            }
+            
+            //Ya se tienen todos los datos válidos. Se procede a la reestructuración.
+            //Primero se borra el índice
+            File oldIndexFile = new File(FileManager.DIRECTORY + FileManager.INDEX + path);
+            oldIndexFile.delete();
+            File oldIndexDescription = new File(FileManager.DIRECTORY + FileManager.DESCRIPTION + FileManager.INDEX + path);
+            oldIndexDescription.delete();
+            
+            //Se coloca el puntero en el inicio del archivo
+            tempFile.seek(0);
+            
+            //Se reorganiza el archivo secuencial indizado
+            while(tempFile.getFilePointer() != tempFile.length())
+            {
+               FileManager.WriteFile(path, tempFile.readLine());
+            }
+            
+            //Se actualiza el descriptor del archivo con el usuario que genero la reorganizacion
+            UpdateIndexDescription(path, user, -1, -1);
+            
+            //Se borra el archivo temporal
+            tempFile.close();
+            File oldTempFile = new File(FileManager.DIRECTORY + FileManager.INDEX + "_" +FileManager.TEMP);
+            oldTempFile.delete();
+            return true;
+         }
+         return false;
+      }
+      catch (Exception e)
+      {
+         return false;
+      }
+   }
+   
    protected static boolean UpdateIndexDescription(String path, String author, int current_block, int first) // needs complete file name: binnacle_example.txt or master_example.txt to get the right desc_xxx_example.txt file
    {
       try
@@ -1255,19 +1338,22 @@ class SecuencialIndizado
             switch (line.split(Pattern.quote(FileManager.pSEPARADOR))[0])
             {
                case "MODIFICADO":
-                  line = line.split(Pattern.quote(FileManager.pSEPARADOR))[0] + FileManager.pSEPARADOR + new SimpleDateFormat("yyyyMMdd'.'hh:mm").format(new Date())+ "\r\n";
-                  fileTempDescription.writeBytes(line);
+                  line = line.split(Pattern.quote(FileManager.pSEPARADOR))[0] + FileManager.pSEPARADOR + new SimpleDateFormat("yyyyMMdd'.'hh:mm").format(new Date());
+                  fileTempDescription.writeBytes(line + "\r\n");
                   break;
                case "BLOQUE_ACTUAL":
                   if (current_block >= 0)
                   {
-                     line = line.split(Pattern.quote(FileManager.pSEPARADOR))[0] + FileManager.pSEPARADOR + current_block + "\r\n";
+                     line = line.split(Pattern.quote(FileManager.pSEPARADOR))[0] + FileManager.pSEPARADOR + current_block;
                   }
-                  fileTempDescription.writeBytes(line);
+                  fileTempDescription.writeBytes(line + "\r\n");
                   break;
                case "INICIAL":
-                  line = line.split(Pattern.quote(FileManager.pSEPARADOR))[0] + FileManager.pSEPARADOR + first + "\r\n";
-                  fileTempDescription.writeBytes(line);
+                  if (first >= 0)
+                  {
+                     line = line.split(Pattern.quote(FileManager.pSEPARADOR))[0] + FileManager.pSEPARADOR + first;
+                  }
+                  fileTempDescription.writeBytes(line + "\r\n");
                   break;
                case "AUTOR":
                   if (author != null)
