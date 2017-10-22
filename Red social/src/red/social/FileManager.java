@@ -98,6 +98,16 @@ public class FileManager
       return false;
    }
    
+   public static String GetFriendsOfUser(String userKey)
+   {
+      return Secuencial.GetAllOfUser(FRIENDS_FILE, userKey);
+   }
+   
+   public static String GetGroupsOfUser(String userKey)
+   {
+      return Secuencial.GetAllOfUser(GROUPS_FILE, userKey);
+   }
+   
    protected static void copyDirectory(File sourceLocation , File targetLocation)
     throws IOException {
 
@@ -604,39 +614,7 @@ class Secuencial
             if(!path.equals(FileManager.BACKUP_FILE) && newLine.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "status")].equals("0")) continue;
 
             while (tempFile.getFilePointer() != tempFile.length())
-            {
-               seek = tempFile.getFilePointer();
-               tempLine = tempFile.readLine();
-               String newLineKeyJoined = "", tempLineKeyJoined = "";
-               
-               for (String key : keys)
-               {
-                  newLineKeyJoined += newLine.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)];
-                  tempLineKeyJoined += tempLine.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)];
-               }
-               // Se verifica que tipo de ordenamiento se requiere
-               if ("ASC".equals(sort))
-               {
-                  // first, transfer register from binnacle
-                  if (newLineKeyJoined.compareTo(tempLineKeyJoined) <= 0)
-                  {
-                     break;
-                  }
-
-               }
-               else if ("DES".equals(sort))
-               {
-                  if (newLineKeyJoined.compareTo(tempLineKeyJoined) >= 0)
-                  {
-                     break;
-                  }
-
-               }
-               if (tempFile.getFilePointer() == tempFile.length())
-               {
-                  seek = tempFile.getFilePointer();
-               }
-            }
+            
             if (seek >= tempFile.length())
             {
                tempFile.writeBytes(newLine + "\r\n");
@@ -671,40 +649,7 @@ class Secuencial
             if(!path.equals(FileManager.BACKUP_FILE) && newLine.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "status")].equals("0")) continue;
             
             while (tempFile.getFilePointer() != tempFile.length())
-            {
-               seek = tempFile.getFilePointer();
-               tempLine = tempFile.readLine();
-               
-               String newLineKeyJoined = "", tempLineKeyJoined = "";
-               
-               for (String key : keys)
-               {
-                  newLineKeyJoined += newLine.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)];
-                  tempLineKeyJoined += tempLine.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)];
-               }
-               // Sort
-               if ("ASC".equals(sort))
-               {
-                  // first, transfer register from binnacle
-                  if (newLineKeyJoined.compareTo(tempLineKeyJoined) <= 0)
-                  {
-                     break;
-                  }
-
-               }
-               else if ("DES".equals(sort))
-               {
-                  if (newLineKeyJoined.compareTo(tempLineKeyJoined) >= 0)
-                  {
-                     break;
-                  }
-
-               }
-               if (tempFile.getFilePointer() == tempFile.length())
-               {
-                  seek = tempFile.getFilePointer();
-               }
-            }
+            
             if (seek >= tempFile.length())
             {
                tempFile.writeBytes(newLine+ "\r\n");
@@ -865,6 +810,66 @@ class Secuencial
          
       }
       return false;
+   }
+   
+   protected static String GetAllOfUser(String path, String userKey)
+   {
+      try
+      {
+         String data = "";
+         
+         if(FileManager.FileExists(FileManager.BINNACLE + path))
+         {
+            RandomAccessFile File = FileManager.OpenFile(FileManager.BINNACLE + path);
+            String[] keysPosition = FileManager.GetKeys(path).split(Pattern.quote(","));
+            int statusIndex = FileManager.GetIndexOf(path, "status");
+            
+            while(File.getFilePointer() != File.length())
+            {
+               String line = File.readLine();
+               
+               if (line.split(Pattern.quote(FileManager.SEPARADOR))[statusIndex].equals("0")) continue;
+               
+               String currentKey = "";
+               for (String key : keysPosition)
+               {
+                  currentKey += line.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)];
+               }
+               if(currentKey.equals(userKey)) data += line.replace("¬", "") + FileManager.pSEPARADOR;
+            }
+            File.close();
+         }
+         
+         if(FileManager.FileExists(FileManager.MASTER + path))
+         {
+            RandomAccessFile File = FileManager.OpenFile(FileManager.MASTER + path);
+            String[] keysPosition = FileManager.GetKeys(path).split(Pattern.quote(","));
+            int statusIndex = FileManager.GetIndexOf(path, "status");
+            
+            while(File.getFilePointer() != File.length())
+            {
+               String line = File.readLine();
+               if (line.split(Pattern.quote(FileManager.SEPARADOR))[statusIndex].equals("0")) continue;
+               
+               String currentKey = "";
+               for (String key : keysPosition)
+               {
+                  currentKey += line.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)];
+               }
+               if(currentKey.equals(userKey)) data += line.replace("¬", "") + FileManager.pSEPARADOR;
+            }
+            File.close();
+         }
+         
+         
+         
+         if (data.equals("")) return null;
+         return data.substring(0, data.length() - 2);
+      }
+      catch (Exception e)
+      {
+         return null;
+      }
    }
 }
 
