@@ -419,7 +419,7 @@ public class FriendsGroups extends javax.swing.JFrame
    }
    
    private String CreateAsociationToGroup(String friend){
-      return myUser+SEPARADOR+txt_GroupName.getText()+SEPARADOR+friend+SEPARADOR+"1";
+      return myUser+SEPARADOR+txt_GroupName.getText()+SEPARADOR+friend+SEPARADOR+new SimpleDateFormat("dd/MM/yyyy").format(new Date())+SEPARADOR+"1";
    }
    private boolean IsValid(){
       

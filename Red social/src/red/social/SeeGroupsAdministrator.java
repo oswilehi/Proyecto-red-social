@@ -393,15 +393,20 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
    private void lbl_DeleteGroupMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lbl_DeleteGroupMouseClicked
    {//GEN-HEADEREND:event_lbl_DeleteGroupMouseClicked
       // TODO add your handling code here:
-      DesasociateMembersToGroup();
+      DesasociateMembersToGroup(thisGroup);
       FileManager.Update(GROUPS_FILE, OldGroupForDelete());
       myProfile.ShowGroups();
          myProfile.setVisible(true);
          this.dispose();
    }//GEN-LAST:event_lbl_DeleteGroupMouseClicked
 
-   private void DesasociateMembersToGroup(){
-      
+   private void DesasociateMembersToGroup(String GroupName){
+      String[] members = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "1", GroupName).split(Pattern.quote(pSEPARADOR));
+      for (int i = 0; i < members.length; i++)
+      {
+          String ChangeStatus = members[i].substring(0, members[i].length()-1) +"0";
+         FileManager.Update(GROUPS_FRIENDS_FILE, ChangeStatus);
+      }
    }
    
    private void list_FriendsMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_list_FriendsMouseClicked
@@ -447,7 +452,7 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
    }
    
    private String CreateAsociationToGroup(String friend){
-      return myUser+SEPARADOR+txt_GroupName.getText()+SEPARADOR+friend+SEPARADOR+"1";
+      return myUser+SEPARADOR+txt_GroupName.getText()+SEPARADOR+friend+SEPARADOR+new SimpleDateFormat("dd/MM/yyyy").format(new Date())+SEPARADOR+"1";
    }
    
   

@@ -411,7 +411,13 @@ public class Profile extends javax.swing.JFrame {
    {//GEN-HEADEREND:event_lbl_OutAccountMouseClicked
       // TODO add your handling code here:
          // Vacio la variable de usuario actual porque se elimino cuenta
-        DeleteAllTheAsociationsToGroups(RedSocial.ACTUALUSER);
+        
+        try{
+           DeleteAllTheAsociationsToGroups(RedSocial.ACTUALUSER);
+           FileManager.Update(GROUPS_FILE, OldGroupForDelete());
+        }catch(Exception e){
+           
+        }
         RedSocial.Delete(RedSocial.ACTUALUSER);
         RedSocial.ACTUALUSER = "";
         RedSocial.LoginController();
@@ -492,8 +498,6 @@ public class Profile extends javax.swing.JFrame {
    
    private void DeleteAllTheAsociationsToGroups(String user){
       try{
-         String debbyg = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "0", user);
-         String n = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "2", user);
          String[] asociationsMyGroups = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "0", user).split(Pattern.quote(pSEPARADOR));
          String[] asociationsFriendsGroups = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "2", user).split(Pattern.quote(pSEPARADOR));
          for (int i = 0; i < asociationsMyGroups.length; i++)
