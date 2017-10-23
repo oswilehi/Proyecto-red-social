@@ -1641,10 +1641,10 @@ class SecuencialIndizado
                boolean ok = false;
                for (int i = 0; i < Keys.length; i++)
                {
-                  if (!register.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(Keys[i])].startsWith(Values[i])) break;
+                  if (!register.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(Keys[i])].equals(Values[i])) break;
                   ok = i == Keys.length - 1;
                }
-               data += register.replace("¬", "") + FileManager.pSEPARADOR;
+               if (ok) data += register.replace("¬", "") + FileManager.pSEPARADOR;
                if (line.split(Pattern.quote(FileManager.SEPARADOR))[3].equals("0")) break;
                indexFile.seek((Integer.parseInt(line.split(Pattern.quote(FileManager.SEPARADOR))[3]) - 1) * FileManager.Length);
             }
