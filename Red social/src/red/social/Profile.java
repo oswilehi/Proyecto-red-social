@@ -17,6 +17,7 @@ import static red.social.FileManager.FRIENDS_FILE;
 import red.social.Icons.Renderer;
 import javax.swing.SwingUtilities;
 
+
 /**
  *
  * @author Krle__000
