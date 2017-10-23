@@ -371,7 +371,7 @@ class Secuencial
                line = File.readLine();
                for (String key : keys)
                {
-                  matchKeys = (line.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)].equals(data.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)]));
+                  matchKeys = (line.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)].equals(data.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)])) && line.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "status")].equals("1");
                   if(!matchKeys) break;
                }
                if(!matchKeys) continue;
