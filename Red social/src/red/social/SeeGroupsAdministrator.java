@@ -14,9 +14,14 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import static red.social.FileManager.BINNACLE;
 import static red.social.FileManager.GROUPS_FILE;
+import static red.social.FileManager.GROUPS_FRIENDS_FILE;
+import static red.social.FileManager.SEPARADOR;
+import static red.social.FileManager.pSEPARADOR;
+import static red.social.FileManager.GroupLength;
 import static red.social.FileManager.SEPARADOR;
 import static red.social.FriendsGroups.DescriptionLength;
 import static red.social.FriendsGroups.groupFieldLength;
+import static red.social.RedSocial.Fill;
 import red.social.Icons.ListIcon;
 import red.social.Icons.Renderer;
 
@@ -149,6 +154,13 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
 
       list_Friends.setBackground(new java.awt.Color(253, 211, 92));
       list_Friends.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+      list_Friends.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            list_FriendsMouseClicked(evt);
+         }
+      });
       jScrollPane1.setViewportView(list_Friends);
 
       lbl_SaveChanges.setFont(new java.awt.Font("Century Gothic", 1, 10)); // NOI18N
@@ -363,13 +375,14 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
       if(IsValid()){
          if(txt_GroupName.getText().equals(thisGroup)){
             //Overwrite
-             FileManager.Update(GROUPS_FILE, NewGroup());
+             FileManager.Update(GROUPS_FILE, Fill(NewGroup(), GroupLength) );
          }else{
             //Delete logicaly and add new gruop
-            FileManager.Update(GROUPS_FILE, OldGroupForDelete());
-            FileManager.WriteFile(GROUPS_FILE, NewGroup());
+            FileManager.WriteFile(GROUPS_FILE, Fill(NewGroup(), GroupLength));
+            FileManager.Update(GROUPS_FILE, Fill(OldGroupForDelete(), GroupLength));
          }
-         
+         AddFriendsToGroup();
+         myProfile.ShowGroups();
          myProfile.setVisible(true);
          this.dispose();
       }
@@ -378,8 +391,30 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
    private void lbl_DeleteGroupMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lbl_DeleteGroupMouseClicked
    {//GEN-HEADEREND:event_lbl_DeleteGroupMouseClicked
       // TODO add your handling code here:
+      DesasociateMembersToGroup();
       FileManager.Update(GROUPS_FILE, OldGroupForDelete());
+      myProfile.ShowGroups();
+         myProfile.setVisible(true);
+         this.dispose();
    }//GEN-LAST:event_lbl_DeleteGroupMouseClicked
+
+   private void DesasociateMembersToGroup(){
+      
+   }
+   
+   private void list_FriendsMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_list_FriendsMouseClicked
+   {//GEN-HEADEREND:event_list_FriendsMouseClicked
+      // TODO add your handling code here:
+      int index = list_Friends.locationToIndex(evt.getPoint());
+        if(index!=-1){
+           groupList.addElement(friendList.getElementAt(index));
+           friendList.remove(index);
+           list_Members.setCellRenderer(renderer);
+           list_Members.setModel(groupList);
+           list_Friends.setModel(friendList);
+           lbl_MembersNumber.setText(groupList.getSize()+"");
+        }
+   }//GEN-LAST:event_list_FriendsMouseClicked
    
    private String NewGroup(){
       String[] old = FileManager.SearchGroup(myUser, thisGroup).split(Pattern.quote(SEPARADOR));
@@ -388,9 +423,23 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
    
    private String OldGroupForDelete(){
       String[] old = FileManager.SearchGroup(myUser, thisGroup).split(Pattern.quote(SEPARADOR));
-      return myUser+SEPARADOR+thisGroup+SEPARADOR+old[2]+SEPARADOR+old[3]+SEPARADOR+old[4]+SEPARADOR+"0";
+      return old[0]+SEPARADOR+old[1]+SEPARADOR+old[2]+SEPARADOR+old[3]+SEPARADOR+old[4]+SEPARADOR+"0";
    }
 
+   private void AddFriendsToGroup(){
+      for (int i = 0; i < groupList.size(); i++)
+      {
+         String name = ((ListIcon)groupList.elementAt(i)).name;
+         FileManager.WriteFile(GROUPS_FRIENDS_FILE, CreateAsociationToGroup(((ListIcon)groupList.elementAt(i)).name));
+      }
+   }
+   
+   private String CreateAsociationToGroup(String friend){
+      String Asociacion = myUser+SEPARADOR+txt_GroupName.getText()+SEPARADOR+friend+SEPARADOR+"1";
+      return myUser+SEPARADOR+txt_GroupName.getText()+SEPARADOR+friend+SEPARADOR+"1";
+   }
+   
+  
    public void FillComponents(String user, String group, Profile form){
       thisGroup = group;
       myUser = user;
@@ -401,19 +450,32 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
       lbl_MembersNumber.setText(FileManager.SearchGroup(myUser, thisGroup).split(Pattern.quote(SEPARADOR))[3]);
       
       //inicializar miembros....
-       ImageIcon icon;
-      String pathIcon;
-      
-    if(FileManager.FileExists(BINNACLE + GROUPS_FILE)){
-         
-         list_Friends.setCellRenderer(renderer);
-         list_Friends.setModel(friendList);
-//         pathIcon = FileManager.SearchUser("Mario").split(Pattern.quote(SEPARADOR))[8];
-//         icon = new ImageIcon((new ImageIcon(pathIcon)).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
-//         friendList.addElement(new IconList("Mario", icon));
-      }
+         try{
+            ImageIcon icon;
+            String[] allMyFriends = FileManager.GetFriendsOfUser(myUser).split(Pattern.quote(pSEPARADOR));
+            String[] friend;
+            for (int i = 0; i < allMyFriends.length; i++)
+            {
+               list_Friends.setCellRenderer(renderer);
+               list_Friends.setModel(friendList);
+               friend = FileManager.SearchUser(allMyFriends[i].split(Pattern.quote(SEPARADOR))[1]).split(Pattern.quote(SEPARADOR));
+               icon = new ImageIcon((new ImageIcon(friend[8])).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
+               friendList.addElement(new ListIcon(friend[0], icon));
+            }
+         }catch(Exception e){
+            
+         }
+      ShowMembers();
    }
    
+    private void ShowMembers(){
+       String members = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "0,1", myUser+","+thisGroup);
+       for (int i = 0; i < 10; i++)
+       {
+          
+       }
+    }
+    
    private void InvisibleComponents(){
       lbl_DescriptionError.setVisible(false);
       lbl_NameError.setVisible(false);
@@ -421,7 +483,8 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
    private boolean IsValid(){
       
       //Revisar este método
-      if(!FileManager.SearchGroup(myUser, txt_GroupName.getText()).equals(thisGroup) && FileManager.SearchGroup(myUser, txt_GroupName.getText())!=null){
+      if(!txt_GroupName.getText().equals(thisGroup) && FileManager.SearchGroup(myUser, txt_GroupName.getText())!=null){
+         lbl_NameError.setText("Ya existe");
          lbl_NameError.setVisible(true);
          return false;
       }
