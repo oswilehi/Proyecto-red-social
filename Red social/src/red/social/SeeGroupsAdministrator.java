@@ -391,12 +391,17 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
    private void lbl_DeleteGroupMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lbl_DeleteGroupMouseClicked
    {//GEN-HEADEREND:event_lbl_DeleteGroupMouseClicked
       // TODO add your handling code here:
+      DesasociateMembersToGroup();
       FileManager.Update(GROUPS_FILE, OldGroupForDelete());
       myProfile.ShowGroups();
          myProfile.setVisible(true);
          this.dispose();
    }//GEN-LAST:event_lbl_DeleteGroupMouseClicked
 
+   private void DesasociateMembersToGroup(){
+      
+   }
+   
    private void list_FriendsMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_list_FriendsMouseClicked
    {//GEN-HEADEREND:event_list_FriendsMouseClicked
       // TODO add your handling code here:
@@ -433,6 +438,9 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
       String Asociacion = myUser+SEPARADOR+txt_GroupName.getText()+SEPARADOR+friend+SEPARADOR+"1";
       return myUser+SEPARADOR+txt_GroupName.getText()+SEPARADOR+friend+SEPARADOR+"1";
    }
+   
+   private void ShowMembers(){
+   }
    public void FillComponents(String user, String group, Profile form){
       thisGroup = group;
       myUser = user;
@@ -458,15 +466,7 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
          }catch(Exception e){
             
          }
-      
-    if(FileManager.FileExists(BINNACLE + GROUPS_FILE)){
-         
-         list_Friends.setCellRenderer(renderer);
-         list_Friends.setModel(friendList);
-//         pathIcon = FileManager.SearchUser("Mario").split(Pattern.quote(SEPARADOR))[8];
-//         icon = new ImageIcon((new ImageIcon(pathIcon)).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
-//         friendList.addElement(new IconList("Mario", icon));
-      }
+      ShowMembers();
    }
    
    private void InvisibleComponents(){

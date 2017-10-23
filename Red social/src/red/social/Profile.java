@@ -457,6 +457,7 @@ public class Profile extends javax.swing.JFrame {
    private void mI_DeleteGroupActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_mI_DeleteGroupActionPerformed
    {//GEN-HEADEREND:event_mI_DeleteGroupActionPerformed
       // TODO add your handling code here:
+      DesasociateMembersToGroup();
       FileManager.Update(GROUPS_FILE, OldGroupForDelete());
       groupList.removeElement(RightClickGroup);
    }//GEN-LAST:event_mI_DeleteGroupActionPerformed
@@ -474,6 +475,10 @@ public class Profile extends javax.swing.JFrame {
    private String OldGroupForDelete(){
       String[] old = FileManager.SearchGroup(txt_userInfo.getText(), RightClickGroup).split(Pattern.quote(SEPARADOR));
       return old[0]+SEPARADOR+old[1]+SEPARADOR+old[2]+SEPARADOR+old[3]+SEPARADOR+old[4]+SEPARADOR+"0";
+   }
+   
+   private void DesasociateMembersToGroup(){
+      
    }
    
    public void ShowGroups(){
