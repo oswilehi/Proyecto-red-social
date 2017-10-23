@@ -92,13 +92,15 @@ public class FileManager
    
    public static String SearchByKey(String path, String keys, String values)
    {
-      return Secuencial.GetAllOfUser(path, keys, values);
+      if (path.equals(USER_FILE) || path.equals(FRIENDS_FILE) || path.equals(GROUPS_FILE) || path.equals(BACKUP_FILE)) return Secuencial.GetAllOfKey(path, keys, values);;
+      if (path.equals(GROUPS_FRIENDS_FILE)) return SecuencialIndizado.GetAllOfKey(path, keys, values); // debe retornar del metodo secuencial indiza (a crear)...
+      return null;
    }
    
    public static boolean WriteFile(String path, String data)  // only used to add new lines to text file
    {
          if (path.equals(USER_FILE) || path.equals(FRIENDS_FILE) || path.equals(GROUPS_FILE) || path.equals(BACKUP_FILE)) return Secuencial.Write(path, data);
-         if (path.equals(GROUPS_FRIENDS_FILE)) return SecuencialIndizado.Write(path, data) ; // debe retornar del metodo secuencial indiza (a crear)...
+         if (path.equals(GROUPS_FRIENDS_FILE)) return SecuencialIndizado.Write(path, GetKeys(GROUPS_FRIENDS_FILE), data) ; // debe retornar del metodo secuencial indiza (a crear)...
          return false;
    }
    
@@ -111,12 +113,12 @@ public class FileManager
    
    public static String GetFriendsOfUser(String userKey)
    {
-      return Secuencial.GetAllOfUser(FRIENDS_FILE, "0", userKey);
+      return Secuencial.GetAllOfKey(FRIENDS_FILE, "0", userKey);
    }
    
    public static String GetGroupsOfUser(String userKey)
    {
-      return Secuencial.GetAllOfUser(GROUPS_FILE, "0", userKey);
+      return Secuencial.GetAllOfKey(GROUPS_FILE, "0", userKey);
    }
    
    protected static void copyDirectory(File sourceLocation , File targetLocation)
@@ -894,7 +896,7 @@ class Secuencial
       return false;
    }
    
-   protected static String GetAllOfUser(String path, String keys, String values)
+   protected static String GetAllOfKey(String path, String keys, String values)
    {
       try
       {
@@ -957,7 +959,7 @@ class Secuencial
 
 class SecuencialIndizado
 {
-   protected static boolean Write(String path, String data)
+   protected static boolean Write(String path, String keysString, String data)
    {
       if(!FileManager.FileExists(FileManager.INDEX + path))
          {
@@ -971,7 +973,7 @@ class SecuencialIndizado
          try
          {
             //Validamos que no exista otra clave igual
-            String[] keys = FileManager.GetKeys(path).split(Pattern.quote(","));
+            String[] keys = keysString.split(Pattern.quote(","));
             if (path.equals(FileManager.GROUPS_FRIENDS_FILE) && FileManager.SearchFriendInGroup(data.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(keys[0])], data.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(keys[1])], data.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(keys[2])]) != null) return false;
 
             //Clave validada
@@ -1297,6 +1299,7 @@ class SecuencialIndizado
             RandomAccessFile indexFile = FileManager.OpenFile(FileManager.INDEX + path);
             String[] keysPosition = keys.split(Pattern.quote(","));
             int statusIndex = FileManager.GetIndexOf(path, "status");
+            indexFile.seek((first - 1) * FileManager.Length);
             
             while(true)
             {
@@ -1365,8 +1368,7 @@ class SecuencialIndizado
                while(masterFile.getFilePointer() != masterFile.length())
                {
                   String line = masterFile.readLine();
-                  if (line.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "status")].equals("0")) continue;
-                  tempFile.writeBytes(line + "\r\n");
+                  if (line.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "status")].equals("1")) tempFile.writeBytes(line + "\r\n");
                }
                masterFile.close();
                
@@ -1591,5 +1593,70 @@ class SecuencialIndizado
          
       }
       return false;
+   }
+   
+   protected static String GetAllOfKey(String path, String keys, String values)
+   {
+      try
+      {
+         String data = "";
+         String[] Keys = keys.split(Pattern.quote(","));
+         String[] Values = values.split(Pattern.quote(","));
+         int statusIndex = FileManager.GetIndexOf(path, "status");
+         
+         if (Keys.length != Values.length) return null;
+         
+         if(FileManager.FileExists(FileManager.INDEX + path))
+         {
+            RandomAccessFile indexDescription = FileManager.OpenFile(FileManager.DESCRIPTION + FileManager.INDEX + path);
+            int first = 0;
+            
+            while(indexDescription.getFilePointer() != indexDescription.length())
+            {
+               String line = indexDescription.readLine();
+
+               switch (line.split(Pattern.quote(FileManager.pSEPARADOR))[0])
+               {
+                  case "INICIAL":
+                     first = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     break;
+               }
+            }
+            indexDescription.close();
+            
+            RandomAccessFile indexFile = FileManager.OpenFile(FileManager.INDEX + path);
+            indexFile.seek((first -1) *FileManager.Length);
+            
+            while(true)
+            {
+               String line = indexFile.readLine();
+               
+               String[] block = line.split(Pattern.quote(FileManager.SEPARADOR))[1].split(Pattern.quote("."));
+               
+               RandomAccessFile masterFile = FileManager.OpenFile(FileManager.MASTER + block[0] + "_" + path);
+               masterFile.seek((Integer.parseInt(block[1])-1) * FileManager.Length);
+               String register = masterFile.readLine();
+               masterFile.close();
+               
+               boolean ok = false;
+               for (int i = 0; i < Keys.length; i++)
+               {
+                  if (!register.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(Keys[i])].startsWith(Values[i])) break;
+                  ok = i == Keys.length - 1;
+               }
+               data += register.replace("¬", "") + FileManager.pSEPARADOR;
+               if (line.split(Pattern.quote(FileManager.SEPARADOR))[3].equals("0")) break;
+               indexFile.seek((Integer.parseInt(line.split(Pattern.quote(FileManager.SEPARADOR))[3]) - 1) * FileManager.Length);
+            }
+            indexFile.close();
+         }
+         
+         if (data.equals("")) return null;
+         return data.substring(0, data.length() - 2);
+      }
+      catch (Exception e)
+      {
+         return null;
+      }
    }
 }
