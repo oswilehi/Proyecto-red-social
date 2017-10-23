@@ -410,6 +410,7 @@ public class Profile extends javax.swing.JFrame {
       myGroups.setVisible(true);
       myGroups.myProfile = this;
       myGroups.myUser = txt_userInfo.getText();
+      myGroups.ShowFriends();
       this.setVisible(false);  
    }//GEN-LAST:event_lbl_CreateGroupMouseClicked
 
@@ -444,6 +445,7 @@ public class Profile extends javax.swing.JFrame {
    private void mI_DeleteGroupActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_mI_DeleteGroupActionPerformed
    {//GEN-HEADEREND:event_mI_DeleteGroupActionPerformed
       // TODO add your handling code here:
+      DesasociateMembersToGroup();
       FileManager.Update(GROUPS_FILE, OldGroupForDelete());
       groupList.removeElement(RightClickGroup);
    }//GEN-LAST:event_mI_DeleteGroupActionPerformed
@@ -463,10 +465,13 @@ public class Profile extends javax.swing.JFrame {
       return old[0]+SEPARADOR+old[1]+SEPARADOR+old[2]+SEPARADOR+old[3]+SEPARADOR+old[4]+SEPARADOR+"0";
    }
    
+   private void DesasociateMembersToGroup(){
+      
+   }
+   
    public void ShowGroups(){
       groupList.clear();
       try{
-         String n = FileManager.GetGroupsOfUser(RedSocial.ACTUALUSER);
          String[] registers = FileManager.GetGroupsOfUser(RedSocial.ACTUALUSER).split(Pattern.quote(pSEPARADOR));
          for(int i = 0; i < registers.length; i++)
          {
