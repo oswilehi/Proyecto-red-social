@@ -185,6 +185,11 @@ public class Profile extends javax.swing.JFrame {
         );
 
         jl_friendList.setBackground(new java.awt.Color(253, 211, 92));
+        jl_friendList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jl_friendListMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jl_friendList);
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -459,6 +464,17 @@ public class Profile extends javax.swing.JFrame {
             RightClickGroup = FileManager.SearchGroup(txt_userInfo.getText(), groupList.elementAt(index).toString()).split(Pattern.quote(SEPARADOR))[1];
          }
    }//GEN-LAST:event_List_GroupsMouseClicked
+
+    private void jl_friendListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_friendListMouseClicked
+        // TODO add your handling code here:
+        ListIcon friend = (ListIcon)friendList.getElementAt(jl_friendList.getSelectedIndex());
+        String userOfFriend = friend.name.split(" ")[2];
+        
+        SeeFriendProfile seeFriendProfile = new SeeFriendProfile(userOfFriend, 3);
+        seeFriendProfile.setVisible(true);
+        this.setVisible(false);
+        
+    }//GEN-LAST:event_jl_friendListMouseClicked
 
    private String OldGroupForDelete(){
       String[] old = FileManager.SearchGroup(txt_userInfo.getText(), RightClickGroup).split(Pattern.quote(SEPARADOR));

@@ -283,8 +283,9 @@ public class SeeFriendProfile extends javax.swing.JFrame
            FileManager.Update(FRIENDS_FILE, RedSocial.Fill(dataOfRequest, FriendLength));
        }
        else if (typeOfForm == 3){
-           updateInfo("1","0");
+           updateInfo("0","0");
            typeOfForm = 1;
+           requestWasSend = false;
            showProfile();
        }
 
@@ -315,7 +316,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
 
     private void jmi_cancelRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cancelRequestActionPerformed
         // TODO add your handling code here:
-        updateInfo("0", "1");
+        updateInfo("0", "0");
         typeOfForm = 1;
         showProfile();
     }//GEN-LAST:event_jmi_cancelRequestActionPerformed
@@ -328,9 +329,21 @@ public class SeeFriendProfile extends javax.swing.JFrame
     }//GEN-LAST:event_lbl_acceptRequestMouseClicked
 
    private void updateInfo(String accepted, String status){
-        String requestDate = FileManager.SearchFriend(friendToShow,ACTUALUSER).split(Pattern.quote(SEPARADOR)) [3];
-        String requester = FileManager.SearchFriend(friendToShow,ACTUALUSER).split(Pattern.quote(SEPARADOR)) [0];
-        String receiver = FileManager.SearchFriend(friendToShow,ACTUALUSER).split(Pattern.quote(SEPARADOR)) [1];
+      
+        String requestDate;
+        String requester;
+        String receiver; 
+        if (FileManager.SearchFriend(ACTUALUSER,friendToShow) != null){
+            requestDate = FileManager.SearchFriend(ACTUALUSER,friendToShow).split(Pattern.quote(SEPARADOR)) [3];
+            requester = FileManager.SearchFriend(ACTUALUSER,friendToShow).split(Pattern.quote(SEPARADOR)) [0];
+            receiver = FileManager.SearchFriend(ACTUALUSER,friendToShow).split(Pattern.quote(SEPARADOR)) [1];
+        }
+        else {
+            requestDate = FileManager.SearchFriend(friendToShow, ACTUALUSER).split(Pattern.quote(SEPARADOR)) [3];
+            requester = FileManager.SearchFriend(friendToShow, ACTUALUSER).split(Pattern.quote(SEPARADOR)) [0];
+            receiver = FileManager.SearchFriend(friendToShow, ACTUALUSER).split(Pattern.quote(SEPARADOR)) [1];
+        }
+        
         String dataOfRequest = requester + SEPARADOR + receiver + SEPARADOR + accepted + SEPARADOR + requestDate + SEPARADOR + requester + SEPARADOR + status;
         FileManager.Update(FRIENDS_FILE, RedSocial.Fill(dataOfRequest, FriendLength));
    }

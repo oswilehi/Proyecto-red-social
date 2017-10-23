@@ -114,7 +114,8 @@ public class RedSocial {
     }
     
      public static void showFriends(Renderer renderer, DefaultListModel friendList, JList jl_friendList, String user){
-                
+               
+        int friendToSearch = 0; 
         ImageIcon icon;
         String pathIcon;
         jl_friendList.setModel(friendList);
@@ -129,8 +130,11 @@ public class RedSocial {
             if (myFriends!=null && myFriends2!=null)
                 realFriends = myFriends + "::" + myFriends2;
             if (myFriends!=null || myFriends2!=null){
-                if (myFriends!=null)
+                if (myFriends!=null){
                     realFriends = myFriends;
+                    friendToSearch = 1;
+                }
+                    
                 else
                     realFriends = myFriends2;                     
             }
@@ -139,7 +143,7 @@ public class RedSocial {
             String realFriendsArray[] = realFriends.split(Pattern.quote(pSEPARADOR));
             for (int i = 0; i < realFriendsArray.length; i++) {
                 String friendShip[] = realFriendsArray[i].split(Pattern.quote(SEPARADOR));
-                String individualUser[] = FileManager.SearchUser(friendShip[1]).split(Pattern.quote(SEPARADOR));
+                String individualUser[] = FileManager.SearchUser(friendShip[friendToSearch]).split(Pattern.quote(SEPARADOR));
                 pathIcon = individualUser[8];
                 icon = new ImageIcon((new ImageIcon(pathIcon)).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
                 friendList.addElement(new ListIcon(individualUser[1]+" "+individualUser[2]+" "+individualUser[0], icon));
