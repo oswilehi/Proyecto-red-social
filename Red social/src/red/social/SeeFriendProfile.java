@@ -12,12 +12,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
 import static red.social.FileManager.FRIENDS_FILE;
 import static red.social.FileManager.FriendLength;
 import static red.social.FileManager.SEPARADOR;
+import red.social.Icons.Renderer;
 import static red.social.RedSocial.ACTUALUSER;
 
 /**
@@ -35,6 +37,9 @@ public class SeeFriendProfile extends javax.swing.JFrame
    // Si typeOfForm es 1 significa que se viene a enviar una solicitud, si es 2 significa que se viene a aceptar una solicitud y si es 3
    /// significa que ya son amigos y puede eliminar al amigo
    int typeOfForm;
+   DefaultListModel friendList = new DefaultListModel();
+   Renderer renderer = new Renderer();
+   Profile myProfile;
    public SeeFriendProfile(String friendToShow, int typeOfForm)
    {
       initComponents();
@@ -45,7 +50,8 @@ public class SeeFriendProfile extends javax.swing.JFrame
       String request = FileManager.SearchFriend(ACTUALUSER, friendToShow);
       requestWasSend = request != null;
       showProfile();
-      
+      //Show friends
+      RedSocial.showFriends(renderer, friendList, jl_friendList, friendToShow);
       
       
    }
@@ -71,7 +77,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
         jPanel2 = new javax.swing.JPanel();
         lbl_profilePic = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jl_friendList = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -139,8 +145,8 @@ public class SeeFriendProfile extends javax.swing.JFrame
                 .addContainerGap())
         );
 
-        jList1.setBackground(new java.awt.Color(253, 211, 92));
-        jScrollPane1.setViewportView(jList1);
+        jl_friendList.setBackground(new java.awt.Color(253, 211, 92));
+        jScrollPane1.setViewportView(jl_friendList);
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -286,11 +292,11 @@ public class SeeFriendProfile extends javax.swing.JFrame
       
    }//GEN-LAST:event_lbl_sendRequestMouseClicked
 
-   
+
    
     private void btn_ReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ReturnActionPerformed
         // TODO add your handling code here:
-
+        
     }//GEN-LAST:event_btn_ReturnActionPerformed
 
     private void lbl_sendRequestMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_sendRequestMouseReleased
@@ -415,12 +421,12 @@ public class SeeFriendProfile extends javax.swing.JFrame
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList<String> jl_friendList;
     private javax.swing.JMenuItem jmi_cancelRequest;
     private javax.swing.JLabel lbl_acceptRequest;
     private javax.swing.JLabel lbl_descripcion;

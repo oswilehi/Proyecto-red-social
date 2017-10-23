@@ -7,6 +7,15 @@ package red.social;
 import java.io.*;
 import java.security.MessageDigest;
 import java.util.regex.Pattern;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import static red.social.FileManager.FRIENDS_FILE;
+import static red.social.FileManager.SEPARADOR;
+import static red.social.FileManager.pSEPARADOR;
+import red.social.Icons.ListIcon;
+import red.social.Icons.Renderer;
 
 public class RedSocial {
 
@@ -102,5 +111,39 @@ public class RedSocial {
                      + "0";
         actualUser = RedSocial.Fill(actualUser, FileManager.UserLength);
         FileManager.Update(FileManager.USER_FILE,actualUser);
+    }
+    
+     public static void showFriends(Renderer renderer, DefaultListModel friendList, JList jl_friendList, String user){
+                
+        ImageIcon icon;
+        String pathIcon;
+        jl_friendList.setModel(friendList);
+        // Busco en dos variables porque yo puedo estar como Usuario o usuario_amigo
+        String myFriends = FileManager.SearchByKey(FRIENDS_FILE, "0,2,5", user+",1,1");
+        String myFriends2 = FileManager.SearchByKey(FRIENDS_FILE, "1,2,5", user+",1,1");
+        String realFriends = "";
+        
+        if (myFriends==null && myFriends2==null)
+            friendList.addElement("No hay amigos para mostrar");  
+        else{
+            if (myFriends!=null && myFriends2!=null)
+                realFriends = myFriends + "::" + myFriends2;
+            if (myFriends!=null || myFriends2!=null){
+                if (myFriends!=null)
+                    realFriends = myFriends;
+                else
+                    realFriends = myFriends2;                     
+            }
+        
+            jl_friendList.setCellRenderer(renderer);
+            String realFriendsArray[] = realFriends.split(Pattern.quote(pSEPARADOR));
+            for (int i = 0; i < realFriendsArray.length; i++) {
+                String friendShip[] = realFriendsArray[i].split(Pattern.quote(SEPARADOR));
+                String individualUser[] = FileManager.SearchUser(friendShip[1]).split(Pattern.quote(SEPARADOR));
+                pathIcon = individualUser[8];
+                icon = new ImageIcon((new ImageIcon(pathIcon)).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
+                friendList.addElement(new ListIcon(individualUser[1]+" "+individualUser[2]+" "+individualUser[0], icon));
+            }
+        }    
     }
 }

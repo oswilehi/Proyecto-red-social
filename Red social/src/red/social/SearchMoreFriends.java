@@ -10,9 +10,13 @@ import java.awt.Toolkit;
 import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import static red.social.FileManager.FRIENDS_FILE;
 import static red.social.FileManager.SEPARADOR;
+import static red.social.FileManager.USER_FILE;
+import static red.social.FileManager.pSEPARADOR;
 import red.social.Icons.Renderer;
 import red.social.Icons.ListIcon;
+import static red.social.RedSocial.ACTUALUSER;
 
 /**
  *
@@ -47,10 +51,10 @@ public class SearchMoreFriends extends javax.swing.JFrame
         btn_Cancel = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        tf_name = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        tf_lastName = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jl_friendList = new javax.swing.JList<>();
@@ -77,7 +81,7 @@ public class SearchMoreFriends extends javax.swing.JFrame
         jLabel2.setForeground(new java.awt.Color(1, 74, 117));
         jLabel2.setText("¡Encuentra más amigos y aumenta la diversión!");
 
-        jTextField1.setBackground(new java.awt.Color(204, 204, 255));
+        tf_name.setBackground(new java.awt.Color(204, 204, 255));
 
         jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -87,7 +91,7 @@ public class SearchMoreFriends extends javax.swing.JFrame
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Apellido");
 
-        jTextField2.setBackground(new java.awt.Color(204, 204, 255));
+        tf_lastName.setBackground(new java.awt.Color(204, 204, 255));
 
         jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -134,8 +138,8 @@ public class SearchMoreFriends extends javax.swing.JFrame
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tf_lastName, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tf_name, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tf_user, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -154,13 +158,13 @@ public class SearchMoreFriends extends javax.swing.JFrame
                 .addGap(29, 29, 29)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tf_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tf_lastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -204,8 +208,48 @@ public class SearchMoreFriends extends javax.swing.JFrame
         ImageIcon icon;
         String pathIcon;
         jl_friendList.setModel(friendList);
+
+        // Busqueda por nombre y apellido
+        if (!tf_name.getText().trim().isEmpty() && !tf_lastName.getText().trim().isEmpty() && tf_user.getText().trim().isEmpty()){
+           String foundUsers = FileManager.SearchByKey(USER_FILE, "1,2", tf_name.getText()+","+tf_lastName.getText());
+            if (foundUsers != null){
+                jl_friendList.setCellRenderer(renderer);
+                String foundUsersArray[] = foundUsers.split(Pattern.quote(pSEPARADOR));
+                for (int i = 0; i < foundUsersArray.length; i++){
+                    String individualUser[] = foundUsersArray[i].split(Pattern.quote(SEPARADOR));
+                    pathIcon = individualUser[8];
+                    icon = new ImageIcon((new ImageIcon(pathIcon)).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
+                    friendList.addElement(new ListIcon(individualUser[1]+" "+individualUser[2]+" "+individualUser[0], icon));
+                }
+                
+            }
+            else
+                friendList.addElement("Sin resultados de búsqueda.");
+        }
+        // Busqueda por nombre o apellido
+        else if (!tf_name.getText().trim().isEmpty() || !tf_lastName.getText().trim().isEmpty()){
+            String foundUser;
+            if (tf_name.getText().trim().isEmpty())
+                foundUser = FileManager.SearchByKey(USER_FILE, "2", tf_lastName.getText());           
+            else
+                foundUser = FileManager.SearchByKey(USER_FILE, "1", tf_name.getText());           
+            
+            if (foundUser != null){
+                jl_friendList.setCellRenderer(renderer);
+                String foundUsersArray[] = foundUser.split(Pattern.quote(pSEPARADOR));
+                for (int i = 0; i < foundUsersArray.length; i++){
+                    String individualUser[] = foundUsersArray[i].split(Pattern.quote(SEPARADOR));
+                    pathIcon = individualUser[8];
+                    icon = new ImageIcon((new ImageIcon(pathIcon)).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
+                    friendList.addElement(new ListIcon(individualUser[1]+" "+individualUser[2]+" "+individualUser[0], icon));
+                }              
+            }
+            else
+                friendList.addElement("Sin resultados de búsqueda.");            
+        }
         
-        if (tf_user.getText() != null){
+        // Busqueda por usuario
+        else if (!tf_user.getText().trim().isEmpty()){
             String foundUser = FileManager.SearchUser(tf_user.getText());
             if (foundUser != null){
                 jl_friendList.setCellRenderer(renderer);
@@ -221,11 +265,54 @@ public class SearchMoreFriends extends javax.swing.JFrame
 
     private void jl_friendListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_friendListMouseClicked
         // TODO add your handling code here:
+        String userToCompare;
         ListIcon friend = (ListIcon)friendList.getElementAt(jl_friendList.getSelectedIndex());
         String userOfFriend = friend.name.split(" ")[2];
-        SeeFriendProfile seeFriendProfile = new SeeFriendProfile(userOfFriend, 1);
-        seeFriendProfile.setVisible(true);
-        this.setVisible(false);
+        String statusOfFriendship = FileManager.SearchByKey(FRIENDS_FILE, "0,1,2,5", userOfFriend + "," + ACTUALUSER + "," + "1" + "," + "1");
+        String statusOfFriendship2 = FileManager.SearchByKey(FRIENDS_FILE, "0,1,2,5", ACTUALUSER + "," + userOfFriend + "," + "1" + "," + "1");
+        // Si ya se ha enviado una solicitud y ha sido aceptada
+        // Se le presenta la posibilidad de poder deshacer la amistad
+        if (statusOfFriendship != null || statusOfFriendship2 != null){
+             SeeFriendProfile seeFriendProfile = new SeeFriendProfile(userOfFriend, 3);
+             seeFriendProfile.setVisible(true);
+             this.setVisible(false);
+        }
+        else{
+            statusOfFriendship = FileManager.SearchByKey(FRIENDS_FILE, "0,1,2,5", userOfFriend + "," + ACTUALUSER + "," + "0" + "," + "1");
+            statusOfFriendship2 = FileManager.SearchByKey(FRIENDS_FILE, "0,1,2,5", ACTUALUSER + "," + userOfFriend + "," + "0" + "," + "1");
+            if (statusOfFriendship != null || statusOfFriendship2 != null){
+                if (statusOfFriendship == null)
+                    userToCompare = statusOfFriendship2;
+                else
+                    userToCompare = statusOfFriendship;
+                
+                 // Si ya se ha enviado una solicitud y no ha sido aceptada y el que va a ingresar al perfil fue el que la envio
+                 // Se le presenta la posibilidad de poder deshacer la solicitud
+                if (ACTUALUSER.equals(userToCompare.split(Pattern.quote(SEPARADOR))[4])){
+                    SeeFriendProfile seeFriendProfile = new SeeFriendProfile(userOfFriend, 1);
+                    seeFriendProfile.setVisible(true);
+                    this.setVisible(false);
+                }
+                // Si ya se ha enviado una solicitud y no ha sido aceptada y el que va a ingresar al perfil fue el que la recibio
+                // Se le presenta la posibilidad de poder aceptar o declinar la solicitud
+                else{
+                    SeeFriendProfile seeFriendProfile = new SeeFriendProfile(userOfFriend, 2);
+                    seeFriendProfile.setVisible(true);
+                    this.setVisible(false);
+                }
+            }
+            // si ambos son nulos quiere decir que no ha habido ninguna solicitud enviada anteriormente por lo que se le permitira
+            // enviar una.
+            else{
+                SeeFriendProfile seeFriendProfile = new SeeFriendProfile(userOfFriend, 1);
+                seeFriendProfile.setVisible(true);
+                this.setVisible(false);
+            }
+            
+            
+           
+        }
+           
         
     }//GEN-LAST:event_jl_friendListMouseClicked
 
@@ -289,9 +376,9 @@ public class SearchMoreFriends extends javax.swing.JFrame
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JList<String> jl_friendList;
+    private javax.swing.JTextField tf_lastName;
+    private javax.swing.JTextField tf_name;
     private javax.swing.JTextField tf_user;
     // End of variables declaration//GEN-END:variables
 }
