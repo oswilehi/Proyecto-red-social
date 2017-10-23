@@ -439,8 +439,7 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
       return myUser+SEPARADOR+txt_GroupName.getText()+SEPARADOR+friend+SEPARADOR+"1";
    }
    
-   private void ShowMembers(){
-   }
+  
    public void FillComponents(String user, String group, Profile form){
       thisGroup = group;
       myUser = user;
@@ -469,6 +468,14 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
       ShowMembers();
    }
    
+    private void ShowMembers(){
+       String members = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "0,1", myUser+","+thisGroup);
+       for (int i = 0; i < 10; i++)
+       {
+          
+       }
+    }
+    
    private void InvisibleComponents(){
       lbl_DescriptionError.setVisible(false);
       lbl_NameError.setVisible(false);
