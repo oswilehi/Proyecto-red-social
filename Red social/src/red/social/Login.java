@@ -25,13 +25,17 @@ public class Login extends javax.swing.JFrame {
        //
 //       FileManager.WriteFile(FRIENDS_FILE, Fill("krle_10|Mario|1|20/10/2017|123|1", FriendLength));
 //       FileManager.WriteFile(FRIENDS_FILE, Fill("krle_10|Juana|1|20/10/2017|123|1", FriendLength));
-//       FileManager.WriteFile(FRIENDS_FILE, Fill("krle_10|Ejemplo2|1|20/10/2017|123|1", FriendLength));
+//       FileManager.WriteFile(FRIENDS_FILE, Fill("krle_10|Pedro|1|20/10/2017|123|1", FriendLength));
 //       FileManager.WriteFile(FRIENDS_FILE, Fill("krle_10|Alicia|1|20/10/2017|123|1", FriendLength));
+//        FileManager.WriteFile(FRIENDS_FILE, Fill("krle_10|Ejemplo|1|20/10/2017|123|1", FriendLength));
+//        FileManager.WriteFile(FRIENDS_FILE, Fill("Ejemplo|krle_10|1|20/10/2017|123|1", FriendLength));
+//        FileManager.WriteFile(FRIENDS_FILE, Fill("Ejemplo|Mario|1|20/10/2017|123|1", FriendLength));
 
 //       FileManager.WriteFile(FRIENDS_FILE, Fill("Ejemplo2|Mario|1|20/10/2017|123|1", FriendLength));
 //       FileManager.WriteFile(FRIENDS_FILE, Fill("Ejemplo2|Juana|1|20/10/2017|123|1", FriendLength));
 //       FileManager.WriteFile(FRIENDS_FILE, Fill("Ejemplo2|Pedro|1|20/10/2017|123|1", FriendLength));
 //       FileManager.WriteFile(FRIENDS_FILE, Fill("Ejemplo2|Alicia|1|20/10/2017|123|1", FriendLength));
+//        FileManager.WriteFile(FRIENDS_FILE, Fill("Ejemplo2|krle_10|1|20/10/2017|123|1", FriendLength));
        
        // 
        initComponents();

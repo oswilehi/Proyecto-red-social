@@ -497,6 +497,7 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
       return false;
    }
     private void ShowMembers(){
+       groupList.clear();
        try{
           String[] members = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "0,1", myUser+","+thisGroup).split(Pattern.quote(pSEPARADOR));
           String[] friend;

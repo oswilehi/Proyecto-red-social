@@ -413,7 +413,6 @@ public class FriendsGroups extends javax.swing.JFrame
    private void AddFriendsToGroup(){
       for (int i = 0; i < groupList.size(); i++)
       {
-         String name = ((ListIcon)groupList.elementAt(i)).name;
          FileManager.WriteFile(GROUPS_FRIENDS_FILE, CreateAsociationToGroup(((ListIcon)groupList.elementAt(i)).name));
       }
    }
