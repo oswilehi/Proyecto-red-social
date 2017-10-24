@@ -540,6 +540,30 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
       return true;
    }
    
+   public void TurnOffItsGroups(String friendA, String friendB){
+      try{
+         String[] groupsOfA = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "0,2", friendA+","+friendB).split(Pattern.quote(pSEPARADOR));
+         for (int i = 0; i < groupsOfA.length; i++)
+         {
+            FileManager.Update(GROUPS_FRIENDS_FILE, groupsOfA[i].substring(0,groupsOfA[i].length()-1)+"0");
+         }
+      }catch(Exception e){
+         
+      }
+      
+      try{
+         String[] groupsOfB = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "0,2", friendA+","+friendB).split(Pattern.quote(pSEPARADOR));
+         for (int i = 0; i < groupsOfB.length; i++)
+         {
+            FileManager.Update(GROUPS_FRIENDS_FILE, groupsOfB[i].substring(0,groupsOfB[i].length()-1)+"0");
+         }
+      }catch(Exception e){
+         
+      }
+      
+      
+   }
+   
    /**
     * @param args the command line arguments
     */
