@@ -19,6 +19,7 @@ import javax.swing.SwingUtilities;
 import static red.social.FileManager.FRIENDS_FILE;
 import static red.social.FileManager.FriendLength;
 import static red.social.FileManager.SEPARADOR;
+import red.social.Icons.ListIcon;
 import red.social.Icons.Renderer;
 import static red.social.RedSocial.ACTUALUSER;
 
@@ -39,7 +40,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
    int typeOfForm;
    DefaultListModel friendList = new DefaultListModel();
    Renderer renderer = new Renderer();
-   Profile myProfile;
+   static Profile myProfile;
    public SeeFriendProfile(String friendToShow, int typeOfForm)
    {
       initComponents();
@@ -51,9 +52,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
       requestWasSend = request != null;
       showProfile();
       //Show friends
-      RedSocial.showFriends(renderer, friendList, jl_friendList, friendToShow);
-      
-      
+      RedSocial.showFriends(renderer, friendList, jl_friendList, friendToShow);   
    }
 
    /**
@@ -146,6 +145,11 @@ public class SeeFriendProfile extends javax.swing.JFrame
         );
 
         jl_friendList.setBackground(new java.awt.Color(253, 211, 92));
+        jl_friendList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jl_friendListMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jl_friendList);
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -263,9 +267,8 @@ public class SeeFriendProfile extends javax.swing.JFrame
 
    private void lbl_sendRequestMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lbl_sendRequestMouseClicked
    {//GEN-HEADEREND:event_lbl_sendRequestMouseClicked
-      // TODO add your handling code here:
-       // Se debe verificar si ya se habia enviado una solicitud a ese amigo.
-       
+
+       // Se debe verificar si ya se habia enviado una solicitud a ese amigo.      
        // Si no se ha enviado una solicitud, se envia la linea y se cambia el label
        if (typeOfForm == 1){
            if (!requestWasSend && evt.getModifiers() == MouseEvent.BUTTON1_MASK){
@@ -287,17 +290,15 @@ public class SeeFriendProfile extends javax.swing.JFrame
            typeOfForm = 1;
            requestWasSend = false;
            showProfile();
-       }
-
-                     
-      
+       }    
    }//GEN-LAST:event_lbl_sendRequestMouseClicked
 
 
    
     private void btn_ReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ReturnActionPerformed
         // TODO add your handling code here:
-        
+        myProfile.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btn_ReturnActionPerformed
 
     private void lbl_sendRequestMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_sendRequestMouseReleased
@@ -327,6 +328,11 @@ public class SeeFriendProfile extends javax.swing.JFrame
         typeOfForm = 3;
         showProfile();
     }//GEN-LAST:event_lbl_acceptRequestMouseClicked
+
+    private void jl_friendListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_friendListMouseClicked
+        // TODO add your handling code here:
+        RedSocial.goToFriendProfile(this, jl_friendList, friendList);       
+    }//GEN-LAST:event_jl_friendListMouseClicked
 
    private void updateInfo(String accepted, String status){
       

@@ -265,55 +265,7 @@ public class SearchMoreFriends extends javax.swing.JFrame
 
     private void jl_friendListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_friendListMouseClicked
         // TODO add your handling code here:
-        String userToCompare;
-        ListIcon friend = (ListIcon)friendList.getElementAt(jl_friendList.getSelectedIndex());
-        String userOfFriend = friend.name.split(" ")[2];
-        String statusOfFriendship = FileManager.SearchByKey(FRIENDS_FILE, "0,1,2,5", userOfFriend + "," + ACTUALUSER + "," + "1" + "," + "1");
-        String statusOfFriendship2 = FileManager.SearchByKey(FRIENDS_FILE, "0,1,2,5", ACTUALUSER + "," + userOfFriend + "," + "1" + "," + "1");
-        // Si ya se ha enviado una solicitud y ha sido aceptada
-        // Se le presenta la posibilidad de poder deshacer la amistad
-        if (statusOfFriendship != null || statusOfFriendship2 != null){
-             SeeFriendProfile seeFriendProfile = new SeeFriendProfile(userOfFriend, 3);
-             seeFriendProfile.setVisible(true);
-             this.setVisible(false);
-        }
-        else{
-            statusOfFriendship = FileManager.SearchByKey(FRIENDS_FILE, "0,1,2,5", userOfFriend + "," + ACTUALUSER + "," + "0" + "," + "1");
-            statusOfFriendship2 = FileManager.SearchByKey(FRIENDS_FILE, "0,1,2,5", ACTUALUSER + "," + userOfFriend + "," + "0" + "," + "1");
-            if (statusOfFriendship != null || statusOfFriendship2 != null){
-                if (statusOfFriendship == null)
-                    userToCompare = statusOfFriendship2;
-                else
-                    userToCompare = statusOfFriendship;
-                
-                 // Si ya se ha enviado una solicitud y no ha sido aceptada y el que va a ingresar al perfil fue el que la envio
-                 // Se le presenta la posibilidad de poder deshacer la solicitud
-                if (ACTUALUSER.equals(userToCompare.split(Pattern.quote(SEPARADOR))[4])){
-                    SeeFriendProfile seeFriendProfile = new SeeFriendProfile(userOfFriend, 1);
-                    seeFriendProfile.setVisible(true);
-                    this.setVisible(false);
-                }
-                // Si ya se ha enviado una solicitud y no ha sido aceptada y el que va a ingresar al perfil fue el que la recibio
-                // Se le presenta la posibilidad de poder aceptar o declinar la solicitud
-                else{
-                    SeeFriendProfile seeFriendProfile = new SeeFriendProfile(userOfFriend, 2);
-                    seeFriendProfile.setVisible(true);
-                    this.setVisible(false);
-                }
-            }
-            // si ambos son nulos quiere decir que no ha habido ninguna solicitud enviada anteriormente por lo que se le permitira
-            // enviar una.
-            else{
-                SeeFriendProfile seeFriendProfile = new SeeFriendProfile(userOfFriend, 1);
-                seeFriendProfile.setVisible(true);
-                this.setVisible(false);
-            }
-            
-            
-           
-        }
-           
-        
+        RedSocial.goToFriendProfile(this, jl_friendList, friendList);        
     }//GEN-LAST:event_jl_friendListMouseClicked
 
    /**
