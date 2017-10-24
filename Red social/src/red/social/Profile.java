@@ -41,6 +41,7 @@ public class Profile extends javax.swing.JFrame {
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        SeeFriendProfile.myProfile = this;       
     }
     
 
@@ -470,8 +471,7 @@ public class Profile extends javax.swing.JFrame {
         ListIcon friend = (ListIcon)friendList.getElementAt(jl_friendList.getSelectedIndex());
         String userOfFriend = friend.name.split(" ")[2];       
         SeeFriendProfile seeFriendProfile = new SeeFriendProfile(userOfFriend, 3);
-        seeFriendProfile.setVisible(true);
-        SeeFriendProfile.myProfile = this;
+        seeFriendProfile.setVisible(true);        
         this.setVisible(false);    
     }//GEN-LAST:event_jl_friendListMouseClicked
 
