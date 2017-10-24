@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import static red.social.FileManager.FRIENDS_FILE;
+import static red.social.FileManager.FriendLength;
 import static red.social.FileManager.SEPARADOR;
 import static red.social.FileManager.pSEPARADOR;
 import red.social.Icons.ListIcon;
@@ -111,6 +112,32 @@ public class RedSocial {
                      + "0";
         actualUser = RedSocial.Fill(actualUser, FileManager.UserLength);
         FileManager.Update(FileManager.USER_FILE,actualUser);
+        deleteFriends(userToDelete);
+    }
+    
+    // Cancela las amistades de un usuario que se ha dado de baja
+    private static void deleteFriends(String user){
+        int friendToSearch;
+        // Busco en dos variables porque yo puedo estar como Usuario o usuario_amigo
+        String myFriends = FileManager.SearchByKey(FRIENDS_FILE, "0,2,5", user+",1,1");
+        String myFriends2 = FileManager.SearchByKey(FRIENDS_FILE, "1,2,5", user+",1,1");
+        String realFriends = "";
+       
+        if (myFriends!=null && myFriends2!=null)
+            realFriends = myFriends + "::" + myFriends2;
+        else if (myFriends!=null || myFriends2!=null){
+            if (myFriends!=null)
+                realFriends = myFriends;
+                    
+            else
+                realFriends = myFriends2;                     
+        }
+        
+        String realFriendsArray[] = realFriends.split(Pattern.quote(pSEPARADOR));
+        for (int i = 0; i < realFriendsArray.length; i++) {
+            String friendShip[] = realFriendsArray[i].split(Pattern.quote(SEPARADOR));
+            FileManager.Update(FRIENDS_FILE, RedSocial.Fill(friendShip[0]+SEPARADOR+friendShip[1]+SEPARADOR+friendShip[2]+SEPARADOR+friendShip[3]+SEPARADOR+friendShip[4]+SEPARADOR+"0",FriendLength));            
+        }      
     }
     
      public static void showFriends(Renderer renderer, DefaultListModel friendList, JList jl_friendList, String user){

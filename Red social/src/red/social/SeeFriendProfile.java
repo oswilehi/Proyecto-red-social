@@ -297,8 +297,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
    
     private void btn_ReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ReturnActionPerformed
         // TODO add your handling code here:
-        
-        myProfile.setVisible(true);        
+        myProfile.setVisible(true);          
         this.dispose();
     }//GEN-LAST:event_btn_ReturnActionPerformed
 
@@ -320,6 +319,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
         // TODO add your handling code here:
         updateInfo("0", "0");
         typeOfForm = 1;
+        requestWasSend = false;
         showProfile();
     }//GEN-LAST:event_jmi_cancelRequestActionPerformed
 

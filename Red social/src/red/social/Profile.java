@@ -10,13 +10,16 @@ import java.awt.Toolkit;
 import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JList;
 import static red.social.FileManager.SEPARADOR;
 import static red.social.FileManager.pSEPARADOR;
 import static red.social.FileManager.GROUPS_FILE;
 import static red.social.FileManager.FRIENDS_FILE;
 import red.social.Icons.Renderer;
 import javax.swing.SwingUtilities;
+import static red.social.FileManager.FRIENDS_FILE;
 import static red.social.FileManager.SEPARADOR;
+import static red.social.FileManager.pSEPARADOR;
 import red.social.Icons.ListIcon;
 import static red.social.RedSocial.ACTUALUSER;
 
@@ -403,7 +406,7 @@ public class Profile extends javax.swing.JFrame {
    private void lbl_OutAccountMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lbl_OutAccountMouseClicked
    {//GEN-HEADEREND:event_lbl_OutAccountMouseClicked
       // TODO add your handling code here:
-       RedSocial.Delete(RedSocial.ACTUALUSER);
+        RedSocial.Delete(RedSocial.ACTUALUSER);
         RedSocial.ACTUALUSER = ""; // Vacio la variable de usuario actual porque se elimino cuenta
         this.dispose();
         RedSocial.LoginController();
@@ -497,6 +500,7 @@ public class Profile extends javax.swing.JFrame {
       }
       List_Groups.setModel(groupList);
    }
+   
     /**
      * @param args the command line arguments
      */
