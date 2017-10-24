@@ -1012,7 +1012,6 @@ class SecuencialIndizado
             RandomAccessFile masterDescription = FileManager.OpenFile(FileManager.DESCRIPTION + FileManager.MASTER + current + "_" + path);
             int count = 0;
             int max = 0;
-            int realNumberOfLines = (int)(masterDescription.length() / FileManager.Length);
             while(masterDescription.getFilePointer() != masterDescription.length())
             {
                String line = masterDescription.readLine();
@@ -1044,6 +1043,9 @@ class SecuencialIndizado
             RandomAccessFile indexFile = FileManager.OpenFile(FileManager.INDEX + path);
             RandomAccessFile masterFile = FileManager.OpenFile(FileManager.MASTER + current + "_" + path);
             
+            //Obtenes la linea que realmente ocupará el registro
+            int masterNextPosition = (int)(masterFile.length() / FileManager.Length) + 1;
+            int indexNextPosition = (int)(indexFile.length() / FileManager.Length) + 1;
             //Escribimos primero al archivo maestro
             //Escribimos al final del archivo
             masterFile.seek(masterFile.length());
@@ -1065,11 +1067,11 @@ class SecuencialIndizado
             
             if (first == 0)
             {
-               dataToAdd = "1" + FileManager.SEPARADOR + current + "." + (realNumberOfLines+1) + FileManager.SEPARADOR + key + FileManager.SEPARADOR + "0" + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
+               dataToAdd = indexNextPosition + FileManager.SEPARADOR + current + "." +  masterNextPosition + FileManager.SEPARADOR + key + FileManager.SEPARADOR + "0" + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
                indexFile.seek(indexFile.length());
                indexFile.writeBytes(FileManager.FixSize(dataToAdd, FileManager.Length)+"\r\n");
                indexFile.close();
-               first++;
+               first = indexNextPosition;
             }
             else
             {
@@ -1082,9 +1084,9 @@ class SecuencialIndizado
                   
                   if (Integer.parseInt(line.split(Pattern.quote(FileManager.SEPARADOR))[3]) == 0 && key.compareTo(line.split(Pattern.quote(FileManager.SEPARADOR))[2]) > 0 ) // Debe ir al final
                   {
-                     dataToAdd = (int)(indexFile.length() / FileManager.Length + 1) + FileManager.SEPARADOR + current + "." + (realNumberOfLines+1) + FileManager.SEPARADOR + key + FileManager.SEPARADOR + "0" + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
+                     dataToAdd = indexNextPosition + FileManager.SEPARADOR + current + "." + masterNextPosition + FileManager.SEPARADOR + key + FileManager.SEPARADOR + "0" + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
                      String[] temp = line.split(Pattern.quote(FileManager.SEPARADOR));
-                     temp[3] = Integer.toString((int)(indexFile.length() / FileManager.Length + 1));
+                     temp[3] = Integer.toString(indexNextPosition);
                      for (int i = 0; i < temp.length - 1; i++)
                      {
                         dataToUpdate += temp[i] + FileManager.SEPARADOR;
@@ -1093,16 +1095,16 @@ class SecuencialIndizado
                   }
                   else if (key.compareTo(line.split(Pattern.quote(FileManager.SEPARADOR))[2]) <= 0 && newR == first) // Queda como primer elemento
                   {
-                     first  =  (int)(indexFile.length() / FileManager.Length + 1);
-                     dataToAdd = (int)(indexFile.length() / FileManager.Length + 1) + FileManager.SEPARADOR + current + "." + (realNumberOfLines+1) + FileManager.SEPARADOR + key + FileManager.SEPARADOR + line.split(Pattern.quote(FileManager.SEPARADOR))[0] + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
+                     first  =  indexNextPosition;
+                     dataToAdd = indexNextPosition + FileManager.SEPARADOR + current + "." + masterNextPosition + FileManager.SEPARADOR + key + FileManager.SEPARADOR + line.split(Pattern.quote(FileManager.SEPARADOR))[0] + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
                      break;
                   }
                   else if (key.compareTo(line.split(Pattern.quote(FileManager.SEPARADOR))[2]) <= 0)// va en medio de dos valores
                   {
-                     dataToAdd = (int)(indexFile.length() / FileManager.Length + 1) + FileManager.SEPARADOR + current + "." + (realNumberOfLines+1) + FileManager.SEPARADOR + key + FileManager.SEPARADOR + newR + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
+                     dataToAdd = indexNextPosition + FileManager.SEPARADOR + current + "." + masterNextPosition + FileManager.SEPARADOR + key + FileManager.SEPARADOR + newR + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
                      indexFile.seek((lastR-1) * FileManager.Length);
                      String[] temp = indexFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
-                     temp[3] = Integer.toString((int)(indexFile.length() / FileManager.Length + 1));
+                     temp[3] = Integer.toString(indexNextPosition);
                      for (int i = 0; i < temp.length - 1; i++)
                      {
                         dataToUpdate += temp[i]+ FileManager.SEPARADOR;
