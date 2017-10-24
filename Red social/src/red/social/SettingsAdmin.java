@@ -27,6 +27,7 @@ public class SettingsAdmin extends javax.swing.JFrame {
      */
     public SettingsAdmin() {
         initComponents();
+        lbl_ReorganizeSuccess.setVisible(false);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         btn_Delete.setEnabled(false);
@@ -50,16 +51,20 @@ public class SettingsAdmin extends javax.swing.JFrame {
       jLabel1 = new javax.swing.JLabel();
       jLabel2 = new javax.swing.JLabel();
       btn_DoBackup = new javax.swing.JButton();
-      jLabel5 = new javax.swing.JLabel();
-      txt_Search = new javax.swing.JTextField();
-      btn_Delete = new javax.swing.JButton();
-      btn_Modify = new javax.swing.JButton();
-      btn_Find = new javax.swing.JButton();
       btn_Return = new javax.swing.JButton();
       jPanel4 = new javax.swing.JPanel();
       jLabel4 = new javax.swing.JLabel();
       btn_EnterUsers = new javax.swing.JButton();
       jLabel3 = new javax.swing.JLabel();
+      jLabel6 = new javax.swing.JLabel();
+      btn_Reorganize = new javax.swing.JButton();
+      lbl_ReorganizeSuccess = new javax.swing.JLabel();
+      jPanel5 = new javax.swing.JPanel();
+      jLabel5 = new javax.swing.JLabel();
+      txt_Search = new javax.swing.JTextField();
+      btn_Find = new javax.swing.JButton();
+      btn_Modify = new javax.swing.JButton();
+      btn_Delete = new javax.swing.JButton();
       lbl_usuario = new javax.swing.JLabel();
 
       javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -131,45 +136,6 @@ public class SettingsAdmin extends javax.swing.JFrame {
          }
       });
 
-      jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-      jLabel5.setForeground(new java.awt.Color(71, 79, 89));
-      jLabel5.setText("Buscar Usuarios");
-
-      txt_Search.setFont(new java.awt.Font("Arial Unicode MS", 0, 12)); // NOI18N
-
-      btn_Delete.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-      btn_Delete.setForeground(new java.awt.Color(71, 79, 89));
-      btn_Delete.setText("Eliminar");
-      btn_Delete.addMouseListener(new java.awt.event.MouseAdapter()
-      {
-         public void mouseClicked(java.awt.event.MouseEvent evt)
-         {
-            btn_DeleteMouseClicked(evt);
-         }
-      });
-
-      btn_Modify.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-      btn_Modify.setForeground(new java.awt.Color(71, 79, 89));
-      btn_Modify.setText("Modificar");
-      btn_Modify.addMouseListener(new java.awt.event.MouseAdapter()
-      {
-         public void mouseClicked(java.awt.event.MouseEvent evt)
-         {
-            btn_ModifyMouseClicked(evt);
-         }
-      });
-
-      btn_Find.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-      btn_Find.setForeground(new java.awt.Color(71, 79, 89));
-      btn_Find.setText("Buscar");
-      btn_Find.addMouseListener(new java.awt.event.MouseAdapter()
-      {
-         public void mouseClicked(java.awt.event.MouseEvent evt)
-         {
-            btn_FindMouseClicked(evt);
-         }
-      });
-
       btn_Return.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
       btn_Return.setForeground(new java.awt.Color(71, 79, 89));
       btn_Return.setText("Regresar");
@@ -205,7 +171,7 @@ public class SettingsAdmin extends javax.swing.JFrame {
          .addGroup(jPanel4Layout.createSequentialGroup()
             .addGap(34, 34, 34)
             .addComponent(jLabel4)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 672, Short.MAX_VALUE)
             .addComponent(btn_EnterUsers)
             .addGap(186, 186, 186))
       );
@@ -213,15 +179,106 @@ public class SettingsAdmin extends javax.swing.JFrame {
          jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(jPanel4Layout.createSequentialGroup()
             .addGap(24, 24, 24)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jLabel4)
-               .addComponent(btn_EnterUsers))
-            .addContainerGap(31, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+               .addComponent(btn_EnterUsers)
+               .addComponent(jLabel4))
+            .addContainerGap(41, Short.MAX_VALUE))
       );
 
       jLabel3.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
       jLabel3.setForeground(new java.awt.Color(255, 255, 255));
       jLabel3.setText("Funciones Lynx");
+
+      jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      jLabel6.setForeground(new java.awt.Color(71, 79, 89));
+      jLabel6.setText("Reorganizar archivo Secuencial Indizado");
+
+      btn_Reorganize.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      btn_Reorganize.setForeground(new java.awt.Color(71, 79, 89));
+      btn_Reorganize.setText("Reorganizar");
+      btn_Reorganize.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            btn_ReorganizeActionPerformed(evt);
+         }
+      });
+
+      lbl_ReorganizeSuccess.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      lbl_ReorganizeSuccess.setForeground(new java.awt.Color(255, 255, 255));
+      lbl_ReorganizeSuccess.setText("Se ha realizado con éxito");
+
+      jPanel5.setBackground(new java.awt.Color(253, 211, 92));
+
+      jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      jLabel5.setForeground(new java.awt.Color(71, 79, 89));
+      jLabel5.setText("Buscar Usuarios");
+
+      txt_Search.setFont(new java.awt.Font("Arial Unicode MS", 0, 12)); // NOI18N
+      txt_Search.setForeground(new java.awt.Color(71, 79, 89));
+
+      btn_Find.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      btn_Find.setForeground(new java.awt.Color(71, 79, 89));
+      btn_Find.setText("Buscar");
+      btn_Find.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            btn_FindMouseClicked(evt);
+         }
+      });
+
+      btn_Modify.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      btn_Modify.setForeground(new java.awt.Color(71, 79, 89));
+      btn_Modify.setText("Modificar");
+      btn_Modify.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            btn_ModifyMouseClicked(evt);
+         }
+      });
+
+      btn_Delete.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      btn_Delete.setForeground(new java.awt.Color(71, 79, 89));
+      btn_Delete.setText("Eliminar");
+      btn_Delete.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            btn_DeleteMouseClicked(evt);
+         }
+      });
+
+      javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+      jPanel5.setLayout(jPanel5Layout);
+      jPanel5Layout.setHorizontalGroup(
+         jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel5Layout.createSequentialGroup()
+            .addGap(36, 36, 36)
+            .addComponent(jLabel5)
+            .addGap(18, 18, 18)
+            .addComponent(txt_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(btn_Find)
+            .addGap(187, 187, 187)
+            .addComponent(btn_Modify)
+            .addGap(35, 35, 35)
+            .addComponent(btn_Delete)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+      );
+      jPanel5Layout.setVerticalGroup(
+         jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel5Layout.createSequentialGroup()
+            .addGap(25, 25, 25)
+            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+               .addComponent(jLabel5)
+               .addComponent(txt_Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(btn_Find)
+               .addComponent(btn_Modify)
+               .addComponent(btn_Delete))
+            .addContainerGap(35, Short.MAX_VALUE))
+      );
 
       javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
       jPanel2.setLayout(jPanel2Layout);
@@ -243,21 +300,18 @@ public class SettingsAdmin extends javax.swing.JFrame {
             .addComponent(jLabel3)
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
          .addGroup(jPanel2Layout.createSequentialGroup()
-            .addGap(35, 35, 35)
-            .addComponent(jLabel5)
-            .addGap(49, 49, 49)
-            .addComponent(txt_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(29, 29, 29)
-            .addComponent(btn_Find)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btn_Modify)
             .addGap(31, 31, 31)
-            .addComponent(btn_Delete)
-            .addGap(105, 105, 105))
+            .addComponent(jLabel6)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lbl_ReorganizeSuccess, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
+            .addComponent(btn_Reorganize)
+            .addGap(181, 181, 181))
+         .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btn_Return)
-            .addContainerGap())
+            .addGap(45, 45, 45))
       );
       jPanel2Layout.setVerticalGroup(
          jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -272,16 +326,16 @@ public class SettingsAdmin extends javax.swing.JFrame {
                .addComponent(btn_DoBackup))
             .addGap(34, 34, 34)
             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+            .addGap(33, 33, 33)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(jLabel5)
-               .addComponent(txt_Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(btn_Find)
-               .addComponent(btn_Modify)
-               .addComponent(btn_Delete))
-            .addGap(18, 18, 18)
+               .addComponent(jLabel6)
+               .addComponent(lbl_ReorganizeSuccess)
+               .addComponent(btn_Reorganize))
+            .addGap(37, 37, 37)
+            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(btn_Return)
-            .addGap(5, 5, 5))
+            .addContainerGap(32, Short.MAX_VALUE))
       );
 
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -396,6 +450,12 @@ public class SettingsAdmin extends javax.swing.JFrame {
       }
    }//GEN-LAST:event_btn_DoBackupActionPerformed
 
+   private void btn_ReorganizeActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_ReorganizeActionPerformed
+   {//GEN-HEADEREND:event_btn_ReorganizeActionPerformed
+      // TODO add your handling code here:
+      lbl_ReorganizeSuccess.setVisible(true);
+   }//GEN-LAST:event_btn_ReorganizeActionPerformed
+
    private String Today(){
       Date fechaActual = new Date(); 
       SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -443,16 +503,20 @@ public class SettingsAdmin extends javax.swing.JFrame {
    private javax.swing.JButton btn_Find;
    private javax.swing.JButton btn_Modify;
    private javax.swing.JButton btn_ModifyInformation;
+   private javax.swing.JButton btn_Reorganize;
    private javax.swing.JButton btn_Return;
    private javax.swing.JLabel jLabel1;
    private javax.swing.JLabel jLabel2;
    private javax.swing.JLabel jLabel3;
    private javax.swing.JLabel jLabel4;
    private javax.swing.JLabel jLabel5;
+   private javax.swing.JLabel jLabel6;
    private javax.swing.JPanel jPanel1;
    private javax.swing.JPanel jPanel2;
    private javax.swing.JPanel jPanel3;
    private javax.swing.JPanel jPanel4;
+   private javax.swing.JPanel jPanel5;
+   private javax.swing.JLabel lbl_ReorganizeSuccess;
    private javax.swing.JLabel lbl_usuario;
    private javax.swing.JTextField txt_Search;
    // End of variables declaration//GEN-END:variables

@@ -15,6 +15,7 @@ import static red.social.FileManager.SEPARADOR;
 import static red.social.FileManager.pSEPARADOR;
 import static red.social.FileManager.GROUPS_FILE;
 import static red.social.FileManager.FRIENDS_FILE;
+import static red.social.FileManager.GROUPS_FRIENDS_FILE;
 import red.social.Icons.Renderer;
 import javax.swing.SwingUtilities;
 import static red.social.FileManager.FRIENDS_FILE;
@@ -406,10 +407,20 @@ public class Profile extends javax.swing.JFrame {
    private void lbl_OutAccountMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lbl_OutAccountMouseClicked
    {//GEN-HEADEREND:event_lbl_OutAccountMouseClicked
       // TODO add your handling code here:
+
+         // Vacio la variable de usuario actual porque se elimino cuenta
+        
+        try{
+           DeleteAllTheAsociationsToGroups(RedSocial.ACTUALUSER);
+           FileManager.Update(GROUPS_FILE, OldGroupForDelete());
+        }catch(Exception e){
+           
+        }
         RedSocial.Delete(RedSocial.ACTUALUSER);
-        RedSocial.ACTUALUSER = ""; // Vacio la variable de usuario actual porque se elimino cuenta
-        this.dispose();
+        RedSocial.ACTUALUSER = "";
         RedSocial.LoginController();
+        this.dispose();
+        
    }//GEN-LAST:event_lbl_OutAccountMouseClicked
 
    private void lbl_CreateGroupMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lbl_CreateGroupMouseClicked
@@ -454,7 +465,7 @@ public class Profile extends javax.swing.JFrame {
    private void mI_DeleteGroupActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_mI_DeleteGroupActionPerformed
    {//GEN-HEADEREND:event_mI_DeleteGroupActionPerformed
       // TODO add your handling code here:
-      DesasociateMembersToGroup();
+      DesasociateMembersToGroup(RightClickGroup);
       FileManager.Update(GROUPS_FILE, OldGroupForDelete());
       groupList.removeElement(RightClickGroup);
    }//GEN-LAST:event_mI_DeleteGroupActionPerformed
@@ -483,10 +494,33 @@ public class Profile extends javax.swing.JFrame {
       return old[0]+SEPARADOR+old[1]+SEPARADOR+old[2]+SEPARADOR+old[3]+SEPARADOR+old[4]+SEPARADOR+"0";
    }
    
-   private void DesasociateMembersToGroup(){
-      
+   private void DesasociateMembersToGroup(String GroupName){
+      String[] members = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "1", GroupName).split(Pattern.quote(pSEPARADOR));
+      for (int i = 0; i < members.length; i++)
+      {
+          String ChangeStatus = members[i].substring(0, members[i].length()-1) +"0";
+         FileManager.Update(GROUPS_FRIENDS_FILE, ChangeStatus);
+      }
    }
    
+   private void DeleteAllTheAsociationsToGroups(String user){
+      try{
+         String[] asociationsMyGroups = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "0", user).split(Pattern.quote(pSEPARADOR));
+         String[] asociationsFriendsGroups = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "2", user).split(Pattern.quote(pSEPARADOR));
+         for (int i = 0; i < asociationsMyGroups.length; i++)
+         {
+            String ChangeStatus = asociationsMyGroups[i].substring(0, asociationsMyGroups[i].length()-1) +"0";
+            FileManager.Update(GROUPS_FRIENDS_FILE, ChangeStatus);
+         }
+         for (int i = 0; i < asociationsFriendsGroups.length; i++)
+         {
+            String ChangeStatus = asociationsFriendsGroups[i].substring(0, asociationsFriendsGroups[i].length()-1) +"0";
+            FileManager.Update(GROUPS_FRIENDS_FILE, ChangeStatus);
+         }
+      }catch(Exception e){
+         
+      }
+   }
    public void ShowGroups(){
       groupList.clear();
       try{
