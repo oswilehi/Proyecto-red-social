@@ -150,9 +150,10 @@ public class RedSocial {
         String myFriends = FileManager.SearchByKey(FRIENDS_FILE, "0,2,5", user+",1,1");
         String myFriends2 = FileManager.SearchByKey(FRIENDS_FILE, "1,2,5", user+",1,1");
         String realFriends = "";
-        
+        jl_friendList.setCellRenderer(renderer);
         if (myFriends==null && myFriends2==null)
-            friendList.addElement("No hay amigos para mostrar");  
+            friendList.addElement(new ListIcon("No hay amigos para mostrar",null));  
+            
         else{
             if (myFriends!=null && myFriends2!=null)
                 realFriends = myFriends + "::" + myFriends2;
@@ -164,7 +165,7 @@ public class RedSocial {
                     realFriends = myFriends2;                     
             }
         
-            jl_friendList.setCellRenderer(renderer);
+            //jl_friendList.setCellRenderer(renderer);
             String realFriendsArray[] = realFriends.split(Pattern.quote(pSEPARADOR));
             for (int i = 0; i < realFriendsArray.length; i++) {
                 String friendShip[] = realFriendsArray[i].split(Pattern.quote(SEPARADOR));

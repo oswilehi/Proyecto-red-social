@@ -400,6 +400,7 @@ public class Profile extends javax.swing.JFrame {
     
     public void showFriends(){   
         friendList.clear();
+        renderer = new Renderer();
         RedSocial.showFriends(renderer, friendList, jl_friendList, ACTUALUSER);       
     }
     
@@ -509,10 +510,13 @@ public class Profile extends javax.swing.JFrame {
     private void jl_friendListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_friendListMouseClicked
         // TODO add your handling code here:
         ListIcon friend = (ListIcon)friendList.getElementAt(jl_friendList.getSelectedIndex());
-        String userOfFriend = friend.name.split(" ")[2];       
-        SeeFriendProfile seeFriendProfile = new SeeFriendProfile(userOfFriend, 3);
-        seeFriendProfile.setVisible(true);        
-        this.setVisible(false);    
+        if (!friend.name.equals("No hay amigos para mostrar")){
+            String userOfFriend = friend.name.split(" ")[2];       
+            SeeFriendProfile seeFriendProfile = new SeeFriendProfile(userOfFriend, 3);
+            seeFriendProfile.setVisible(true);        
+            this.setVisible(false);   
+        }
+         
     }//GEN-LAST:event_jl_friendListMouseClicked
 
    private String OldGroupForDelete(){
