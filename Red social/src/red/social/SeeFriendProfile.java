@@ -307,7 +307,8 @@ public class SeeFriendProfile extends javax.swing.JFrame
            updateInfo("0","0");
            typeOfForm = 1;
            requestWasSend = false;
-           showProfile();         
+           showProfile();  
+           showFriends();
        } 
        }         
    }//GEN-LAST:event_lbl_sendRequestMouseClicked
@@ -357,11 +358,13 @@ public class SeeFriendProfile extends javax.swing.JFrame
     private void jl_friendListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_friendListMouseClicked
         // TODO add your handling code here:
         ListIcon friend = (ListIcon)friendList.getElementAt(jl_friendList.getSelectedIndex());
-        if (!friend.name.split(" ")[2].equals(ACTUALUSER))
+        if (!friend.name.equals("No hay amigos para mostrar")){
+            if (!friend.name.split(" ")[2].equals(ACTUALUSER))
             RedSocial.goToFriendProfile(this, jl_friendList, friendList); 
-        else{
-            myProfile.setVisible(true);
-            this.dispose();
+            else{
+                myProfile.setVisible(true);
+                this.dispose();
+            }       
         }        
     }//GEN-LAST:event_jl_friendListMouseClicked
 

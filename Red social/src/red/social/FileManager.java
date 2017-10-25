@@ -408,7 +408,7 @@ class Secuencial
                   }
                   binnacleDescription.close();
                   
-                  int x = Integer.parseInt(data.split(Pattern.quote(FileManager.SEPARADOR))[10]) - 1;
+                  int x = Integer.parseInt(data.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "status")]) - 1;
                   UpdateDescription(FileManager.BINNACLE + path, null, active + x, inactive - x);
                   
                   return true;
