@@ -19,6 +19,8 @@ import javax.swing.SwingUtilities;
 import static red.social.FileManager.FRIENDS_FILE;
 import static red.social.FileManager.FriendLength;
 import static red.social.FileManager.SEPARADOR;
+import static red.social.FileManager.pSEPARADOR;
+import static red.social.FileManager.GROUPS_FRIENDS_FILE;
 import red.social.Icons.ListIcon;
 import red.social.Icons.Renderer;
 import static red.social.RedSocial.ACTUALUSER;
@@ -286,6 +288,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
            FileManager.Update(FRIENDS_FILE, RedSocial.Fill(dataOfRequest, FriendLength));
        }
        else if (typeOfForm == 3){
+           TurnOffItsGroups(ACTUALUSER, friendToShow);
            updateInfo("0","0");
            typeOfForm = 1;
            requestWasSend = false;
@@ -386,6 +389,30 @@ public class SeeFriendProfile extends javax.swing.JFrame
         txt_descripcionInfo.setText(userProfileInfo[9]);
         
        
+   }
+   
+   public void TurnOffItsGroups(String friendA, String friendB){
+      try{
+         String[] groupsOfA = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "0,2", friendA+","+friendB).split(Pattern.quote(pSEPARADOR));
+         for (int i = 0; i < groupsOfA.length; i++)
+         {
+            FileManager.Update(GROUPS_FRIENDS_FILE, groupsOfA[i].substring(0,groupsOfA[i].length()-1)+"0");
+         }
+      }catch(Exception e){
+         
+      }
+      
+      try{
+         String[] groupsOfB = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "0,2", friendA+","+friendB).split(Pattern.quote(pSEPARADOR));
+         for (int i = 0; i < groupsOfB.length; i++)
+         {
+            FileManager.Update(GROUPS_FRIENDS_FILE, groupsOfB[i].substring(0,groupsOfB[i].length()-1)+"0");
+         }
+      }catch(Exception e){
+         
+      }
+      
+      
    }
    /**
     * @param args the command line arguments
