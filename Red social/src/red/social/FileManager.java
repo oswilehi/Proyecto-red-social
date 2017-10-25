@@ -111,6 +111,15 @@ public class FileManager
       return false;
    }
    
+   public static boolean Reorganize(String user)
+   {
+      if(!FileManager.FileExists(FileManager.INDEX + GROUPS_FRIENDS_FILE))
+      {
+         return SecuencialIndizado.Reorganize(GROUPS_FRIENDS_FILE, user);
+      }
+      return false;
+   }
+   
    public static String GetFriendsOfUser(String userKey)
    {
       return Secuencial.GetAllOfKey(FRIENDS_FILE, "0", userKey);
