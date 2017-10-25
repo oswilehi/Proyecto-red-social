@@ -14,13 +14,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import static red.social.FileManager.FRIENDS_FILE;
 import static red.social.FileManager.GROUPS_FILE;
 import static red.social.FileManager.SEPARADOR;
 import static red.social.FileManager.pSEPARADOR;
 import static red.social.FileManager.BINNACLE;
+import static red.social.FileManager.FRIENDS_FILE;
 import static red.social.FileManager.GROUPS_FRIENDS_FILE;
 import static red.social.FileManager.GroupLength;
+import static red.social.FileManager.SEPARADOR;
+import static red.social.FileManager.pSEPARADOR;
 import static red.social.RedSocial.Fill;
 import red.social.Icons.ListIcon;
 import red.social.Icons.Renderer;
@@ -385,21 +389,74 @@ public class FriendsGroups extends javax.swing.JFrame
    public void ShowFriends(){
       ImageIcon icon;
       
+      list_Friends.setCellRenderer(renderer);
+      list_Friends.setModel(friendList);
+      String[] friend;
       try{
-         String[] allMyFriends = FileManager.GetFriendsOfUser(myUser).split(Pattern.quote(pSEPARADOR));
-         String[] friend;
-         for (int i = 0; i < allMyFriends.length; i++)
+         String myFriendsAB[] = FileManager.SearchByKey(FRIENDS_FILE, "0,2,5", myUser+",1,1").split(Pattern.quote(pSEPARADOR));
+         for (int i = 0; i < myFriendsAB.length; i++)
          {
-            list_Friends.setCellRenderer(renderer);
-            list_Friends.setModel(friendList);
-            friend = FileManager.SearchUser(allMyFriends[i].split(Pattern.quote(SEPARADOR))[1]).split(Pattern.quote(SEPARADOR));
+            
+            friend = FileManager.SearchUser(myFriendsAB[i].split(Pattern.quote(SEPARADOR))[1]).split(Pattern.quote(SEPARADOR));
             icon = new ImageIcon((new ImageIcon(friend[8])).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
             friendList.addElement(new ListIcon(friend[0], icon));
          }
       }catch(Exception e){
 
       }
+      
+      try{
+         String[] myFriendsBA = FileManager.SearchByKey(FRIENDS_FILE, "1,2,5", myUser+",1,1").split(Pattern.quote(pSEPARADOR));
+         for (int i = 0; i < myFriendsBA.length; i++)
+         {
+            
+            friend = FileManager.SearchUser(myFriendsBA[i].split(Pattern.quote(SEPARADOR))[1]).split(Pattern.quote(SEPARADOR));
+            icon = new ImageIcon((new ImageIcon(friend[8])).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
+            friendList.addElement(new ListIcon(friend[0], icon));
+         }
+      }catch(Exception e){
+         
+      }
    }
+    public static void F(Renderer renderer, DefaultListModel friendList, JList jl_friendList, String user){
+               
+        int friendToSearch; 
+        ImageIcon icon;
+        String pathIcon;
+        jl_friendList.setModel(friendList);
+        // Busco en dos variables porque yo puedo estar como Usuario o usuario_amigo
+        String myFriends = FileManager.SearchByKey(FRIENDS_FILE, "0,2,5", user+",1,1");
+        String myFriends2 = FileManager.SearchByKey(FRIENDS_FILE, "1,2,5", user+",1,1");
+        String realFriends = "";
+        
+        if (myFriends==null && myFriends2==null)
+            friendList.addElement("No hay amigos para mostrar");  
+        else{
+            if (myFriends!=null && myFriends2!=null)
+                realFriends = myFriends + "::" + myFriends2;
+            else if (myFriends!=null || myFriends2!=null){
+                if (myFriends!=null)
+                    realFriends = myFriends;
+                    
+                else
+                    realFriends = myFriends2;                     
+            }
+        
+            jl_friendList.setCellRenderer(renderer);
+            String realFriendsArray[] = realFriends.split(Pattern.quote(pSEPARADOR));
+            for (int i = 0; i < realFriendsArray.length; i++) {
+                String friendShip[] = realFriendsArray[i].split(Pattern.quote(SEPARADOR));
+                if (user.equals(friendShip[0]))
+                    friendToSearch = 1;
+                else
+                    friendToSearch = 0;
+                String individualUser[] = FileManager.SearchUser(friendShip[friendToSearch]).split(Pattern.quote(SEPARADOR));
+                pathIcon = individualUser[8];
+                icon = new ImageIcon((new ImageIcon(pathIcon)).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
+                friendList.addElement(new ListIcon(individualUser[1]+" "+individualUser[2]+" "+individualUser[0], icon));
+            }
+        }    
+    }
    
    private void InvisibleComponents(){
        lbl_DescriptionError.setVisible(false);
@@ -413,13 +470,12 @@ public class FriendsGroups extends javax.swing.JFrame
    private void AddFriendsToGroup(){
       for (int i = 0; i < groupList.size(); i++)
       {
-         String name = ((ListIcon)groupList.elementAt(i)).name;
          FileManager.WriteFile(GROUPS_FRIENDS_FILE, CreateAsociationToGroup(((ListIcon)groupList.elementAt(i)).name));
       }
    }
    
    private String CreateAsociationToGroup(String friend){
-      return myUser+SEPARADOR+txt_GroupName.getText()+SEPARADOR+friend+SEPARADOR+"1";
+      return myUser+SEPARADOR+txt_GroupName.getText()+SEPARADOR+friend+SEPARADOR+new SimpleDateFormat("dd/MM/yyyy").format(new Date())+SEPARADOR+"1";
    }
    private boolean IsValid(){
       

@@ -10,12 +10,20 @@ import java.awt.Toolkit;
 import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JList;
 import static red.social.FileManager.SEPARADOR;
 import static red.social.FileManager.pSEPARADOR;
 import static red.social.FileManager.GROUPS_FILE;
 import static red.social.FileManager.FRIENDS_FILE;
+import static red.social.FileManager.GROUPS_FRIENDS_FILE;
 import red.social.Icons.Renderer;
 import javax.swing.SwingUtilities;
+import static red.social.FileManager.FRIENDS_FILE;
+import static red.social.FileManager.SEPARADOR;
+import static red.social.FileManager.pSEPARADOR;
+import red.social.Icons.ListIcon;
+import static red.social.RedSocial.ACTUALUSER;
+
 
 /**
  *
@@ -30,11 +38,14 @@ public class Profile extends javax.swing.JFrame {
    
    DefaultListModel groupList = new DefaultListModel();
    String RightClickGroup="";
+   DefaultListModel friendList = new DefaultListModel();
+   Renderer renderer = new Renderer();
    
     public Profile() {
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        SeeFriendProfile.myProfile = this;       
     }
     
 
@@ -65,7 +76,7 @@ public class Profile extends javax.swing.JFrame {
       jPanel2 = new javax.swing.JPanel();
       lbl_profilePic = new javax.swing.JLabel();
       jScrollPane1 = new javax.swing.JScrollPane();
-      List_Friends = new javax.swing.JList<>();
+      jl_friendList = new javax.swing.JList<>();
       jLabel2 = new javax.swing.JLabel();
       lbl_CreateGroup = new javax.swing.JLabel();
       lbl_SearchFriends = new javax.swing.JLabel();
@@ -96,8 +107,6 @@ public class Profile extends javax.swing.JFrame {
          }
       });
       pm_Group.add(mI_ShowGroup);
-      mI_ShowGroup.getAccessibleContext().setAccessibleName("Información del grupo");
-      mI_ShowGroup.getAccessibleContext().setAccessibleDescription("");
 
       mI_DeleteGroup.setBackground(new java.awt.Color(255, 255, 255));
       mI_DeleteGroup.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
@@ -111,7 +120,6 @@ public class Profile extends javax.swing.JFrame {
          }
       });
       pm_Group.add(mI_DeleteGroup);
-      mI_DeleteGroup.getAccessibleContext().setAccessibleName("Eliminar grupo");
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
       setUndecorated(true);
@@ -192,8 +200,17 @@ public class Profile extends javax.swing.JFrame {
             .addContainerGap())
       );
 
-      List_Friends.setBackground(new java.awt.Color(253, 211, 92));
-      jScrollPane1.setViewportView(List_Friends);
+      jl_friendList.setBackground(new java.awt.Color(253, 211, 92));
+      jl_friendList.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
+      jl_friendList.setForeground(new java.awt.Color(186, 100, 56));
+      jl_friendList.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            jl_friendListMouseClicked(evt);
+         }
+      });
+      jScrollPane1.setViewportView(jl_friendList);
 
       jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
       jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -375,9 +392,13 @@ public class Profile extends javax.swing.JFrame {
             txt_rolInfo.setText("No Administrador");
         txt_descripcionInfo.setText(userInformation[9]);
         
+        //Show friends
+        RedSocial.showFriends(renderer, friendList, jl_friendList, ACTUALUSER);
         //Show groups
         ShowGroups();
     }
+    
+   
     
     private void btn_settingsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_settingsMouseClicked
         // TODO add your handling code here:
@@ -409,10 +430,20 @@ public class Profile extends javax.swing.JFrame {
    private void lbl_OutAccountMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lbl_OutAccountMouseClicked
    {//GEN-HEADEREND:event_lbl_OutAccountMouseClicked
       // TODO add your handling code here:
-       RedSocial.Delete(RedSocial.ACTUALUSER);
-        RedSocial.ACTUALUSER = ""; // Vacio la variable de usuario actual porque se elimino cuenta
-        this.dispose();
+
+         // Vacio la variable de usuario actual porque se elimino cuenta
+        
+        try{
+           DeleteAllTheAsociationsToGroups(RedSocial.ACTUALUSER);
+           FileManager.Update(GROUPS_FILE, OldGroupForDelete());
+        }catch(Exception e){
+           
+        }
+        RedSocial.Delete(RedSocial.ACTUALUSER);
+        RedSocial.ACTUALUSER = "";
         RedSocial.LoginController();
+        this.dispose();
+        
    }//GEN-LAST:event_lbl_OutAccountMouseClicked
 
    private void lbl_CreateGroupMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lbl_CreateGroupMouseClicked
@@ -457,7 +488,7 @@ public class Profile extends javax.swing.JFrame {
    private void mI_DeleteGroupActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_mI_DeleteGroupActionPerformed
    {//GEN-HEADEREND:event_mI_DeleteGroupActionPerformed
       // TODO add your handling code here:
-      DesasociateMembersToGroup();
+      DesasociateMembersToGroup(RightClickGroup);
       FileManager.Update(GROUPS_FILE, OldGroupForDelete());
       groupList.removeElement(RightClickGroup);
    }//GEN-LAST:event_mI_DeleteGroupActionPerformed
@@ -472,15 +503,47 @@ public class Profile extends javax.swing.JFrame {
          }
    }//GEN-LAST:event_List_GroupsMouseClicked
 
+    private void jl_friendListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_friendListMouseClicked
+        // TODO add your handling code here:
+        ListIcon friend = (ListIcon)friendList.getElementAt(jl_friendList.getSelectedIndex());
+        String userOfFriend = friend.name.split(" ")[2];       
+        SeeFriendProfile seeFriendProfile = new SeeFriendProfile(userOfFriend, 3);
+        seeFriendProfile.setVisible(true);        
+        this.setVisible(false);    
+    }//GEN-LAST:event_jl_friendListMouseClicked
+
    private String OldGroupForDelete(){
       String[] old = FileManager.SearchGroup(txt_userInfo.getText(), RightClickGroup).split(Pattern.quote(SEPARADOR));
       return old[0]+SEPARADOR+old[1]+SEPARADOR+old[2]+SEPARADOR+old[3]+SEPARADOR+old[4]+SEPARADOR+"0";
    }
    
-   private void DesasociateMembersToGroup(){
-      
+   private void DesasociateMembersToGroup(String GroupName){
+      String[] members = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "1", GroupName).split(Pattern.quote(pSEPARADOR));
+      for (int i = 0; i < members.length; i++)
+      {
+          String ChangeStatus = members[i].substring(0, members[i].length()-1) +"0";
+         FileManager.Update(GROUPS_FRIENDS_FILE, ChangeStatus);
+      }
    }
    
+   private void DeleteAllTheAsociationsToGroups(String user){
+      try{
+         String[] asociationsMyGroups = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "0", user).split(Pattern.quote(pSEPARADOR));
+         String[] asociationsFriendsGroups = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "2", user).split(Pattern.quote(pSEPARADOR));
+         for (int i = 0; i < asociationsMyGroups.length; i++)
+         {
+            String ChangeStatus = asociationsMyGroups[i].substring(0, asociationsMyGroups[i].length()-1) +"0";
+            FileManager.Update(GROUPS_FRIENDS_FILE, ChangeStatus);
+         }
+         for (int i = 0; i < asociationsFriendsGroups.length; i++)
+         {
+            String ChangeStatus = asociationsFriendsGroups[i].substring(0, asociationsFriendsGroups[i].length()-1) +"0";
+            FileManager.Update(GROUPS_FRIENDS_FILE, ChangeStatus);
+         }
+      }catch(Exception e){
+         
+      }
+   }
    public void ShowGroups(){
       groupList.clear();
       try{
@@ -494,6 +557,7 @@ public class Profile extends javax.swing.JFrame {
       }
       List_Groups.setModel(groupList);
    }
+   
     /**
      * @param args the command line arguments
      */
@@ -530,7 +594,6 @@ public class Profile extends javax.swing.JFrame {
     }
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
-   private javax.swing.JList<String> List_Friends;
    private javax.swing.JList<String> List_Groups;
    private javax.swing.JButton btn_settings;
    private javax.swing.JLabel jLabel1;
@@ -544,6 +607,7 @@ public class Profile extends javax.swing.JFrame {
    private javax.swing.JScrollPane jScrollPane3;
    private javax.swing.JScrollPane jScrollPane4;
    private javax.swing.JTextArea jTextArea2;
+   private javax.swing.JList<String> jl_friendList;
    private javax.swing.JLabel lbl_CreateGroup;
    private javax.swing.JLabel lbl_FriendRequest;
    private javax.swing.JLabel lbl_OutAccount;
