@@ -317,7 +317,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
     private void btn_ReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ReturnActionPerformed
         // TODO add your handling code here:
         myProfile.setVisible(true);
-        //myProfile.showFriends();
+        myProfile.showFriends();
         this.dispose();
     }//GEN-LAST:event_btn_ReturnActionPerformed
 
@@ -342,7 +342,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
         updateInfo("0", "0");
         typeOfForm = 1;
         requestWasSend = false;
-        //showFriends();
+        showFriends();
         showProfile(); 
     }//GEN-LAST:event_jmi_cancelRequestActionPerformed
 
@@ -351,7 +351,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
         updateInfo("1","1");
         typeOfForm = 3;
         showProfile();  
-        //showFriends();
+        showFriends();
     }//GEN-LAST:event_lbl_acceptRequestMouseClicked
 
     private void jl_friendListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_friendListMouseClicked
@@ -445,6 +445,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
 
    public void showFriends(){
        friendList.clear();
+       renderer = new Renderer();
        RedSocial.showFriends(renderer, friendList, jl_friendList, friendToShow);
 
    }
