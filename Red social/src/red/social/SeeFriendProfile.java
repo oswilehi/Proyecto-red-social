@@ -441,7 +441,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
          
       }
       
-      
+   }
 
    public void showFriends(){
        friendList.clear();
