@@ -404,12 +404,16 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
    }//GEN-LAST:event_lbl_DeleteGroupMouseClicked
 
    private void DesasociateMembersToGroup(String GroupName){
-      String[] members = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "1", GroupName).split(Pattern.quote(pSEPARADOR));
-      for (int i = 0; i < members.length; i++)
-      {
-          String ChangeStatus = members[i].substring(0, members[i].length()-1) +"0";
-         FileManager.Update(GROUPS_FRIENDS_FILE, ChangeStatus);
+      String m = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "1", GroupName);
+      if(m!=null){
+         String[] members = m.split(Pattern.quote(pSEPARADOR));
+         for (int i = 0; i < members.length; i++)
+         {
+             String ChangeStatus = members[i].substring(0, members[i].length()-1) +"0";
+            FileManager.Update(GROUPS_FRIENDS_FILE, ChangeStatus);
+         }
       }
+         
    }
    
    private void list_FriendsMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_list_FriendsMouseClicked
