@@ -375,7 +375,10 @@ public class Profile extends javax.swing.JFrame {
         ShowGroups();
     }
     
-   
+    public void showFriends(){   
+        friendList.clear();
+        RedSocial.showFriends(renderer, friendList, jl_friendList, ACTUALUSER);       
+    }
     
     private void btn_settingsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_settingsMouseClicked
         // TODO add your handling code here:
