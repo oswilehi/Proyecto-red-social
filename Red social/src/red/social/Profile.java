@@ -522,12 +522,16 @@ public class Profile extends javax.swing.JFrame {
    }
    
    private void DesasociateMembersToGroup(String GroupName){
-      String[] members = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "1", GroupName).split(Pattern.quote(pSEPARADOR));
-      for (int i = 0; i < members.length; i++)
-      {
-          String ChangeStatus = members[i].substring(0, members[i].length()-1) +"0";
-         FileManager.Update(GROUPS_FRIENDS_FILE, ChangeStatus);
-      }
+      try{
+         String[] members = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "1", GroupName).split(Pattern.quote(pSEPARADOR));
+         for (int i = 0; i < members.length; i++)
+         {
+             String ChangeStatus = members[i].substring(0, members[i].length()-1) +"0";
+            FileManager.Update(GROUPS_FRIENDS_FILE, ChangeStatus);
+         }
+         }catch(Exception e){
+
+         }
    }
    
    private void DeleteAllTheAsociationsToGroups(String user){
