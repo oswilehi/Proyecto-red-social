@@ -398,7 +398,10 @@ public class Profile extends javax.swing.JFrame {
         ShowGroups();
     }
     
-   
+    public void showFriends(){   
+        friendList.clear();
+        RedSocial.showFriends(renderer, friendList, jl_friendList, ACTUALUSER);       
+    }
     
     private void btn_settingsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_settingsMouseClicked
         // TODO add your handling code here:
@@ -518,12 +521,16 @@ public class Profile extends javax.swing.JFrame {
    }
    
    private void DesasociateMembersToGroup(String GroupName){
-      String[] members = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "1", GroupName).split(Pattern.quote(pSEPARADOR));
-      for (int i = 0; i < members.length; i++)
-      {
-          String ChangeStatus = members[i].substring(0, members[i].length()-1) +"0";
-         FileManager.Update(GROUPS_FRIENDS_FILE, ChangeStatus);
-      }
+      try{
+         String[] members = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "1", GroupName).split(Pattern.quote(pSEPARADOR));
+         for (int i = 0; i < members.length; i++)
+         {
+             String ChangeStatus = members[i].substring(0, members[i].length()-1) +"0";
+            FileManager.Update(GROUPS_FRIENDS_FILE, ChangeStatus);
+         }
+         }catch(Exception e){
+
+         }
    }
    
    private void DeleteAllTheAsociationsToGroups(String user){

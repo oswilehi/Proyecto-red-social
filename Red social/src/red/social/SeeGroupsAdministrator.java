@@ -337,6 +337,7 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
    private void btn_ReturnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_ReturnActionPerformed
    {//GEN-HEADEREND:event_btn_ReturnActionPerformed
       // TODO add your handling code here:
+      ActualizeOnlyMembersNumber();
       myProfile.setVisible(true);
       this.dispose();
    }//GEN-LAST:event_btn_ReturnActionPerformed
@@ -403,12 +404,16 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
    }//GEN-LAST:event_lbl_DeleteGroupMouseClicked
 
    private void DesasociateMembersToGroup(String GroupName){
-      String[] members = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "1", GroupName).split(Pattern.quote(pSEPARADOR));
-      for (int i = 0; i < members.length; i++)
-      {
-          String ChangeStatus = members[i].substring(0, members[i].length()-1) +"0";
-         FileManager.Update(GROUPS_FRIENDS_FILE, ChangeStatus);
+      String m = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "1", GroupName);
+      if(m!=null){
+         String[] members = m.split(Pattern.quote(pSEPARADOR));
+         for (int i = 0; i < members.length; i++)
+         {
+             String ChangeStatus = members[i].substring(0, members[i].length()-1) +"0";
+            FileManager.Update(GROUPS_FRIENDS_FILE, ChangeStatus);
+         }
       }
+         
    }
    
    private void list_FriendsMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_list_FriendsMouseClicked
@@ -435,6 +440,10 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
       return old[0]+SEPARADOR+old[1]+SEPARADOR+old[2]+SEPARADOR+old[3]+SEPARADOR+old[4]+SEPARADOR+"0";
    }
 
+    private void ActualizeOnlyMembersNumber(){
+      String[] old = FileManager.SearchGroup(myUser, thisGroup).split(Pattern.quote(SEPARADOR));
+      FileManager.Update(GROUPS_FILE, old[0]+SEPARADOR+old[1]+SEPARADOR+old[2]+SEPARADOR+lbl_MembersNumber.getText()+SEPARADOR+old[4]+SEPARADOR+"1");
+   }
    private void ReplaceFriendsofGroup(){
       try{
          String[] oldMembers = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "0,1", myUser+","+thisGroup).split(Pattern.quote(pSEPARADOR));
@@ -465,10 +474,10 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
       
       txt_GroupName.setText(thisGroup);
       txt_Description.setText(FileManager.SearchGroup(myUser, thisGroup).split(Pattern.quote(SEPARADOR))[2]);
-      lbl_MembersNumber.setText(FileManager.SearchGroup(myUser, thisGroup).split(Pattern.quote(SEPARADOR))[3]);
       ShowMembers();
       //inicializar miembros....
          ShowFriends();
+      lbl_MembersNumber.setText(groupList.size()+"");
    }
    
    public void ShowFriends(){

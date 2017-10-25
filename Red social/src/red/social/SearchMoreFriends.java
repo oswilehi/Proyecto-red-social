@@ -265,7 +265,13 @@ public class SearchMoreFriends extends javax.swing.JFrame
 
     private void jl_friendListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_friendListMouseClicked
         // TODO add your handling code here:
-        RedSocial.goToFriendProfile(this, jl_friendList, friendList);        
+        ListIcon friend = (ListIcon)friendList.getElementAt(jl_friendList.getSelectedIndex());
+        if (!friend.name.split(" ")[2].equals(ACTUALUSER))
+            RedSocial.goToFriendProfile(this, jl_friendList, friendList); 
+        else{
+            myProfile.setVisible(true);
+            this.dispose();
+        }           
     }//GEN-LAST:event_jl_friendListMouseClicked
 
    /**

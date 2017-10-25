@@ -393,7 +393,7 @@ public class FriendsGroups extends javax.swing.JFrame
       list_Friends.setModel(friendList);
       String[] friend;
       try{
-         String myFriendsAB[] = FileManager.SearchByKey(FRIENDS_FILE, "0,2,5", myUser+",1,1").split(Pattern.quote(pSEPARADOR));
+         String myFriendsAB[] = FileManager.SearchByKey(FRIENDS_FILE, "0,2", myUser+",1").split(Pattern.quote(pSEPARADOR));
          for (int i = 0; i < myFriendsAB.length; i++)
          {
             
@@ -406,11 +406,11 @@ public class FriendsGroups extends javax.swing.JFrame
       }
       
       try{
-         String[] myFriendsBA = FileManager.SearchByKey(FRIENDS_FILE, "1,2,5", myUser+",1,1").split(Pattern.quote(pSEPARADOR));
+         String[] myFriendsBA = FileManager.SearchByKey(FRIENDS_FILE, "1,2", myUser+",1").split(Pattern.quote(pSEPARADOR));
          for (int i = 0; i < myFriendsBA.length; i++)
          {
             
-            friend = FileManager.SearchUser(myFriendsBA[i].split(Pattern.quote(SEPARADOR))[1]).split(Pattern.quote(SEPARADOR));
+            friend = FileManager.SearchUser(myFriendsBA[i].split(Pattern.quote(SEPARADOR))[0]).split(Pattern.quote(SEPARADOR));
             icon = new ImageIcon((new ImageIcon(friend[8])).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
             friendList.addElement(new ListIcon(friend[0], icon));
          }
