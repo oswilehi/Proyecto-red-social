@@ -410,7 +410,7 @@ public class FriendsGroups extends javax.swing.JFrame
          for (int i = 0; i < myFriendsBA.length; i++)
          {
             
-            friend = FileManager.SearchUser(myFriendsBA[i].split(Pattern.quote(SEPARADOR))[1]).split(Pattern.quote(SEPARADOR));
+            friend = FileManager.SearchUser(myFriendsBA[i].split(Pattern.quote(SEPARADOR))[0]).split(Pattern.quote(SEPARADOR));
             icon = new ImageIcon((new ImageIcon(friend[8])).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
             friendList.addElement(new ListIcon(friend[0], icon));
          }

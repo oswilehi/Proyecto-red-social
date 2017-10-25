@@ -465,10 +465,10 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
       
       txt_GroupName.setText(thisGroup);
       txt_Description.setText(FileManager.SearchGroup(myUser, thisGroup).split(Pattern.quote(SEPARADOR))[2]);
-      lbl_MembersNumber.setText(FileManager.SearchGroup(myUser, thisGroup).split(Pattern.quote(SEPARADOR))[3]);
       ShowMembers();
       //inicializar miembros....
          ShowFriends();
+      lbl_MembersNumber.setText(groupList.size()+"");
    }
    
    public void ShowFriends(){
