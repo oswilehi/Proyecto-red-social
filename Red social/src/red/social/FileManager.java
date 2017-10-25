@@ -408,7 +408,7 @@ class Secuencial
                   }
                   binnacleDescription.close();
                   
-                  int x = Integer.parseInt(data.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "status")]) - 1;
+                  int x = Integer.parseInt(data.split(Pattern.quote(FileManager.SEPARADOR))[10]) - 1;
                   UpdateDescription(FileManager.BINNACLE + path, null, active + x, inactive - x);
                   
                   return true;
@@ -1030,12 +1030,14 @@ class SecuencialIndizado
             
             //Abrimos el descriptor del maestro del archivo
             //para obtener el número de registros, el maximo de registro del bloque, y tipo de ordenamiento
+
             RandomAccessFile masterDescription = FileManager.OpenFile(FileManager.DESCRIPTION + FileManager.MASTER + currentBlock + "_" + path);
             int masterCount = 0;
             int maxR = 0;
             int masterActive = 0;
             int masterInactive = 0;
                   
+
             while(masterDescription.getFilePointer() != masterDescription.length())
             {
                String line = masterDescription.readLine();
@@ -1096,11 +1098,13 @@ class SecuencialIndizado
             
             if (firstR == 0)
             {
+
                dataToAdd = (indexCount+1) + FileManager.SEPARADOR + currentBlock + "." +  (masterCount+1) + FileManager.SEPARADOR + key + FileManager.SEPARADOR + "0" + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
                indexFile.seek(indexFile.length());
                indexFile.writeBytes(FileManager.FixSize(dataToAdd, FileManager.Length)+"\r\n");
                indexFile.close();
                firstR = indexCount+1;
+
             }
             else
             {
@@ -1113,9 +1117,11 @@ class SecuencialIndizado
                   
                   if (Integer.parseInt(line.split(Pattern.quote(FileManager.SEPARADOR))[3]) == 0 && key.compareTo(line.split(Pattern.quote(FileManager.SEPARADOR))[2]) > 0 ) // Debe ir al final
                   {
+
                      dataToAdd = (indexCount +1) + FileManager.SEPARADOR + currentBlock + "." + (masterCount+1) + FileManager.SEPARADOR + key + FileManager.SEPARADOR + "0" + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
                      String[] temp = line.split(Pattern.quote(FileManager.SEPARADOR));
                      temp[3] = Integer.toString(indexCount+1);
+
                      for (int i = 0; i < temp.length - 1; i++)
                      {
                         dataToUpdate += temp[i] + FileManager.SEPARADOR;
@@ -1124,16 +1130,20 @@ class SecuencialIndizado
                   }
                   else if (key.compareTo(line.split(Pattern.quote(FileManager.SEPARADOR))[2]) <= 0 && newR == firstR) // Queda como primer elemento
                   {
+
                      firstR  =  indexCount + 1;
                      dataToAdd = (indexCount +1) + FileManager.SEPARADOR + currentBlock + "." + (masterCount+1) + FileManager.SEPARADOR + key + FileManager.SEPARADOR + line.split(Pattern.quote(FileManager.SEPARADOR))[0] + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
+
                      break;
                   }
                   else if (key.compareTo(line.split(Pattern.quote(FileManager.SEPARADOR))[2]) <= 0)// va en medio de dos valores
                   {
+
                      dataToAdd = (indexCount+1) + FileManager.SEPARADOR + currentBlock + "." + (masterCount +1) + FileManager.SEPARADOR + key + FileManager.SEPARADOR + newR + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
                      indexFile.seek((lastR-1) * FileManager.Length);
                      String[] temp = indexFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
                      temp[3] = Integer.toString(indexCount + 1);
+
                      for (int i = 0; i < temp.length - 1; i++)
                      {
                         dataToUpdate += temp[i]+ FileManager.SEPARADOR;

@@ -284,7 +284,8 @@ public class SeeFriendProfile extends javax.swing.JFrame
    private void lbl_sendRequestMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lbl_sendRequestMouseClicked
    {//GEN-HEADEREND:event_lbl_sendRequestMouseClicked
 
-       // Se debe verificar si ya se habia enviado una solicitud a ese amigo.      
+       if (evt.getModifiers() == MouseEvent.BUTTON1_MASK){
+           // Se debe verificar si ya se habia enviado una solicitud a ese amigo.      
        // Si no se ha enviado una solicitud, se envia la linea y se cambia el label
        if (typeOfForm == 1){
            if (!requestWasSend && evt.getModifiers() == MouseEvent.BUTTON1_MASK){
@@ -306,22 +307,25 @@ public class SeeFriendProfile extends javax.swing.JFrame
            updateInfo("0","0");
            typeOfForm = 1;
            requestWasSend = false;
-           showProfile();
-       }    
+           showProfile();         
+       } 
+       }         
    }//GEN-LAST:event_lbl_sendRequestMouseClicked
 
 
    
     private void btn_ReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ReturnActionPerformed
         // TODO add your handling code here:
-        myProfile.setVisible(true);          
+        myProfile.setVisible(true);
+        //myProfile.showFriends();
         this.dispose();
     }//GEN-LAST:event_btn_ReturnActionPerformed
 
     private void lbl_sendRequestMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_sendRequestMouseReleased
         // TODO add your handling code here:
         
-        if (typeOfForm == 1){
+        if (evt.getModifiers() == MouseEvent.BUTTON3_MASK){
+            if (typeOfForm == 1){
             String request = FileManager.SearchFriend(ACTUALUSER, friendToShow);
             requestWasSend = request != null;
             if (requestWasSend){
@@ -330,6 +334,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
                 }
             }
         }
+        }      
     }//GEN-LAST:event_lbl_sendRequestMouseReleased
 
     private void jmi_cancelRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cancelRequestActionPerformed
@@ -337,19 +342,27 @@ public class SeeFriendProfile extends javax.swing.JFrame
         updateInfo("0", "0");
         typeOfForm = 1;
         requestWasSend = false;
-        showProfile();
+        //showFriends();
+        showProfile(); 
     }//GEN-LAST:event_jmi_cancelRequestActionPerformed
 
     private void lbl_acceptRequestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_acceptRequestMouseClicked
         // TODO add your handling code here:
         updateInfo("1","1");
         typeOfForm = 3;
-        showProfile();     
+        showProfile();  
+        //showFriends();
     }//GEN-LAST:event_lbl_acceptRequestMouseClicked
 
     private void jl_friendListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_friendListMouseClicked
         // TODO add your handling code here:
-        RedSocial.goToFriendProfile(this, jl_friendList, friendList);       
+        ListIcon friend = (ListIcon)friendList.getElementAt(jl_friendList.getSelectedIndex());
+        if (!friend.name.split(" ")[2].equals(ACTUALUSER))
+            RedSocial.goToFriendProfile(this, jl_friendList, friendList); 
+        else{
+            myProfile.setVisible(true);
+            this.dispose();
+        }        
     }//GEN-LAST:event_jl_friendListMouseClicked
 
    private void updateInfo(String accepted, String status){
@@ -378,8 +391,9 @@ public class SeeFriendProfile extends javax.swing.JFrame
            if (requestWasSend)
                lbl_sendRequest.setText("Solicitud enviada");
            else
-               lbl_sendRequest.setText("Enviar solicitud de amistad");     
+               lbl_sendRequest.setText("Enviar solicitud de amistad"); 
            lbl_acceptRequest.setVisible(false);
+
        }
        
        else if (typeOfForm == 2){
@@ -405,6 +419,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
        
    }
    
+
    public void TurnOffItsGroups(String friendA, String friendB){
       try{
          String[] groupsOfA = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "0,2", friendA+","+friendB).split(Pattern.quote(pSEPARADOR));
@@ -427,6 +442,11 @@ public class SeeFriendProfile extends javax.swing.JFrame
       }
       
       
+
+   public void showFriends(){
+       friendList.clear();
+       RedSocial.showFriends(renderer, friendList, jl_friendList, friendToShow);
+
    }
    /**
     * @param args the command line arguments
