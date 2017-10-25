@@ -111,6 +111,15 @@ public class FileManager
       return false;
    }
    
+   public static boolean Reorganize(String user)
+   {
+      if(!FileManager.FileExists(FileManager.INDEX + GROUPS_FRIENDS_FILE))
+      {
+         return SecuencialIndizado.Reorganize(GROUPS_FRIENDS_FILE, user);
+      }
+      return false;
+   }
+   
    public static String GetFriendsOfUser(String userKey)
    {
       return Secuencial.GetAllOfKey(FRIENDS_FILE, "0", userKey);
@@ -980,8 +989,11 @@ class SecuencialIndizado
             //Abrimos el descriptor del indice del archivo
             //para obtener el primer registro y el bloque actual
             RandomAccessFile indexDescription = FileManager.OpenFile(FileManager.DESCRIPTION + FileManager.INDEX + path);
-            int first = 0;
-            int current = 0;
+            int firstR = 0;
+            int indexCount = 0;
+            int currentBlock = 0;
+            int indexActive = 0;
+            int indexInactive = 0;
             
             while(indexDescription.getFilePointer() != indexDescription.length())
             {
@@ -990,10 +1002,19 @@ class SecuencialIndizado
                switch (line.split(Pattern.quote(FileManager.pSEPARADOR))[0])
                {
                   case "INICIAL":
-                     first = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     firstR = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
                      break;
                   case "BLOQUE_ACTUAL":
-                     current = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     currentBlock = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     break;
+                  case "ACTIVOS":
+                     indexActive = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     break;
+                  case "INACTIVOS":
+                     indexInactive = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     break;
+                  case "REGISTROS":
+                     indexCount = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
                      break;
                }
             }
@@ -1002,16 +1023,19 @@ class SecuencialIndizado
             
             
             //Se valida la existencia del bloque actual
-            if (!FileManager.FileExists(FileManager.MASTER + current + "_" + path ))
+            if (!FileManager.FileExists(FileManager.MASTER + currentBlock + "_" + path ))
             {
-               CreateMaster(current + "_" + path, data.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "user")]);
+               CreateMaster(currentBlock + "_" + path, data.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "user")]);
             }
             
             //Abrimos el descriptor del maestro del archivo
             //para obtener el número de registros, el maximo de registro del bloque, y tipo de ordenamiento
-            RandomAccessFile masterDescription = FileManager.OpenFile(FileManager.DESCRIPTION + FileManager.MASTER + current + "_" + path);
-            int count = 0;
-            int max = 0;
+            RandomAccessFile masterDescription = FileManager.OpenFile(FileManager.DESCRIPTION + FileManager.MASTER + currentBlock + "_" + path);
+            int masterCount = 0;
+            int maxR = 0;
+            int masterActive = 0;
+            int masterInactive = 0;
+                  
             while(masterDescription.getFilePointer() != masterDescription.length())
             {
                String line = masterDescription.readLine();
@@ -1019,10 +1043,16 @@ class SecuencialIndizado
                switch (line.split(Pattern.quote(FileManager.pSEPARADOR))[0])
                {
                   case "REGISTROS":
-                     count = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     masterCount = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
                      break;
                   case "MAXIMO":
-                     max = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     maxR = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     break;
+                  case "ACTIVOS":
+                     masterActive = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     break;
+                  case "INACTIVOS":
+                     masterInactive = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
                      break;
                }
             }
@@ -1030,22 +1060,21 @@ class SecuencialIndizado
             masterDescription.close();
             
             //se valida si el bloque actual aun puede almacenar datos
-            if (count >=  max)
+            if (masterCount >=  maxR)
             {
                //El bloque ya esta lleno, se crea el siguiente.
-               current++;
-               CreateMaster(current + "_" +path, data.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "user")]);
+               currentBlock++;
+               CreateMaster(currentBlock + "_" +path, data.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "user")]);
                //Se actualizan los datos con los valores correctos
-               count = 0;
+               masterCount = 0;
+               masterActive = 0;
+               masterInactive = 0;
             }
             
             //Se abren los archivos correctos
             RandomAccessFile indexFile = FileManager.OpenFile(FileManager.INDEX + path);
-            RandomAccessFile masterFile = FileManager.OpenFile(FileManager.MASTER + current + "_" + path);
+            RandomAccessFile masterFile = FileManager.OpenFile(FileManager.MASTER + currentBlock + "_" + path);
             
-            //Obtenes la linea que realmente ocupará el registro
-            int masterNextPosition = (int)(masterFile.length() / FileManager.Length) + 1;
-            int indexNextPosition = (int)(indexFile.length() / FileManager.Length) + 1;
             //Escribimos primero al archivo maestro
             //Escribimos al final del archivo
             masterFile.seek(masterFile.length());
@@ -1065,18 +1094,18 @@ class SecuencialIndizado
             String dataToUpdate = "";
             
             
-            if (first == 0)
+            if (firstR == 0)
             {
-               dataToAdd = indexNextPosition + FileManager.SEPARADOR + current + "." +  masterNextPosition + FileManager.SEPARADOR + key + FileManager.SEPARADOR + "0" + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
+               dataToAdd = (indexCount+1) + FileManager.SEPARADOR + currentBlock + "." +  (masterCount+1) + FileManager.SEPARADOR + key + FileManager.SEPARADOR + "0" + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
                indexFile.seek(indexFile.length());
                indexFile.writeBytes(FileManager.FixSize(dataToAdd, FileManager.Length)+"\r\n");
                indexFile.close();
-               first = indexNextPosition;
+               firstR = indexCount+1;
             }
             else
             {
-               int lastR = first;
-               int newR = first;
+               int lastR = firstR;
+               int newR = firstR;
                while(true)
                {
                   indexFile.seek((newR-1) * FileManager.Length);
@@ -1084,27 +1113,27 @@ class SecuencialIndizado
                   
                   if (Integer.parseInt(line.split(Pattern.quote(FileManager.SEPARADOR))[3]) == 0 && key.compareTo(line.split(Pattern.quote(FileManager.SEPARADOR))[2]) > 0 ) // Debe ir al final
                   {
-                     dataToAdd = indexNextPosition + FileManager.SEPARADOR + current + "." + masterNextPosition + FileManager.SEPARADOR + key + FileManager.SEPARADOR + "0" + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
+                     dataToAdd = (indexCount +1) + FileManager.SEPARADOR + currentBlock + "." + (masterCount+1) + FileManager.SEPARADOR + key + FileManager.SEPARADOR + "0" + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
                      String[] temp = line.split(Pattern.quote(FileManager.SEPARADOR));
-                     temp[3] = Integer.toString(indexNextPosition);
+                     temp[3] = Integer.toString(indexCount+1);
                      for (int i = 0; i < temp.length - 1; i++)
                      {
                         dataToUpdate += temp[i] + FileManager.SEPARADOR;
                      }
                      break;
                   }
-                  else if (key.compareTo(line.split(Pattern.quote(FileManager.SEPARADOR))[2]) <= 0 && newR == first) // Queda como primer elemento
+                  else if (key.compareTo(line.split(Pattern.quote(FileManager.SEPARADOR))[2]) <= 0 && newR == firstR) // Queda como primer elemento
                   {
-                     first  =  indexNextPosition;
-                     dataToAdd = indexNextPosition + FileManager.SEPARADOR + current + "." + masterNextPosition + FileManager.SEPARADOR + key + FileManager.SEPARADOR + line.split(Pattern.quote(FileManager.SEPARADOR))[0] + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
+                     firstR  =  indexCount + 1;
+                     dataToAdd = (indexCount +1) + FileManager.SEPARADOR + currentBlock + "." + (masterCount+1) + FileManager.SEPARADOR + key + FileManager.SEPARADOR + line.split(Pattern.quote(FileManager.SEPARADOR))[0] + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
                      break;
                   }
                   else if (key.compareTo(line.split(Pattern.quote(FileManager.SEPARADOR))[2]) <= 0)// va en medio de dos valores
                   {
-                     dataToAdd = indexNextPosition + FileManager.SEPARADOR + current + "." + masterNextPosition + FileManager.SEPARADOR + key + FileManager.SEPARADOR + newR + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
+                     dataToAdd = (indexCount+1) + FileManager.SEPARADOR + currentBlock + "." + (masterCount +1) + FileManager.SEPARADOR + key + FileManager.SEPARADOR + newR + FileManager.SEPARADOR + "1" + FileManager.SEPARADOR;
                      indexFile.seek((lastR-1) * FileManager.Length);
                      String[] temp = indexFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
-                     temp[3] = Integer.toString(indexNextPosition);
+                     temp[3] = Integer.toString(indexCount + 1);
                      for (int i = 0; i < temp.length - 1; i++)
                      {
                         dataToUpdate += temp[i]+ FileManager.SEPARADOR;
@@ -1127,8 +1156,8 @@ class SecuencialIndizado
                indexFile.close();
             }
             //Actualizamos los descriptores
-            UpdateMasterDescription(current + "_" + path, null, count+1);
-            UpdateIndexDescription(path, null, current, first);
+            UpdateMasterDescription(currentBlock + "_" + path, null, masterCount+1, masterActive +1, masterInactive);
+            UpdateIndexDescription(path, null, currentBlock, firstR, indexCount +1, indexActive +1,indexInactive);
             return true;
          }
          catch (IOException | NumberFormatException e)
@@ -1146,7 +1175,11 @@ class SecuencialIndizado
          {
             //Se abre el descriptor para obtener el puntero al primer elemento
             RandomAccessFile indexDescription = FileManager.OpenFile(FileManager.DESCRIPTION + FileManager.INDEX + path);
-            int first = 0;
+            int firstR = 0;
+            int indexCount = 0;
+            int currentBlock = 0;
+            int indexActive = 0;
+            int indexInactive = 0;
             while(indexDescription.getFilePointer() != indexDescription.length())
             {
                String line = indexDescription.readLine();
@@ -1154,7 +1187,19 @@ class SecuencialIndizado
                switch (line.split(Pattern.quote(FileManager.pSEPARADOR))[0])
                {
                   case "INICIAL":
-                     first = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     firstR = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     break;
+                  case "BLOQUE_ACTUAL":
+                     currentBlock = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     break;
+                  case "ACTIVOS":
+                     indexActive = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     break;
+                  case "INACTIVOS":
+                     indexInactive = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     break;
+                  case "REGISTROS":
+                     indexCount = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
                      break;
                }
             }
@@ -1171,8 +1216,8 @@ class SecuencialIndizado
             }
             
             //Variables puntero
-            int newR = first;
-            int lastR = first;
+            int newR = firstR;
+            int lastR = firstR;
             
             //Cargamos el indice para buscar
             RandomAccessFile indexFile = FileManager.OpenFile(FileManager.INDEX + path);
@@ -1205,32 +1250,49 @@ class SecuencialIndizado
                   masterFile.seek((Integer.parseInt(temp[1].split(Pattern.quote("."))[1]) - 1 ) * FileManager.Length);
                   //Escribimos el puntero
                   masterFile.writeBytes(data);
-                  //Se actualiza el descriptor
+                  
+                  //Salvamos el bloque actual
+                  currentBlock = Integer.parseInt(temp[1].split(Pattern.quote("."))[0]);
                   
                   RandomAccessFile masterDescription = FileManager.OpenFile(FileManager.DESCRIPTION + FileManager.MASTER + temp[1].split(Pattern.quote("."))[0] + "_" + path);
-                  int count = 0;
+                  int masterCount = 0;
+                  int maxR = 0;
+                  int masterActive = 0;
+                  int masterInactive = 0;
+
                   while(masterDescription.getFilePointer() != masterDescription.length())
                   {
-                     String c = masterDescription.readLine();
+                     String tempLine = masterDescription.readLine();
 
-                     switch (c.split(Pattern.quote(FileManager.pSEPARADOR))[0])
+                     switch (tempLine.split(Pattern.quote(FileManager.pSEPARADOR))[0])
                      {
                         case "REGISTROS":
-                           count = Integer.parseInt(c.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                           masterCount = Integer.parseInt(tempLine.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                           break;
+                        case "MAXIMO":
+                           maxR = Integer.parseInt(tempLine.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                           break;
+                        case "ACTIVOS":
+                           masterActive = Integer.parseInt(tempLine.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                           break;
+                        case "INACTIVOS":
+                           masterInactive = Integer.parseInt(tempLine.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
                            break;
                      }
                   }
                   masterDescription.close();
                   masterFile.close();//Se cierra el archivo
-                  UpdateMasterDescription(FileManager.MASTER + temp[1].split(Pattern.quote("."))[0] + "_" + path, null, count-1);
-                  
                   
                   //Se valida si la data actualizada fue dada de baja
-                  if (data.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "status")].equals("0") && newR == first)
+                  if (data.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "status")].equals("0") && newR == firstR)
                   {
                      //El registro se dio de baja y era el primer registro del indice... 
                      //Solo se cambia el puntero del descriptor del archivo.
-                     first = Integer.parseInt(temp[3]);
+                     firstR = Integer.parseInt(temp[3]);
+                     indexActive--;
+                     indexInactive++;
+                     masterActive--;
+                     masterInactive++;
                   }
                   else if(data.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "status")].equals("0"))
                   {
@@ -1245,12 +1307,18 @@ class SecuencialIndizado
                      indexFile.seek((lastR -1) * FileManager.Length);
                      //Se actualiza el anterior registro con el punto que el registro dado de baja tenia
                      indexFile.writeBytes(FileManager.FixSize((temp[0] + FileManager.SEPARADOR + temp[1] + FileManager.SEPARADOR + temp[2] + FileManager.SEPARADOR + pointer + FileManager.SEPARADOR + temp[4] + FileManager.SEPARADOR), FileManager.Length)+ "\r\n");
+                     
+                     indexActive--;
+                     indexInactive++;
+                     masterActive--;
+                     masterInactive++;
                   }
                   
                   //Se actualizan el descriptor del indice
                   //Al final siempre se cierra el archivo y se retorna true
                   indexFile.close();
-                  UpdateIndexDescription(path, null, -1, first);
+                  UpdateIndexDescription(path, null, -1, firstR, indexCount, indexActive, indexInactive);
+                  UpdateMasterDescription(FileManager.MASTER + currentBlock + "_" + path, null, masterCount, masterActive, masterInactive);
                   return true;
                }
                
@@ -1263,8 +1331,7 @@ class SecuencialIndizado
                lastR = newR;
                newR = Integer.parseInt(line.split(Pattern.quote(FileManager.SEPARADOR))[3]);
             }
-            indexFile.close();
-            UpdateIndexDescription(path, null, -1, first);
+            indexFile.close();           
             return false;
          }
          //El archivo no existe, nada que actualizar
@@ -1398,7 +1465,7 @@ class SecuencialIndizado
             }
             
             //Se actualiza el descriptor del archivo con el usuario que genero la reorganizacion
-            UpdateIndexDescription(path, user, -1, -1);
+            UpdateIndexDescription(path, user, -1, -1,-1,-1,-1);
             
             //Se borra el archivo temporal
             tempFile.close();
@@ -1414,7 +1481,7 @@ class SecuencialIndizado
       }
    }
    
-   protected static boolean UpdateIndexDescription(String path, String author, int current_block, int first) // needs complete file name: binnacle_example.txt or master_example.txt to get the right desc_xxx_example.txt file
+   protected static boolean UpdateIndexDescription(String path, String author, int current_block, int first, int count, int active, int inactive) // needs complete file name: binnacle_example.txt or master_example.txt to get the right desc_xxx_example.txt file
    {
       try
       {
@@ -1446,6 +1513,27 @@ class SecuencialIndizado
                   }
                   fileTempDescription.writeBytes(line + "\r\n");
                   break;
+               case "ACTIVOS":
+                  if (active >= 0)
+                  {
+                     line = line.split(Pattern.quote(FileManager.pSEPARADOR))[0] + FileManager.pSEPARADOR + active;
+                  }
+                  fileTempDescription.writeBytes(line + "\r\n");
+                  break;
+               case "INACTIVOS":
+                  if (inactive >= 0)
+                  {
+                     line = line.split(Pattern.quote(FileManager.pSEPARADOR))[0] + FileManager.pSEPARADOR + inactive;
+                  }
+                  fileTempDescription.writeBytes(line + "\r\n");
+                  break;
+               case "REGISTROS":
+                  if (count >= 0)
+                  {
+                     line = line.split(Pattern.quote(FileManager.pSEPARADOR))[0] + FileManager.pSEPARADOR + count;
+                  }
+                  fileTempDescription.writeBytes(line + "\r\n");
+                  break;
                case "AUTOR":
                   if (author != null)
                   {
@@ -1474,7 +1562,7 @@ class SecuencialIndizado
       }
    }
    
-   protected static boolean UpdateMasterDescription(String path, String author, int count) // needs complete file name: binnacle_example.txt or master_example.txt to get the right desc_xxx_example.txt file
+   protected static boolean UpdateMasterDescription(String path, String author, int count, int active, int inactive) // needs complete file name: binnacle_example.txt or master_example.txt to get the right desc_xxx_example.txt file
    {
       try
       {
@@ -1494,6 +1582,14 @@ class SecuencialIndizado
                   break;
                case "REGISTROS":
                   line = line.split(Pattern.quote(FileManager.pSEPARADOR))[0] + FileManager.pSEPARADOR + count + "\r\n";
+                  fileTempDescription.writeBytes(line);
+                  break;
+               case "ACTIVOS":
+                  line = line.split(Pattern.quote(FileManager.pSEPARADOR))[0] + FileManager.pSEPARADOR + active + "\r\n";
+                  fileTempDescription.writeBytes(line);
+                  break;
+               case "INACTIVOS":
+                  line = line.split(Pattern.quote(FileManager.pSEPARADOR))[0] + FileManager.pSEPARADOR + inactive + "\r\n";
                   fileTempDescription.writeBytes(line);
                   break;
                case "AUTOR":
@@ -1544,6 +1640,9 @@ class SecuencialIndizado
                   writer.write("CREADO" + FileManager.pSEPARADOR + new SimpleDateFormat("yyyyMMdd'.'hh:mm").format(new Date()) + "\r\n");
                   writer.write("MODIFICADO" + FileManager.pSEPARADOR + new SimpleDateFormat("yyyyMMdd'.'hh:mm").format(new Date()) + "\r\n");
                   writer.write("SEPARADOR" + FileManager.pSEPARADOR + "|\r\n");
+                  writer.write("REGISTROS" + FileManager.pSEPARADOR + "0\r\n");
+                  writer.write("ACTIVOS" + FileManager.pSEPARADOR + "0\r\n");
+                  writer.write("INACTIVOS" + FileManager.pSEPARADOR + "0\r\n");
                   writer.write("INICIAL" + FileManager.pSEPARADOR + "0\r\n");
                   writer.write("BLOQUE_ACTUAL" + FileManager.pSEPARADOR + "1");
                   writer.close();
@@ -1582,6 +1681,8 @@ class SecuencialIndizado
                   writer.write("LLAVE" + FileManager.pSEPARADOR + FileManager.GetKeys(path) + "\r\n");
                   writer.write("ORDEN" + FileManager.pSEPARADOR + "ASC\r\n");
                   writer.write("REGISTROS" + FileManager.pSEPARADOR + "0\r\n");
+                  writer.write("ACTIVOS" + FileManager.pSEPARADOR + "0\r\n");
+                  writer.write("INACTIVOS" + FileManager.pSEPARADOR + "0\r\n");
                   writer.write("MAXIMO" + FileManager.pSEPARADOR + "5");
                   writer.close();
                }
