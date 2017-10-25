@@ -191,7 +191,7 @@ public class SettingsAdmin extends javax.swing.JFrame {
 
       jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
       jLabel6.setForeground(new java.awt.Color(71, 79, 89));
-      jLabel6.setText("Reorganizar archivo Secuencial Indizado");
+      jLabel6.setText("Reorganizar todos los archivos");
 
       btn_Reorganize.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
       btn_Reorganize.setForeground(new java.awt.Color(71, 79, 89));

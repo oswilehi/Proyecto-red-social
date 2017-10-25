@@ -14,12 +14,14 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import static red.social.FileManager.BINNACLE;
+import static red.social.FileManager.FRIENDS_FILE;
 import static red.social.FileManager.GROUPS_FILE;
 import static red.social.FileManager.GROUPS_FRIENDS_FILE;
 import static red.social.FileManager.SEPARADOR;
 import static red.social.FileManager.pSEPARADOR;
 import static red.social.FileManager.GroupLength;
 import static red.social.FileManager.SEPARADOR;
+import static red.social.FileManager.pSEPARADOR;
 import static red.social.FriendsGroups.DescriptionLength;
 import static red.social.FriendsGroups.groupFieldLength;
 import static red.social.RedSocial.Fill;
@@ -466,26 +468,47 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
       lbl_MembersNumber.setText(FileManager.SearchGroup(myUser, thisGroup).split(Pattern.quote(SEPARADOR))[3]);
       ShowMembers();
       //inicializar miembros....
-         try{
-            ImageIcon icon;
-            String[] allMyFriends = FileManager.GetFriendsOfUser(myUser).split(Pattern.quote(pSEPARADOR));
-            String[] friend;
-            for (int i = 0; i < allMyFriends.length; i++)
-            {
-               list_Friends.setCellRenderer(renderer);
-               list_Friends.setModel(friendList);
-               friend = FileManager.SearchUser(allMyFriends[i].split(Pattern.quote(SEPARADOR))[1]).split(Pattern.quote(SEPARADOR));
-               icon = new ImageIcon((new ImageIcon(friend[8])).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
+         ShowFriends();
+   }
+   
+   public void ShowFriends(){
+     friendList.clear();
+      ImageIcon icon;
+      
+      list_Friends.setCellRenderer(renderer);
+      list_Friends.setModel(friendList);
+      String[] friend;
+      try{
+         String myFriendsAB[] = FileManager.SearchByKey(FRIENDS_FILE, "0,2,5", myUser+",1,1").split(Pattern.quote(pSEPARADOR));
+         for (int i = 0; i < myFriendsAB.length; i++)
+         {
             
-               //revisar esta condición-------------------------------------------
-               if(!isInGroupList(friend[0])){
+            friend = FileManager.SearchUser(myFriendsAB[i].split(Pattern.quote(SEPARADOR))[1]).split(Pattern.quote(SEPARADOR));
+            icon = new ImageIcon((new ImageIcon(friend[8])).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
+            if(!isInGroupList(friend[0])){
                   friendList.addElement(new ListIcon(friend[0], icon));
                }
-            }
-         }catch(Exception e){
-            
          }
+      }catch(Exception e){
+
+      }
+      
+      try{
+         String[] myFriendsBA = FileManager.SearchByKey(FRIENDS_FILE, "1,2,5", myUser+",1,1").split(Pattern.quote(pSEPARADOR));
+         for (int i = 0; i < myFriendsBA.length; i++)
+         {
+            
+            friend = FileManager.SearchUser(myFriendsBA[i].split(Pattern.quote(SEPARADOR))[0]).split(Pattern.quote(SEPARADOR));
+            icon = new ImageIcon((new ImageIcon(friend[8])).getImage().getScaledInstance(30, 30,  java.awt.Image.SCALE_SMOOTH));
+            if(!isInGroupList(friend[0])){
+                  friendList.addElement(new ListIcon(friend[0], icon));
+               }
+         }
+      }catch(Exception e){
+         
+      }
    }
+
    
    public boolean isInGroupList(String name){
       for (int i = 0; i < groupList.size(); i++)
@@ -538,30 +561,6 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
          return false; 
       }
       return true;
-   }
-   
-   public void TurnOffItsGroups(String friendA, String friendB){
-      try{
-         String[] groupsOfA = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "0,2", friendA+","+friendB).split(Pattern.quote(pSEPARADOR));
-         for (int i = 0; i < groupsOfA.length; i++)
-         {
-            FileManager.Update(GROUPS_FRIENDS_FILE, groupsOfA[i].substring(0,groupsOfA[i].length()-1)+"0");
-         }
-      }catch(Exception e){
-         
-      }
-      
-      try{
-         String[] groupsOfB = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "0,2", friendA+","+friendB).split(Pattern.quote(pSEPARADOR));
-         for (int i = 0; i < groupsOfB.length; i++)
-         {
-            FileManager.Update(GROUPS_FRIENDS_FILE, groupsOfB[i].substring(0,groupsOfB[i].length()-1)+"0");
-         }
-      }catch(Exception e){
-         
-      }
-      
-      
    }
    
    /**

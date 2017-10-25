@@ -317,7 +317,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="59" green="4f" red="47" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Reorganizar archivo Secuencial Indizado"/>
+            <Property name="text" type="java.lang.String" value="Reorganizar todos los archivos"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btn_Reorganize">
