@@ -452,9 +452,13 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
             FileManager.Update(GROUPS_FRIENDS_FILE, oldMembers[i].substring(0, oldMembers[i].length()-1)+"0");
          }
          
+      }catch(Exception e){
+         
+      }
+      
+      try{
          for (int i = 0; i < groupList.size(); i++)
          {
-            CreateAsociationToGroup(((ListIcon)groupList.elementAt(i)).name);
             FileManager.WriteFile(GROUPS_FRIENDS_FILE, CreateAsociationToGroup(((ListIcon)groupList.elementAt(i)).name));
          }
       }catch(Exception e){
