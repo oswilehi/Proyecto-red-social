@@ -1727,6 +1727,7 @@ class SecuencialIndizado
             }
             indexDescription.close();
             
+            if (first == 0) return null;
             RandomAccessFile indexFile = FileManager.OpenFile(FileManager.INDEX + path);
             indexFile.seek((first -1) *FileManager.Length);
             
