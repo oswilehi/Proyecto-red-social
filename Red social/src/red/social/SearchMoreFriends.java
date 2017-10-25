@@ -205,15 +205,16 @@ public class SearchMoreFriends extends javax.swing.JFrame
 
     private void btn_searchFriendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_searchFriendActionPerformed
         // TODO add your handling code here:
+        friendList.clear();
         ImageIcon icon;
         String pathIcon;
         jl_friendList.setModel(friendList);
+        jl_friendList.setCellRenderer(renderer);
 
         // Busqueda por nombre y apellido
         if (!tf_name.getText().trim().isEmpty() && !tf_lastName.getText().trim().isEmpty() && tf_user.getText().trim().isEmpty()){
            String foundUsers = FileManager.SearchByKey(USER_FILE, "1,2", tf_name.getText()+","+tf_lastName.getText());
-            if (foundUsers != null){
-                jl_friendList.setCellRenderer(renderer);
+            if (foundUsers != null){               
                 String foundUsersArray[] = foundUsers.split(Pattern.quote(pSEPARADOR));
                 for (int i = 0; i < foundUsersArray.length; i++){
                     String individualUser[] = foundUsersArray[i].split(Pattern.quote(SEPARADOR));
@@ -224,7 +225,7 @@ public class SearchMoreFriends extends javax.swing.JFrame
                 
             }
             else
-                friendList.addElement("Sin resultados de búsqueda.");
+                friendList.addElement(new ListIcon("Sin resultados de búsqueda",null));
         }
         // Busqueda por nombre o apellido
         else if (!tf_name.getText().trim().isEmpty() || !tf_lastName.getText().trim().isEmpty()){
@@ -245,7 +246,7 @@ public class SearchMoreFriends extends javax.swing.JFrame
                 }              
             }
             else
-                friendList.addElement("Sin resultados de búsqueda.");            
+                friendList.addElement(new ListIcon("Sin resultados de búsqueda",null));            
         }
         
         // Busqueda por usuario
@@ -259,19 +260,21 @@ public class SearchMoreFriends extends javax.swing.JFrame
                 friendList.addElement(new ListIcon(foundUserArray[1]+" "+foundUserArray[2]+" "+foundUserArray[0], icon));
             }
             else
-                friendList.addElement("Sin resultados de búsqueda.");
+                friendList.addElement(new ListIcon("Sin resultados de búsqueda",null));
         }
     }//GEN-LAST:event_btn_searchFriendActionPerformed
 
     private void jl_friendListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_friendListMouseClicked
         // TODO add your handling code here:
         ListIcon friend = (ListIcon)friendList.getElementAt(jl_friendList.getSelectedIndex());
-        if (!friend.name.split(" ")[2].equals(ACTUALUSER))
+        if (!friend.name.equals("Sin resultados de búsqueda")){
+            if (!friend.name.split(" ")[2].equals(ACTUALUSER))
             RedSocial.goToFriendProfile(this, jl_friendList, friendList); 
-        else{
+            else{
             myProfile.setVisible(true);
             this.dispose();
-        }           
+            }          
+        }         
     }//GEN-LAST:event_jl_friendListMouseClicked
 
    /**
