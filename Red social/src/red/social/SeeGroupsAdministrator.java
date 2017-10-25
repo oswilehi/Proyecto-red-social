@@ -337,6 +337,7 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
    private void btn_ReturnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_ReturnActionPerformed
    {//GEN-HEADEREND:event_btn_ReturnActionPerformed
       // TODO add your handling code here:
+      ActualizeOnlyMembersNumber();
       myProfile.setVisible(true);
       this.dispose();
    }//GEN-LAST:event_btn_ReturnActionPerformed
@@ -435,6 +436,10 @@ public class SeeGroupsAdministrator extends javax.swing.JFrame
       return old[0]+SEPARADOR+old[1]+SEPARADOR+old[2]+SEPARADOR+old[3]+SEPARADOR+old[4]+SEPARADOR+"0";
    }
 
+    private void ActualizeOnlyMembersNumber(){
+      String[] old = FileManager.SearchGroup(myUser, thisGroup).split(Pattern.quote(SEPARADOR));
+      FileManager.Update(GROUPS_FILE, old[0]+SEPARADOR+old[1]+SEPARADOR+old[2]+SEPARADOR+lbl_MembersNumber.getText()+SEPARADOR+old[4]+SEPARADOR+"1");
+   }
    private void ReplaceFriendsofGroup(){
       try{
          String[] oldMembers = FileManager.SearchByKey(GROUPS_FRIENDS_FILE, "0,1", myUser+","+thisGroup).split(Pattern.quote(pSEPARADOR));

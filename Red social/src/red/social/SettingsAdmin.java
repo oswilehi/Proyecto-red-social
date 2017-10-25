@@ -453,6 +453,7 @@ public class SettingsAdmin extends javax.swing.JFrame {
    private void btn_ReorganizeActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_ReorganizeActionPerformed
    {//GEN-HEADEREND:event_btn_ReorganizeActionPerformed
       // TODO add your handling code here:
+      FileManager.Reorganize(RedSocial.ACTUALUSER);
       lbl_ReorganizeSuccess.setVisible(true);
    }//GEN-LAST:event_btn_ReorganizeActionPerformed
 
