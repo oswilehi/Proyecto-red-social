@@ -400,6 +400,7 @@ public class Profile extends javax.swing.JFrame {
     
     public void showFriends(){   
         friendList.clear();
+        renderer = new Renderer();
         RedSocial.showFriends(renderer, friendList, jl_friendList, ACTUALUSER);       
     }
     
