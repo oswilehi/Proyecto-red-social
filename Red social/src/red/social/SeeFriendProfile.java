@@ -298,9 +298,12 @@ public class SeeFriendProfile extends javax.swing.JFrame
            }
        }
        else if (typeOfForm == 2){
-           String requestDate = FileManager.SearchFriend(ACTUALUSER, friendToShow).split(Pattern.quote(SEPARADOR)) [3];
-           String dataOfRequest = ACTUALUSER + SEPARADOR + friendToShow + SEPARADOR + "0" + SEPARADOR + requestDate + SEPARADOR + ACTUALUSER + "|" + "0";
-           FileManager.Update(FRIENDS_FILE, RedSocial.Fill(dataOfRequest, FriendLength));
+           String requestDate;
+           updateInfo("0", "0");                   
+           requestWasSend = false;
+           typeOfForm = 1;
+           showProfile();
+           showFriends();
        }
        else if (typeOfForm == 3){
            TurnOffItsGroups(ACTUALUSER, friendToShow);
