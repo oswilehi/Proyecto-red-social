@@ -42,7 +42,6 @@ public class FileManager
    public static final int GroupLength = 130; 
   
    public static final int BackupLength = 150;
-   
    protected FileManager(){}
    
    public static RandomAccessFile OpenFile(String path) // needs complete file name: binnacle_example.txt or master_example.txt to get the right desc_xxx_example.txt file
@@ -215,7 +214,7 @@ public class FileManager
          case GROUPS_FRIENDS_FILE:
             return "0,1,2"; //user, group,  user's friend
          case MESSAGE_FILE:
-            return "0"; //user
+            return "0,1"; //user,user/s friend
          default:
             return "0";
       }
@@ -1792,7 +1791,10 @@ class SecuencialIndizado
 
 class Indizado{
    
-   protected static boolean Write(String path, String keysString, String data){
+   private static int val = 0;
+   
+   protected static boolean Write(String path, String keysString, String data)
+   {
       if(!FileManager.FileExists(path))
          {
             // El archivo no existe ->
@@ -1806,7 +1808,14 @@ class Indizado{
          {
             //Validamos que no exista otra clave igual
             String[] keys = keysString.split(Pattern.quote(","));
-            //if (path.equals(FileManager.MESSAGE_FILE) && FileManager.SearchByKey(path, FileManager.GetKeys(path) , data.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(keys[0])]) != null) return false;
+            
+               String dataKey = "";
+               for (String key : keys)
+               {
+                  dataKey += data.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)];
+               }
+            val = -1;
+            if (Search(path, keysString, dataKey)!= null) return false;
 
             //Clave validada
             //Abrimos el descriptor del archivo
@@ -1844,22 +1853,15 @@ class Indizado{
             
             if (First == 0)
             {
-               masterFile.seek(0);
-               masterFile.writeBytes(FileManager.FixSize("1|0|0|" + data, FileManager.Length) +"\r\n");
-               First = 1;
+               masterFile.seek(Count * FileManager.Length);
+               masterFile.writeBytes(FileManager.FixSize((Count+1)+FileManager.SEPARADOR+"0"+FileManager.SEPARADOR+"0"+FileManager.SEPARADOR+"0"+FileManager.SEPARADOR+ data, FileManager.Length) +"\r\n");
+               First = Count + 1;
             }
             else
             {
                int last = First;
                int next = First;
                String[] value = null;
-
-               String dataKey = "";
-               for (String key : keys)
-               {
-                  dataKey += data.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)];
-               }
-
                while (true)
                {
                   if (next == 0)
@@ -1869,12 +1871,12 @@ class Indizado{
                   else
                   {
                      masterFile.seek((next - 1) * FileManager.Length);
-                     value = masterFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
+                     value = masterFile.readLine().replace("¬", "").split(Pattern.quote(FileManager.SEPARADOR));
 
                      String valueKey = "";
                      for (String key : keys)
                      {
-                        valueKey += value[Integer.parseInt(key) + 3];
+                        valueKey += value[Integer.parseInt(key) + 4];
                      }
 
                      if (dataKey.compareTo(valueKey) <= 0)
@@ -1896,17 +1898,17 @@ class Indizado{
 
                //Ya se conoce en que parte va el registro...
                masterFile.seek(masterFile.length());
-               String prefix = (Count + 1) + "|0|0|";
+               String prefix = (Count + 1) +FileManager.SEPARADOR+ "0"+FileManager.SEPARADOR+"0"+FileManager.SEPARADOR+ last + "|";
                masterFile.writeBytes(FileManager.FixSize(prefix + data, FileManager.Length) +"\r\n");
 
                //Actualizamos el registro anterior...
                masterFile.seek((last == 0 ) ? 0 : (last -1) * FileManager.Length);
-               value = masterFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
+               value = masterFile.readLine().replace("¬", "").split(Pattern.quote(FileManager.SEPARADOR));
 
                String valueKey = "";
                for (String key : keys)
                {
-                  valueKey += value[Integer.parseInt(key) + 3];
+                  valueKey += value[Integer.parseInt(key) + 4];
                }
 
                if (dataKey.compareTo(valueKey) <= 0)
@@ -1919,7 +1921,7 @@ class Indizado{
                   value[2] = (Count + 1) + "";
                }
                masterFile.seek((last == 0 ) ? 0 : (last -1) * FileManager.Length);
-               masterFile.writeBytes(FileManager.FixSize(String.join("|", value) , FileManager.Length)+ "\r\n");
+               masterFile.writeBytes(FileManager.FixSize(String.join(FileManager.SEPARADOR, value) , FileManager.Length)+ "\r\n");
             }
             masterFile.close();
             UpdateDescription(path, First, Count +1, Active +1, -1);
@@ -1932,6 +1934,347 @@ class Indizado{
          
    }
    
+   protected static String Search(String path, String keysString, String dataKey)
+   {
+      if(!FileManager.FileExists(path))
+         {
+            return null;
+         }
+         
+         try
+         {
+            String[] keys = keysString.split(Pattern.quote(","));
+            
+            //Clave validada
+            //Abrimos el descriptor del archivo
+            //para obtener el registro raiz
+            RandomAccessFile descriptionFile = FileManager.OpenFile(FileManager.DESCRIPTION + path);
+            int First = 0;
+            int Count = 0;
+            int Active = 0;
+            int Inactive = 0;
+            
+            while(descriptionFile.getFilePointer() != descriptionFile.length())
+            {
+               String line = descriptionFile.readLine();
+               
+               switch (line.split(Pattern.quote(FileManager.pSEPARADOR))[0])
+               {
+                  case "INICIAL":
+                     First = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     break;
+                  case "ACTIVOS":
+                     Active = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     break;
+                  case "INACTIVOS":
+                     Inactive = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     break;
+                  case "REGISTROS":
+                     Count = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                     break;
+               }
+            }
+            //se cierra el descriptor del indice.
+            descriptionFile.close();            
+            if (First == 0) return null;
+            
+            RandomAccessFile masterFile = FileManager.OpenFile( FileManager.MASTER + path);
+            
+            int last = First;
+            int next = First;
+            String[] value = null;
+            String data = null;
+            val = -1;
+            int line = Search (masterFile, keys, First, dataKey);
+            if (line != -1)
+            {
+               masterFile.seek(line);
+               data = masterFile.readLine().replace("¬", "");
+            }
+            masterFile.close();
+            return data;
+         }
+         catch (Exception ex){
+            return null;
+         }
+                 
+         
+   }
+   
+   private static int Search(RandomAccessFile masterFile, String[] keys, int next, String dataKey)
+   {
+      try
+      {
+         masterFile.seek((next - 1) * FileManager.Length);
+         String[] value = masterFile.readLine().replace("¬", "").split(Pattern.quote(FileManager.SEPARADOR));
+
+         String valueKey = "";
+         for (String key : keys)
+         {
+            valueKey += value[Integer.parseInt(key) + 4];
+         }
+         if (valueKey.compareTo(dataKey) == 0)
+         {
+            val = next;
+            return val;
+         }
+         else if (value[1] == "0" && value[2] == "0")
+         {
+            return -1;
+         }
+         else
+         {
+            if(Search(masterFile, keys, Integer.parseInt(value[1]), dataKey) != -1) return val;
+            if(Search(masterFile, keys, Integer.parseInt(value[2]), dataKey) != -1) return val;
+            return -1;
+         }
+      }
+      catch (Exception e)
+      {
+         return -1;
+      }
+   }
+   
+   protected static boolean Delete(String path, String keysString, String dataKey)
+   {
+      if(!FileManager.FileExists(path))
+      {
+         return false;
+      }
+         
+      try
+      {
+         //Validamos que no exista otra clave igual
+         String[] keys = keysString.split(Pattern.quote(","));
+       
+         //Abrimos el descriptor del archivo
+         //para obtener el registro raiz
+         RandomAccessFile descriptionFile = FileManager.OpenFile(FileManager.DESCRIPTION + path);
+         int First = 0;
+         int Count = 0;
+         int Active = 0;
+         int Inactive = 0;
+
+         while(descriptionFile.getFilePointer() != descriptionFile.length())
+         {
+            String line = descriptionFile.readLine();
+
+            switch (line.split(Pattern.quote(FileManager.pSEPARADOR))[0])
+            {
+               case "INICIAL":
+                  First = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                  break;
+               case "ACTIVOS":
+                  Active = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                  break;
+               case "INACTIVOS":
+                  Inactive = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                  break;
+               case "REGISTROS":
+                  Count = Integer.parseInt(line.split(Pattern.quote(FileManager.pSEPARADOR))[1]);
+                  break;
+            }
+         }
+         //se cierra el descriptor del indice.
+         descriptionFile.close();
+         
+         // Abrimos el archivo y obtenemos la linea del registro a borrar
+         RandomAccessFile masterFile = FileManager.OpenFile( FileManager.MASTER + path);
+         val = -1;
+         int next = Search(masterFile, keys, First, dataKey);
+         if (next == -1) return false;
+         
+         //La marcamos como dada de baja
+         masterFile.seek((next-1)*FileManager.Length);
+         String[] values = masterFile.readLine().replace("¬", "").split(Pattern.quote(FileManager.SEPARADOR));
+         //values[FileManager.GetIndexOf(path, "status") + 4] = "0";
+         masterFile.seek((next-1)*FileManager.Length);
+         masterFile.writeBytes(FileManager.FixSize(String.join(FileManager.SEPARADOR, values), FileManager.Length));
+         
+         //Necesitamos validar si el nodo era hoja, intermedio o raiz
+         if(next == First)
+         {
+            //Es la raíz
+            if (values[1].equals("0") && values[2].equals("0"))
+            {
+               //La raiz es nodo hoja (solo hay un registro) -> Solo se cambia First a 0
+               First = 0;
+            }
+            else
+            {
+               //La raiz tiene hijos, vemos cuantos hijos hay
+               if (!values[1].equals("0") && !values[2].equals("0"))
+               {
+                  // Tiene dos hijos
+                  // Buscamos el mas grande a la izquierda
+                  String son = values[1];
+                  String current = values[1];
+
+                  while (!current.equals("0"))
+                  {                  
+                     masterFile.seek((Integer.parseInt(current)-1)*FileManager.Length);
+                     String line = masterFile.readLine();
+                     son = line.split(Pattern.quote(FileManager.SEPARADOR))[0];
+                     current = line.split(Pattern.quote(FileManager.SEPARADOR))[2];
+                  }
+                  //Ya tenemos el nodo más a la derecha (son) del nodo izquierdo del nodo borrado
+                  First = Integer.parseInt(son);
+                  //Movemos primero el punto del padre del nodo que se va a mover para apuntar al hijo derecho de tal nodo
+
+                  masterFile.seek((Integer.parseInt(son)-1)*FileManager.Length);
+                  String[] sonValues = masterFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
+
+                  masterFile.seek((Integer.parseInt(sonValues[3])-1)*FileManager.Length);
+                  String[] sonFatherValues = masterFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
+                  sonFatherValues[2] = sonValues[1];
+
+                  masterFile.seek((Integer.parseInt(sonValues[3])-1)*FileManager.Length);
+                  masterFile.writeBytes(FileManager.FixSize(String.join(FileManager.SEPARADOR, sonFatherValues), FileManager.Length));
+                  if (!sonValues[1].equals(values[1]))
+                  {
+                     sonValues[1] = values[1];
+                  }
+                  sonValues[2] = values[2];
+                  sonValues[3] = values[3];
+
+                  masterFile.seek((Integer.parseInt(son)-1)*FileManager.Length);
+                  masterFile.writeBytes(FileManager.FixSize(String.join(FileManager.SEPARADOR, sonValues), FileManager.Length));
+                  
+                  //Cambiamos la referencia del padre de los hijos
+                  if(!sonValues[1].equals("0"))
+                  {
+                     masterFile.seek((Integer.parseInt(sonValues[1])-1)*FileManager.Length);
+                     String[] sonsValues = masterFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
+                     sonsValues[3] = son;
+                     masterFile.seek((Integer.parseInt(sonValues[1])-1)*FileManager.Length);
+                     masterFile.writeBytes(FileManager.FixSize(String.join(FileManager.SEPARADOR, sonsValues), FileManager.Length));
+                  }
+                  if(!sonValues[2].equals("0"))
+                  {
+                     masterFile.seek((Integer.parseInt(sonValues[2])-1)*FileManager.Length);
+                     String[] sonsValues = masterFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
+                     sonsValues[3] = son;
+                     masterFile.seek((Integer.parseInt(sonValues[2])-1)*FileManager.Length);
+                     masterFile.writeBytes(FileManager.FixSize(String.join(FileManager.SEPARADOR, sonsValues), FileManager.Length));
+                  }
+               }
+               else //Solo existe un hijo, se quita la referencia al padre y se cambia First
+               {
+                  int son = !values[1].equals("0") ?  1 : 2;
+                  First = Integer.parseInt(values[son]);
+                  masterFile.seek(son * FileManager.Length);
+                  String[] sonValues = masterFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
+                  sonValues[3] = "0";
+                  masterFile.seek(son * FileManager.Length);
+                  masterFile.writeBytes(FileManager.FixSize(String.join(FileManager.SEPARADOR, sonValues), FileManager.Length));
+                  
+               }
+            }
+         }
+         else if (values[1].equals("0") && values[2].equals("0"))
+         {
+            //Es nodo hoja -> Solo se elimina la referencia del padre al hijo
+            masterFile.seek((Integer.parseInt(values[3])-1)*FileManager.Length);
+            String[] fatherValues = masterFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
+            int son = fatherValues[1].equals(values[0]) ? 1 : 2;
+            fatherValues[son] = "0";
+            masterFile.seek((Integer.parseInt(values[3])-1)*FileManager.Length);
+            masterFile.writeBytes(FileManager.FixSize(String.join(FileManager.SEPARADOR, fatherValues), FileManager.Length));
+         }
+         else
+         {
+            //Es un nodo intermedio.. vemos cuantos hijos hay
+            if (!values[1].equals("0") && !values[2].equals("0"))
+            {
+               // Tiene dos hijos
+               // Buscamos el mas grande a la izquierda
+               String son = values[1];
+               String current = values[1];
+               
+               while (!current.equals("0"))
+               {                  
+                  masterFile.seek((Integer.parseInt(current)-1)*FileManager.Length);
+                  String line = masterFile.readLine();
+                  son = line.split(Pattern.quote(FileManager.SEPARADOR))[0];
+                  current = line.split(Pattern.quote(FileManager.SEPARADOR))[2];
+               }
+               //Ya tenemos el nodo más a la derecha (son) del nodo izquierdo del nodo borrado
+               
+               //Movemos primero el puntero del padre del nodo que se va a mover para apuntar al hijo derecho de tal nodo
+               
+               masterFile.seek((Integer.parseInt(son)-1)*FileManager.Length);
+               String[] sonValues = masterFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
+               
+               masterFile.seek((Integer.parseInt(sonValues[3])-1)*FileManager.Length);
+               String[] sonFatherValues = masterFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
+               sonFatherValues[2] = sonValues[1];
+               
+               masterFile.seek((Integer.parseInt(sonValues[3])-1)*FileManager.Length);
+               masterFile.writeBytes(FileManager.FixSize(String.join(FileManager.SEPARADOR, sonFatherValues), FileManager.Length));
+               if (!sonValues[1].equals(values[1]))
+               {
+                  sonValues[1] = values[1];
+               }
+               sonValues[2] = values[2];
+               sonValues[3] = values[3];
+               
+               masterFile.seek((Integer.parseInt(son)-1)*FileManager.Length);
+               masterFile.writeBytes(FileManager.FixSize(String.join(FileManager.SEPARADOR, sonValues), FileManager.Length));
+               
+               //actualizamos el padre del nodo eliminado para que apunte al nodo que se movio
+               masterFile.seek((Integer.parseInt(values[3])-1)*FileManager.Length);
+               String[] fatherValues = masterFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
+               fatherValues[fatherValues[1].equals(values[0]) ? 1 : 0] = sonValues[0];
+               masterFile.seek((Integer.parseInt(values[3])-1)*FileManager.Length);
+               masterFile.writeBytes(FileManager.FixSize(String.join(FileManager.SEPARADOR, fatherValues), FileManager.Length));
+
+               
+               //Cambiamos la referencia del padre de los hijos
+               if(!sonValues[1].equals("0"))
+               {
+                  masterFile.seek((Integer.parseInt(sonValues[1])-1)*FileManager.Length);
+                  String[] sonsValues = masterFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
+                  sonsValues[3] = son;
+                  masterFile.seek((Integer.parseInt(sonValues[1])-1)*FileManager.Length);
+                  masterFile.writeBytes(FileManager.FixSize(String.join(FileManager.SEPARADOR, sonsValues), FileManager.Length));
+               }
+               if(!sonValues[2].equals("0"))
+               {
+                  masterFile.seek((Integer.parseInt(sonValues[2])-1)*FileManager.Length);
+                  String[] sonsValues = masterFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
+                  sonsValues[3] = son;
+                  masterFile.seek((Integer.parseInt(sonValues[2])-1)*FileManager.Length);
+                  masterFile.writeBytes(FileManager.FixSize(String.join(FileManager.SEPARADOR, sonsValues), FileManager.Length));
+               }
+               
+            }
+            else //Solo existe un hijo, el padre pasa a apuntar al hijo del nodo borrado
+            {
+               int son = !values[1].equals("0") ?  1 : 2;
+               
+               masterFile.seek((Integer.parseInt(values[3])-1)*FileManager.Length);
+               String[] fatherValues = masterFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
+               fatherValues[fatherValues[1].equals(values[0]) ? 1 : 2] = values[son];
+               masterFile.seek((Integer.parseInt(values[3])-1)*FileManager.Length);
+               masterFile.writeBytes(FileManager.FixSize(String.join(FileManager.SEPARADOR, fatherValues), FileManager.Length));
+               
+               //Actualizamos el padre del hijo
+               masterFile.seek((Integer.parseInt(values[son]) -1)* FileManager.Length);
+               String[] sonsValues = masterFile.readLine().split(Pattern.quote(FileManager.SEPARADOR));
+               sonsValues[3] = fatherValues[0];
+               masterFile.seek((Integer.parseInt(values[son])-1)*FileManager.Length);
+               masterFile.writeBytes(FileManager.FixSize(String.join(FileManager.SEPARADOR, sonsValues), FileManager.Length));
+            }
+         }
+         masterFile.close();
+         UpdateDescription(path, First, Count, Active -1, Inactive + 1);
+         return true;
+      }
+      catch (Exception ex)
+      {
+         return false;
+      }
+   }
    protected static boolean CreateFile(String path, String author)
    {
       if (FileManager.CreateFile(FileManager.DIRECTORY + FileManager.DESCRIPTION + path)) //Creates file description
