@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.regex.Pattern;
 
@@ -31,8 +32,8 @@ public class FileManager
    public static final String BACKUP_DIRECTORY = File.separator + "MEIA_backup";
    public static final String FRIENDS_FILE = "lista_amigos.txt";
    public static final String GROUPS_FILE = "grupo.txt";
-   public static final String MESSAGE_FILE = "usuario_mensajes.txt";
-   
+   public static final String MESSAGE_FILE = "mensajes.txt";
+   public static final String IMAGE_FILE = "imagen_usuario.txt";
    public static final String GROUPS_FRIENDS_FILE = "grupo_amigos.txt";
    public static final String INDEX  = "indice_";
    
@@ -64,50 +65,53 @@ public class FileManager
    
    public static String SearchUser(String key)
    {
-      if (key == null || key == "") return null;
+      if (key == null || "".equals(key)) return null;
       return Secuencial.Search(USER_FILE, GetKeys(USER_FILE), key);
    }
    
    public static String SearchFriend(String userKey, String friendKey)
    {
-      if (userKey == null || userKey == "") return null;
-      if (friendKey == null || friendKey == "") return null;
+      if (userKey == null || "".equals(userKey)) return null;
+      if (friendKey == null || "".equals(friendKey)) return null;
       return Secuencial.Search(FRIENDS_FILE, GetKeys(FRIENDS_FILE), userKey + friendKey);
    }
    
    public static String SearchGroup(String userKey, String groupKey)
    {
-      if (userKey == null || userKey == "") return null;
-      if (groupKey == null || groupKey == "") return null;
+      if (userKey == null || "".equals(userKey)) return null;
+      if (groupKey == null || "".equals(groupKey)) return null;
       return Secuencial.Search(GROUPS_FILE, GetKeys(GROUPS_FILE), userKey + groupKey);
    }
    
    public static String SearchFriendInGroup(String groupKey, String userKey, String friendKey)
    {
-      if (groupKey == null || groupKey == "") return null;
-      if (userKey == null || userKey == "") return null;
-      if (friendKey == null || friendKey == "") return null;
+      if (groupKey == null || "".equals(groupKey)) return null;
+      if (userKey == null || "".equals(userKey)) return null;
+      if (friendKey == null || "".equals(friendKey)) return null;
       return SecuencialIndizado.Search(GROUPS_FRIENDS_FILE, GetKeys(GROUPS_FRIENDS_FILE), groupKey + userKey + friendKey);
    }
    
    public static String SearchByKey(String path, String keys, String values)
    {
-      if (path.equals(USER_FILE) || path.equals(FRIENDS_FILE) || path.equals(GROUPS_FILE) || path.equals(BACKUP_FILE)) return Secuencial.GetAllOfKey(path, keys, values);;
+      if (path.equals(USER_FILE) || path.equals(FRIENDS_FILE) || path.equals(GROUPS_FILE) || path.equals(BACKUP_FILE) || path.equals(MESSAGE_FILE)) return Secuencial.GetAllOfKey(path, keys, values);
       if (path.equals(GROUPS_FRIENDS_FILE)) return SecuencialIndizado.GetAllOfKey(path, keys, values); // debe retornar del metodo secuencial indiza (a crear)...
+      if (path.equals(IMAGE_FILE)) return ArbolBinario.Search(path, keys, values);
       return null;
    }
    
    public static boolean WriteFile(String path, String data)  // only used to add new lines to text file
    {
-         if (path.equals(USER_FILE) || path.equals(FRIENDS_FILE) || path.equals(GROUPS_FILE) || path.equals(BACKUP_FILE)) return Secuencial.Write(path, data);
-         if (path.equals(GROUPS_FRIENDS_FILE)) return SecuencialIndizado.Write(path, GetKeys(GROUPS_FRIENDS_FILE), data) ; // debe retornar del metodo secuencial indiza (a crear)...
+         if (path.equals(USER_FILE) || path.equals(FRIENDS_FILE) || path.equals(GROUPS_FILE) || path.equals(BACKUP_FILE) || path.equals(MESSAGE_FILE)) return Secuencial.Write(path, data);
+         if (path.equals(GROUPS_FRIENDS_FILE)) return SecuencialIndizado.Write(path, GetKeys(path), data) ; // debe retornar del metodo secuencial indiza (a crear)...
+         if (path.equals(IMAGE_FILE)) return ArbolBinario.Write(path, GetKeys(path), data);
          return false;
    }
    
    public static boolean Update(String path, String data)//*-
    {
-      if (path.equals(USER_FILE) || path.equals(FRIENDS_FILE) || path.equals(GROUPS_FILE)) return Secuencial.Update(path, data);
+      if (path.equals(USER_FILE) || path.equals(FRIENDS_FILE) || path.equals(GROUPS_FILE) || path.equals(MESSAGE_FILE)) return Secuencial.Update(path, data);
       if (path.equals(GROUPS_FRIENDS_FILE)) return SecuencialIndizado.Update(path, data); // debe retornar del metodo update secuencial indiza (a crear)...
+      if (path.equals(IMAGE_FILE)) return ArbolBinario.Delete(path, GetKeys(path), data);
       return false;
    }
    
@@ -214,7 +218,9 @@ public class FileManager
          case GROUPS_FRIENDS_FILE:
             return "0,1,2"; //user, group,  user's friend
          case MESSAGE_FILE:
-            return "0,1"; //user,user/s friend
+            return "0,1,2"; //user,user's friend, date
+         case IMAGE_FILE:
+            return "0,1";
          default:
             return "0";
       }
@@ -279,7 +285,17 @@ public class FileManager
             switch (value.toUpperCase())
             {
                case "STATUS":
-                  return 1;
+                  return 5;
+               case "USER":
+                  return 0;
+               default:
+                  return -1;
+            }
+         case IMAGE_FILE:
+            switch (value.toUpperCase())
+            {
+               case "STATUS":
+                  return 3;
                case "USER":
                   return 0;
                default:
@@ -479,7 +495,7 @@ class Secuencial
          }
          return false;
       }
-      catch (Exception e)
+      catch (IOException | NumberFormatException e)
       {
          return false;
       }
@@ -544,7 +560,7 @@ class Secuencial
          }
          return null;
       }
-      catch (Exception e)
+      catch (IOException | NumberFormatException e)
       {
          return null;
       }
@@ -654,39 +670,7 @@ class Secuencial
             if(!path.equals(FileManager.BACKUP_FILE) && newLine.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "status")].equals("0")) continue;
 
             while (tempFile.getFilePointer() != tempFile.length())
-            {
-               seek = tempFile.getFilePointer();
-               tempLine = tempFile.readLine();
-               String newLineKeyJoined = "", tempLineKeyJoined = "";
-               
-               for (String key : keys)
-               {
-                  newLineKeyJoined += newLine.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)];
-                  tempLineKeyJoined += tempLine.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)];
-               }
-               // Se verifica que tipo de ordenamiento se requiere
-               if ("ASC".equals(sort))
-               {
-                  // first, transfer register from binnacle
-                  if (newLineKeyJoined.compareTo(tempLineKeyJoined) <= 0)
-                  {
-                     break;
-                  }
-
-               }
-               else if ("DES".equals(sort))
-               {
-                  if (newLineKeyJoined.compareTo(tempLineKeyJoined) >= 0)
-                  {
-                     break;
-                  }
-
-               }
-               if (tempFile.getFilePointer() == tempFile.length())
-               {
-                  seek = tempFile.getFilePointer();
-               }
-            }
+            
             if (seek >= tempFile.length())
             {
                tempFile.writeBytes(newLine + "\r\n");
@@ -721,40 +705,7 @@ class Secuencial
             if(!path.equals(FileManager.BACKUP_FILE) && newLine.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "status")].equals("0")) continue;
             
             while (tempFile.getFilePointer() != tempFile.length())
-            {
-               seek = tempFile.getFilePointer();
-               tempLine = tempFile.readLine();
-               
-               String newLineKeyJoined = "", tempLineKeyJoined = "";
-               
-               for (String key : keys)
-               {
-                  newLineKeyJoined += newLine.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)];
-                  tempLineKeyJoined += tempLine.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)];
-               }
-               // Sort
-               if ("ASC".equals(sort))
-               {
-                  // first, transfer register from binnacle
-                  if (newLineKeyJoined.compareTo(tempLineKeyJoined) <= 0)
-                  {
-                     break;
-                  }
-
-               }
-               else if ("DES".equals(sort))
-               {
-                  if (newLineKeyJoined.compareTo(tempLineKeyJoined) >= 0)
-                  {
-                     break;
-                  }
-
-               }
-               if (tempFile.getFilePointer() == tempFile.length())
-               {
-                  seek = tempFile.getFilePointer();
-               }
-            }
+            
             if (seek >= tempFile.length())
             {
                tempFile.writeBytes(newLine+ "\r\n");
@@ -838,7 +789,7 @@ class Secuencial
          
          return true;
       }
-      catch (Exception e)
+      catch (IOException e)
       {
          return false;
       }
@@ -1415,7 +1366,7 @@ class SecuencialIndizado
          }
          return null;
       }
-      catch (Exception e)
+      catch (IOException | NumberFormatException e)
       {
          return null;
       }
@@ -1500,7 +1451,7 @@ class SecuencialIndizado
          }
          return false;
       }
-      catch (Exception e)
+      catch (IOException | NumberFormatException e)
       {
          return false;
       }
@@ -1580,7 +1531,7 @@ class SecuencialIndizado
          newDescription.renameTo(new File(FileManager.DIRECTORY + FileManager.DESCRIPTION + FileManager.INDEX + path));
          return true;
       }
-      catch (Exception e)
+      catch (IOException e)
       {
          return false;
       }
@@ -1639,7 +1590,7 @@ class SecuencialIndizado
          
          return true;
       }
-      catch (Exception e)
+      catch (IOException e)
       {
          return false;
       }
@@ -1782,14 +1733,14 @@ class SecuencialIndizado
          if (data.equals("")) return null;
          return data.substring(0, data.length() - 2);
       }
-      catch (Exception e)
+      catch (IOException | NumberFormatException e)
       {
          return null;
       }
    }
 }
 
-class Indizado{
+class ArbolBinario{
    
    private static int val = 0;
    
@@ -1884,13 +1835,11 @@ class Indizado{
                         //El registro va a la izquierda
                         last = next;
                         next = Integer.parseInt(value[1]);
-                          continue;
                      }
                      else {
                         //El registro va a la derecha
                         last = next;
                         next = Integer.parseInt(value[2]);
-                          continue;
                      }
 
                   }
@@ -1927,7 +1876,7 @@ class Indizado{
             UpdateDescription(path, First, Count +1, Active +1, -1);
             return true;
          }
-         catch (Exception ex){
+         catch (IOException | NumberFormatException ex){
             return false;
          }
                  
@@ -1980,21 +1929,19 @@ class Indizado{
             
             RandomAccessFile masterFile = FileManager.OpenFile( FileManager.MASTER + path);
             
-            int last = First;
-            int next = First;
-            String[] value = null;
             String data = null;
             val = -1;
             int line = Search (masterFile, keys, First, dataKey);
             if (line != -1)
             {
                masterFile.seek(line);
-               data = masterFile.readLine().replace("¬", "");
+               String[] x = masterFile.readLine().replace("¬", "").split(Pattern.quote(FileManager.SEPARADOR));
+               data = String.join(FileManager.SEPARADOR, Arrays.copyOfRange(x,4,x.length));
             }
             masterFile.close();
             return data;
          }
-         catch (Exception ex){
+         catch (IOException | NumberFormatException ex){
             return null;
          }
                  
@@ -2018,7 +1965,7 @@ class Indizado{
             val = next;
             return val;
          }
-         else if (value[1] == "0" && value[2] == "0")
+         else if ("0".equals(value[1]) && "0".equals(value[2]))
          {
             return -1;
          }
@@ -2029,7 +1976,7 @@ class Indizado{
             return -1;
          }
       }
-      catch (Exception e)
+      catch (IOException | NumberFormatException e)
       {
          return -1;
       }
@@ -2041,7 +1988,13 @@ class Indizado{
       {
          return false;
       }
-         
+      String[] dataKeys = dataKey.split(Pattern.quote(","));
+      dataKey = "";
+      for (String key : dataKeys)
+      {
+         dataKey += key;
+      }
+      
       try
       {
          //Validamos que no exista otra clave igual
@@ -2270,7 +2223,7 @@ class Indizado{
          UpdateDescription(path, First, Count, Active -1, Inactive + 1);
          return true;
       }
-      catch (Exception ex)
+      catch (IOException | NumberFormatException ex)
       {
          return false;
       }
@@ -2372,7 +2325,7 @@ class Indizado{
          newDescription.renameTo(new File(FileManager.DIRECTORY + FileManager.DESCRIPTION + path));
          return true;
       }
-      catch (Exception e)
+      catch (IOException e)
       {
          return false;
       }
