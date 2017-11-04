@@ -30,7 +30,7 @@ public class LocalMenssages extends javax.swing.JFrame
       initComponents();
    }
    
-   public void show(){
+   public void showFriends(){
       //show all the friends
       String[] friend;
       try{
@@ -112,6 +112,7 @@ public class LocalMenssages extends javax.swing.JFrame
       btn_Enviar.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
       btn_Enviar.setText("Enviar");
 
+      jList1.setBackground(new java.awt.Color(253, 211, 92));
       jList1.setFont(new java.awt.Font("Century Schoolbook", 0, 10)); // NOI18N
       jScrollPane6.setViewportView(jList1);
 

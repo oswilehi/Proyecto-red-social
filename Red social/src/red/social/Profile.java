@@ -730,8 +730,8 @@ public class Profile extends javax.swing.JFrame {
       LocalMenssages message = new LocalMenssages();
       message.myProfile = this;
       message.myUser=txt_userInfo.getText();
-      message.show();
       message.setVisible(true);
+      message.showFriends();
       this.setVisible(false);
    }//GEN-LAST:event_mi_localMessagesActionPerformed
 
