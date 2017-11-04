@@ -85,6 +85,16 @@ public class SeeFriendProfile extends javax.swing.JFrame
       jLabel4 = new javax.swing.JLabel();
       btn_Return = new javax.swing.JButton();
       lbl_acceptRequest = new javax.swing.JLabel();
+      jPanel3 = new javax.swing.JPanel();
+      Pn_image = new javax.swing.JPanel();
+      lbl_Galery2 = new javax.swing.JLabel();
+      btn_left = new javax.swing.JButton();
+      btn_right = new javax.swing.JButton();
+      lbl_Galery = new javax.swing.JLabel();
+      lbl_date = new javax.swing.JLabel();
+      jScrollPane3 = new javax.swing.JScrollPane();
+      jTextArea1 = new javax.swing.JTextArea();
+      lbl_date1 = new javax.swing.JLabel();
 
       jmi_cancelRequest.setText("Cancelar Solicitud");
       jmi_cancelRequest.addActionListener(new java.awt.event.ActionListener()
@@ -172,7 +182,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
 
       jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/red/social/Icons/printLeft.png"))); // NOI18N
 
-      btn_Return.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      btn_Return.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
       btn_Return.setText("Regresar");
       btn_Return.addActionListener(new java.awt.event.ActionListener()
       {
@@ -193,60 +203,167 @@ public class SeeFriendProfile extends javax.swing.JFrame
          }
       });
 
+      jPanel3.setBackground(new java.awt.Color(133, 25, 52));
+
+      Pn_image.setBackground(new java.awt.Color(133, 25, 52));
+
+      lbl_Galery2.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      lbl_Galery2.setForeground(new java.awt.Color(255, 255, 255));
+      lbl_Galery2.setText("Sé mi amigo para ver mis fotos");
+
+      javax.swing.GroupLayout Pn_imageLayout = new javax.swing.GroupLayout(Pn_image);
+      Pn_image.setLayout(Pn_imageLayout);
+      Pn_imageLayout.setHorizontalGroup(
+         Pn_imageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Pn_imageLayout.createSequentialGroup()
+            .addContainerGap(86, Short.MAX_VALUE)
+            .addComponent(lbl_Galery2)
+            .addContainerGap())
+      );
+      Pn_imageLayout.setVerticalGroup(
+         Pn_imageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(Pn_imageLayout.createSequentialGroup()
+            .addGap(101, 101, 101)
+            .addComponent(lbl_Galery2)
+            .addContainerGap(88, Short.MAX_VALUE))
+      );
+
+      javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+      jPanel3.setLayout(jPanel3Layout);
+      jPanel3Layout.setHorizontalGroup(
+         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel3Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(Pn_image, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addContainerGap())
+      );
+      jPanel3Layout.setVerticalGroup(
+         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(jPanel3Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(Pn_image, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addContainerGap())
+      );
+
+      btn_left.setBackground(new java.awt.Color(0, 102, 102));
+      btn_left.setFont(new java.awt.Font("Viner Hand ITC", 1, 11)); // NOI18N
+      btn_left.setText("<");
+      btn_left.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            btn_leftActionPerformed(evt);
+         }
+      });
+
+      btn_right.setBackground(new java.awt.Color(0, 102, 102));
+      btn_right.setFont(new java.awt.Font("Viner Hand ITC", 1, 11)); // NOI18N
+      btn_right.setText(">");
+
+      lbl_Galery.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+      lbl_Galery.setForeground(new java.awt.Color(255, 255, 255));
+      lbl_Galery.setText("Galería de imágenes");
+
+      lbl_date.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+      lbl_date.setForeground(new java.awt.Color(255, 255, 255));
+      lbl_date.setText("Fecha");
+
+      jTextArea1.setBackground(new java.awt.Color(204, 204, 255));
+      jTextArea1.setColumns(20);
+      jTextArea1.setRows(5);
+      jScrollPane3.setViewportView(jTextArea1);
+
+      lbl_date1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+      lbl_date1.setForeground(new java.awt.Color(255, 255, 255));
+      lbl_date1.setText("Mensajes públicos ");
+
       javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
       jPanel1.setLayout(jPanel1Layout);
       jPanel1Layout.setHorizontalGroup(
          jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                .addGroup(jPanel1Layout.createSequentialGroup()
-                  .addGap(45, 45, 45)
+                  .addGap(0, 0, Short.MAX_VALUE)
+                  .addComponent(btn_Return, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+               .addGroup(jPanel1Layout.createSequentialGroup()
                   .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                     .addComponent(jLabel1)
-                     .addComponent(jLabel4))
-                  .addGap(36, 36, 36)
-                  .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                  .addContainerGap()
+                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                           .addComponent(jLabel1)
+                           .addComponent(jLabel4))
+                        .addGap(36, 36, 36)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                           .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addComponent(txt_rolInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addComponent(txt_userInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addComponent(lbl_descripcion))))
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
                   .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
-                     .addComponent(txt_rolInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
-                     .addComponent(txt_userInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
-                     .addComponent(lbl_descripcion))))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(75, 75, 75))
+                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                           .addComponent(lbl_date, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                           .addComponent(btn_left)
+                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                           .addComponent(btn_right)
+                           .addGap(116, 116, 116)
+                           .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lbl_Galery))
+                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                           .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                              .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                              .addComponent(jScrollPane3))
+                           .addComponent(lbl_date1))
+                        .addGap(71, 71, 71)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+            .addGap(29, 29, 29))
          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-            .addGap(0, 515, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                  .addComponent(btn_Return, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                  .addGap(29, 29, 29))
-               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                  .addComponent(lbl_acceptRequest)
-                  .addGap(18, 18, 18)
-                  .addComponent(lbl_sendRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                  .addContainerGap())))
+            .addGap(461, 461, 461)
+            .addComponent(lbl_acceptRequest)
+            .addGap(18, 18, 18)
+            .addComponent(lbl_sendRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap())
       );
       jPanel1Layout.setVerticalGroup(
          jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(jPanel1Layout.createSequentialGroup()
-            .addGap(18, 18, 18)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(lbl_sendRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(lbl_acceptRequest))
-            .addGap(39, 39, 39)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                .addGroup(jPanel1Layout.createSequentialGroup()
-                  .addGap(12, 12, 12)
-                  .addComponent(jLabel2)
+                  .addGap(45, 45, 45)
+                  .addComponent(lbl_Galery)
                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                  .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
-                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                  .addComponent(btn_Return))
+                  .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_Return))
+                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                           .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                              .addComponent(btn_left)
+                              .addComponent(lbl_date))
+                           .addComponent(btn_right, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addComponent(lbl_date1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))))
                .addGroup(jPanel1Layout.createSequentialGroup()
+                  .addGap(18, 18, 18)
+                  .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                     .addComponent(lbl_sendRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(lbl_acceptRequest))
+                  .addGap(33, 33, 33)
                   .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                      .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                      .addGroup(jPanel1Layout.createSequentialGroup()
@@ -273,9 +390,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGroup(layout.createSequentialGroup()
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(0, 11, Short.MAX_VALUE))
+         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
       );
 
       pack();
@@ -370,6 +485,11 @@ public class SeeFriendProfile extends javax.swing.JFrame
             }       
         }        
     }//GEN-LAST:event_jl_friendListMouseClicked
+
+   private void btn_leftActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_leftActionPerformed
+   {//GEN-HEADEREND:event_btn_leftActionPerformed
+      // TODO add your handling code here:
+   }//GEN-LAST:event_btn_leftActionPerformed
 
    private void updateInfo(String accepted, String status){
       
@@ -505,18 +625,28 @@ public class SeeFriendProfile extends javax.swing.JFrame
    }
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
+   private javax.swing.JPanel Pn_image;
    private javax.swing.JButton btn_Return;
+   private javax.swing.JButton btn_left;
+   private javax.swing.JButton btn_right;
    private javax.swing.JLabel jLabel1;
    private javax.swing.JLabel jLabel2;
    private javax.swing.JLabel jLabel4;
    private javax.swing.JPanel jPanel1;
    private javax.swing.JPanel jPanel2;
+   private javax.swing.JPanel jPanel3;
    private javax.swing.JPopupMenu jPopupMenu1;
    private javax.swing.JScrollPane jScrollPane1;
    private javax.swing.JScrollPane jScrollPane2;
+   private javax.swing.JScrollPane jScrollPane3;
+   private javax.swing.JTextArea jTextArea1;
    private javax.swing.JList<String> jl_friendList;
    private javax.swing.JMenuItem jmi_cancelRequest;
+   private javax.swing.JLabel lbl_Galery;
+   private javax.swing.JLabel lbl_Galery2;
    private javax.swing.JLabel lbl_acceptRequest;
+   private javax.swing.JLabel lbl_date;
+   private javax.swing.JLabel lbl_date1;
    private javax.swing.JLabel lbl_descripcion;
    private javax.swing.JLabel lbl_profilePic;
    private javax.swing.JLabel lbl_sendRequest;
