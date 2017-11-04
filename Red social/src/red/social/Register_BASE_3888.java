@@ -604,24 +604,17 @@ public class Register extends javax.swing.JFrame
             FileManager.WriteFile(USER_FILE, RedSocial.Fill(Data, UserLength));             
             // Si un administrador no esta agregando usuarios esto quiere decir
             // que es un registrar normal
-            try
+            if (FileManager.SearchUser(RedSocial.ACTUALUSER).split(Pattern.quote(SEPARADOR))[4].equals("0"))
             {
-               if (!isAdminAddingUsers)
-               {
-                    RedSocial.ProfileController(Data);
-                    RedSocial.ACTUALUSER = txt_User.getText();
-                    this.setVisible(false);
-                    this.dispose();
-                     LogFrame.dispose();
-               }
-               // Si es un admin agregando usuarios se limpian los txt
-               else
-                   CleanTxt();   
-               }
-               catch (Exception e)
-               {  
-               }
-            
+                 RedSocial.ProfileController(Data);
+                 RedSocial.ACTUALUSER = txt_User.getText();
+                 this.setVisible(false);
+                 this.dispose();
+                  LogFrame.dispose();
+            }
+            // Si es un admin agregando usuarios se limpian los txt
+            else
+                CleanTxt();       
         }
    }//GEN-LAST:event_btn_RegisterActionPerformed
 

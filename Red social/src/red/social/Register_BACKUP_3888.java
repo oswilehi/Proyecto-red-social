@@ -621,7 +621,11 @@ public class Register extends javax.swing.JFrame
                catch (Exception e)
                {  
                }
-            
+<<<<<<< HEAD
+               
+=======
+    
+>>>>>>> f6571fbe10dbfb1c4e0e86aadab5d42f0cf0e91f
         }
    }//GEN-LAST:event_btn_RegisterActionPerformed
 
