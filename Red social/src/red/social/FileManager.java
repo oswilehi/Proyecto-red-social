@@ -1446,7 +1446,7 @@ class SecuencialIndizado
                if (masterFile == null) continue ;
                while(masterFile.getFilePointer() != masterFile.length())
                {
-                  String line = masterFile.readLine();
+                  String line = masterFile.readLine().replace("¬", "");
                   if (line.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "status")].equals("1")) tempFile.writeBytes(line + "\r\n");
                }
                masterFile.close();
