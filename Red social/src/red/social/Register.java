@@ -604,7 +604,7 @@ public class Register extends javax.swing.JFrame
             FileManager.WriteFile(USER_FILE, RedSocial.Fill(Data, UserLength));             
             // Si un administrador no esta agregando usuarios esto quiere decir
             // que es un registrar normal
-             try
+            try
             {
                if (!isAdminAddingUsers)
                {
@@ -621,7 +621,7 @@ public class Register extends javax.swing.JFrame
                catch (Exception e)
                {  
                }
-             
+               
         }
    }//GEN-LAST:event_btn_RegisterActionPerformed
 
