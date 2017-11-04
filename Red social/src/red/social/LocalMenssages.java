@@ -5,6 +5,13 @@
  */
 package red.social;
 
+import java.util.regex.Pattern;
+import javax.swing.ImageIcon;
+import static red.social.FileManager.FRIENDS_FILE;
+import static red.social.FileManager.SEPARADOR;
+import static red.social.FileManager.pSEPARADOR;
+import red.social.Icons.ListIcon;
+
 /**
  *
  * @author Krle__000
@@ -16,10 +23,41 @@ public class LocalMenssages extends javax.swing.JFrame
     * Creates new form Menssages
     */
    public Profile myProfile;
+   public String myUser;
    
    public LocalMenssages()
    {
       initComponents();
+   }
+   
+   public void show(){
+      //show all the friends
+      String[] friend;
+      try{
+         String myFriendsAB[] = FileManager.SearchByKey(FRIENDS_FILE, "0,2", myUser+",1").split(Pattern.quote(pSEPARADOR));
+         for (int i = 0; i < myFriendsAB.length; i++)
+         {
+            friend = FileManager.SearchUser(myFriendsAB[i].split(Pattern.quote(SEPARADOR))[1]).split(Pattern.quote(SEPARADOR));
+            Cb_friends.addItem(friend[0]);
+         }
+      }catch(Exception e){
+
+      }
+      
+      try{
+         String[] myFriendsBA = FileManager.SearchByKey(FRIENDS_FILE, "1,2", myUser+",1").split(Pattern.quote(pSEPARADOR));
+         for (int i = 0; i < myFriendsBA.length; i++)
+         {
+            friend = FileManager.SearchUser(myFriendsBA[i].split(Pattern.quote(SEPARADOR))[0]).split(Pattern.quote(SEPARADOR));
+            Cb_friends.addItem(friend[0]);
+         }
+      }catch(Exception e){
+         
+      }
+      
+      if(Cb_friends.getItemCount()==0){
+         btn_Enviar.setEnabled(false);
+      }
    }
 
    /**
@@ -38,9 +76,9 @@ public class LocalMenssages extends javax.swing.JFrame
       jScrollPane5 = new javax.swing.JScrollPane();
       jTextArea1 = new javax.swing.JTextArea();
       lbl_Galery1 = new javax.swing.JLabel();
-      jComboBox1 = new javax.swing.JComboBox<>();
+      Cb_friends = new javax.swing.JComboBox<>();
       jComboBox2 = new javax.swing.JComboBox<>();
-      jButton1 = new javax.swing.JButton();
+      btn_Enviar = new javax.swing.JButton();
       jScrollPane6 = new javax.swing.JScrollPane();
       jList1 = new javax.swing.JList<>();
       lbl_Galery2 = new javax.swing.JLabel();
@@ -58,6 +96,7 @@ public class LocalMenssages extends javax.swing.JFrame
 
       jTextArea1.setBackground(new java.awt.Color(204, 204, 255));
       jTextArea1.setColumns(20);
+      jTextArea1.setFont(new java.awt.Font("Century Schoolbook", 0, 10)); // NOI18N
       jTextArea1.setRows(5);
       jScrollPane5.setViewportView(jTextArea1);
 
@@ -65,18 +104,15 @@ public class LocalMenssages extends javax.swing.JFrame
       lbl_Galery1.setForeground(new java.awt.Color(255, 255, 255));
       lbl_Galery1.setText("Escríbele a un amigo");
 
-      jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+      Cb_friends.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
 
+      jComboBox2.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
       jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Público", "Privado" }));
 
-      jButton1.setText("Enviar");
+      btn_Enviar.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
+      btn_Enviar.setText("Enviar");
 
-      jList1.setModel(new javax.swing.AbstractListModel<String>()
-      {
-         String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-         public int getSize() { return strings.length; }
-         public String getElementAt(int i) { return strings[i]; }
-      });
+      jList1.setFont(new java.awt.Font("Century Schoolbook", 0, 10)); // NOI18N
       jScrollPane6.setViewportView(jList1);
 
       lbl_Galery2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -117,12 +153,12 @@ public class LocalMenssages extends javax.swing.JFrame
                   .addGroup(jPanel1Layout.createSequentialGroup()
                      .addComponent(lbl_Galery1)
                      .addGap(18, 18, 18)
-                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                     .addComponent(Cb_friends, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                   .addComponent(jScrollPane5)
                   .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                      .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                     .addComponent(btn_Enviar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -159,14 +195,14 @@ public class LocalMenssages extends javax.swing.JFrame
                            .addGroup(jPanel1Layout.createSequentialGroup()
                               .addGap(1, 1, 1)
                               .addComponent(lbl_Galery1))
-                           .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                           .addComponent(Cb_friends, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                           .addComponent(jButton1))))
-                  .addGap(50, 50, 50)
+                           .addComponent(btn_Enviar))))
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                   .addComponent(lbl_Galery4))
                .addGroup(jPanel1Layout.createSequentialGroup()
                   .addComponent(lbl_Galery2)
@@ -247,8 +283,8 @@ public class LocalMenssages extends javax.swing.JFrame
    }
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
-   private javax.swing.JButton jButton1;
-   private javax.swing.JComboBox<String> jComboBox1;
+   private javax.swing.JComboBox<String> Cb_friends;
+   private javax.swing.JButton btn_Enviar;
    private javax.swing.JComboBox<String> jComboBox2;
    private javax.swing.JLabel jLabel1;
    private javax.swing.JLabel jLabel2;

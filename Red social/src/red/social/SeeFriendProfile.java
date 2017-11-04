@@ -24,6 +24,9 @@ import static red.social.FileManager.GROUPS_FRIENDS_FILE;
 import red.social.Icons.ListIcon;
 import red.social.Icons.Renderer;
 import static red.social.RedSocial.ACTUALUSER;
+import java.util.ArrayList;
+import static red.social.FileManager.IMAGE_FILE;
+import static red.social.FileManager.SEPARADOR;
 
 /**
  *
@@ -37,9 +40,11 @@ public class SeeFriendProfile extends javax.swing.JFrame
     */
    String friendToShow; 
    boolean requestWasSend;
+   int ActualPosition=0;
    // Si typeOfForm es 1 significa que se viene a enviar una solicitud, si es 2 significa que se viene a aceptar una solicitud y si es 3
    /// significa que ya son amigos y puede eliminar al amigo
    int typeOfForm;
+   ArrayList<String> galery = new ArrayList<String>();
    DefaultListModel friendList = new DefaultListModel();
    Renderer renderer = new Renderer();
    static Profile myProfile;
@@ -86,8 +91,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
       btn_Return = new javax.swing.JButton();
       lbl_acceptRequest = new javax.swing.JLabel();
       jPanel3 = new javax.swing.JPanel();
-      Pn_image = new javax.swing.JPanel();
-      lbl_Galery2 = new javax.swing.JLabel();
+      lbl_Images = new javax.swing.JLabel();
       btn_left = new javax.swing.JButton();
       btn_right = new javax.swing.JButton();
       lbl_Galery = new javax.swing.JLabel();
@@ -205,28 +209,9 @@ public class SeeFriendProfile extends javax.swing.JFrame
 
       jPanel3.setBackground(new java.awt.Color(133, 25, 52));
 
-      Pn_image.setBackground(new java.awt.Color(133, 25, 52));
-
-      lbl_Galery2.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-      lbl_Galery2.setForeground(new java.awt.Color(255, 255, 255));
-      lbl_Galery2.setText("Sé mi amigo para ver mis fotos");
-
-      javax.swing.GroupLayout Pn_imageLayout = new javax.swing.GroupLayout(Pn_image);
-      Pn_image.setLayout(Pn_imageLayout);
-      Pn_imageLayout.setHorizontalGroup(
-         Pn_imageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Pn_imageLayout.createSequentialGroup()
-            .addContainerGap(86, Short.MAX_VALUE)
-            .addComponent(lbl_Galery2)
-            .addContainerGap())
-      );
-      Pn_imageLayout.setVerticalGroup(
-         Pn_imageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGroup(Pn_imageLayout.createSequentialGroup()
-            .addGap(101, 101, 101)
-            .addComponent(lbl_Galery2)
-            .addContainerGap(88, Short.MAX_VALUE))
-      );
+      lbl_Images.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+      lbl_Images.setForeground(new java.awt.Color(255, 255, 255));
+      lbl_Images.setText("Sé mi amigo para ver mis fotos");
 
       javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
       jPanel3.setLayout(jPanel3Layout);
@@ -234,20 +219,21 @@ public class SeeFriendProfile extends javax.swing.JFrame
          jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(jPanel3Layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(Pn_image, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lbl_Images, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addContainerGap())
       );
       jPanel3Layout.setVerticalGroup(
          jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGroup(jPanel3Layout.createSequentialGroup()
+         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(Pn_image, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lbl_Images, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
             .addContainerGap())
       );
 
       btn_left.setBackground(new java.awt.Color(0, 102, 102));
-      btn_left.setFont(new java.awt.Font("Viner Hand ITC", 1, 11)); // NOI18N
-      btn_left.setText("<");
+      btn_left.setFont(new java.awt.Font("Yu Gothic", 1, 11)); // NOI18N
+      btn_left.setForeground(new java.awt.Color(255, 255, 255));
+      btn_left.setText("◁");
       btn_left.addActionListener(new java.awt.event.ActionListener()
       {
          public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -257,8 +243,16 @@ public class SeeFriendProfile extends javax.swing.JFrame
       });
 
       btn_right.setBackground(new java.awt.Color(0, 102, 102));
-      btn_right.setFont(new java.awt.Font("Viner Hand ITC", 1, 11)); // NOI18N
-      btn_right.setText(">");
+      btn_right.setFont(new java.awt.Font("Yu Gothic", 1, 11)); // NOI18N
+      btn_right.setForeground(new java.awt.Color(255, 255, 255));
+      btn_right.setText("▷");
+      btn_right.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            btn_rightActionPerformed(evt);
+         }
+      });
 
       lbl_Galery.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
       lbl_Galery.setForeground(new java.awt.Color(255, 255, 255));
@@ -270,6 +264,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
 
       jTextArea1.setBackground(new java.awt.Color(204, 204, 255));
       jTextArea1.setColumns(20);
+      jTextArea1.setFont(new java.awt.Font("Century Schoolbook", 0, 13)); // NOI18N
       jTextArea1.setRows(5);
       jScrollPane3.setViewportView(jTextArea1);
 
@@ -303,22 +298,24 @@ public class SeeFriendProfile extends javax.swing.JFrame
                            .addComponent(txt_userInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
                            .addComponent(lbl_descripcion))))
                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
-                  .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                           .addComponent(lbl_date, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                           .addComponent(btn_left)
-                           .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                           .addComponent(btn_right)
-                           .addGap(116, 116, 116)
-                           .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(lbl_Galery))
+                  .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(lbl_date, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                           .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                              .addGap(0, 65, Short.MAX_VALUE)
+                              .addComponent(btn_left)
+                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                              .addComponent(btn_right)
+                              .addGap(116, 116, 116)
+                              .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                           .addComponent(lbl_Galery)))
                      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                               .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                              .addComponent(jScrollPane3))
+                              .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE))
                            .addComponent(lbl_date1))
                         .addGap(71, 71, 71)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -347,13 +344,12 @@ public class SeeFriendProfile extends javax.swing.JFrame
                         .addComponent(btn_Return))
                      .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                           .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                              .addComponent(btn_left)
-                              .addComponent(lbl_date))
-                           .addComponent(btn_right, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                           .addComponent(btn_left)
+                           .addComponent(btn_right, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addComponent(lbl_date, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                         .addComponent(lbl_date1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -489,7 +485,28 @@ public class SeeFriendProfile extends javax.swing.JFrame
    private void btn_leftActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_leftActionPerformed
    {//GEN-HEADEREND:event_btn_leftActionPerformed
       // TODO add your handling code here:
+       if(!galery.isEmpty()){
+         if(ActualPosition-1 == -1){
+            ActualPosition = galery.size()-1;
+         }else{
+            ActualPosition--;
+         }
+         ChangeImage(ActualPosition);
+      }
    }//GEN-LAST:event_btn_leftActionPerformed
+
+   private void btn_rightActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_rightActionPerformed
+   {//GEN-HEADEREND:event_btn_rightActionPerformed
+      // TODO add your handling code here:
+      if(!galery.isEmpty()){
+         if(ActualPosition+1 == galery.size()){
+            ActualPosition=0;
+         }else{
+            ActualPosition++;
+         }
+         ChangeImage(ActualPosition);
+      }
+   }//GEN-LAST:event_btn_rightActionPerformed
 
    private void updateInfo(String accepted, String status){
       
@@ -575,6 +592,36 @@ public class SeeFriendProfile extends javax.swing.JFrame
        RedSocial.showFriends(renderer, friendList, jl_friendList, friendToShow);
 
    }
+   
+   private void ShowPictures(){
+      if(lbl_sendRequest.getText().equals("Eliminar amigo")){
+         try{
+            String[] pictures = FileManager.SearchByKey(IMAGE_FILE,"0", txt_userInfo.getText()).split(Pattern.quote(pSEPARADOR));
+            for (int i = 0; i < pictures.length; i++)
+            {
+               galery.add(pictures[i].split(Pattern.quote(SEPARADOR))[1]);
+            }
+            if(galery.size()==0){
+               lbl_Images.setText("Nada para mostrar");
+            }else{
+               ChangeImage(ActualPosition);
+            }
+         }  catch(Exception e){
+         }
+      }
+   }
+   
+    private void ChangeImage(int position){
+      try{
+      lbl_date.setVisible(true);
+      String n = FileManager.SearchByKey(IMAGE_FILE, "0,1", txt_userInfo.getText() +","+galery.get(ActualPosition));
+      lbl_date.setText(FileManager.SearchByKey(IMAGE_FILE, "0,1", txt_userInfo.getText() +","+galery.get(ActualPosition)).split(Pattern.quote(SEPARADOR))[2]);
+      lbl_Images.setText("");
+      lbl_Images.setIcon(new ImageIcon((new ImageIcon(galery.get(position))).getImage().getScaledInstance(171, 147,  java.awt.Image.SCALE_SMOOTH)));
+      }catch(Exception e){
+         
+      }
+   }
    /**
     * @param args the command line arguments
     */
@@ -625,7 +672,6 @@ public class SeeFriendProfile extends javax.swing.JFrame
    }
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
-   private javax.swing.JPanel Pn_image;
    private javax.swing.JButton btn_Return;
    private javax.swing.JButton btn_left;
    private javax.swing.JButton btn_right;
@@ -643,7 +689,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
    private javax.swing.JList<String> jl_friendList;
    private javax.swing.JMenuItem jmi_cancelRequest;
    private javax.swing.JLabel lbl_Galery;
-   private javax.swing.JLabel lbl_Galery2;
+   private javax.swing.JLabel lbl_Images;
    private javax.swing.JLabel lbl_acceptRequest;
    private javax.swing.JLabel lbl_date;
    private javax.swing.JLabel lbl_date1;

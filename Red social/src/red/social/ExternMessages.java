@@ -13,6 +13,7 @@ public class ExternMessages extends javax.swing.JFrame
 {
 
    public Profile myProfile;
+   public String myUser;
    /**
     * Creates new form ExternMessages
     */

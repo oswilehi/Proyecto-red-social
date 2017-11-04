@@ -4,25 +4,34 @@
  * and open the template in the editor.
  */
 package red.social;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
 import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JList;
-import static red.social.FileManager.SEPARADOR;
-import static red.social.FileManager.pSEPARADOR;
+import javax.swing.JFileChooser;
 import static red.social.FileManager.GROUPS_FILE;
-import static red.social.FileManager.FRIENDS_FILE;
 import static red.social.FileManager.GROUPS_FRIENDS_FILE;
 import red.social.Icons.Renderer;
-import javax.swing.SwingUtilities;
-import static red.social.FileManager.FRIENDS_FILE;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import static red.social.FileManager.ANOTHER_IMAGES;
+import static red.social.FileManager.DIRECTORY;
 import static red.social.FileManager.SEPARADOR;
 import static red.social.FileManager.pSEPARADOR;
+import static red.social.FileManager.GaleryLength;
+import static red.social.FileManager.IMAGE_FILE;
 import red.social.Icons.ListIcon;
 import static red.social.RedSocial.ACTUALUSER;
+import static red.social.Register.PictureCount;
+import java.util.ArrayList;
+import java.util.Date;
+import static red.social.RedSocial.Fill;
 
 
 /**
@@ -40,6 +49,9 @@ public class Profile extends javax.swing.JFrame {
    String RightClickGroup="";
    DefaultListModel friendList = new DefaultListModel();
    Renderer renderer = new Renderer();
+   String PicturePath="";
+   ArrayList<String> galery = new ArrayList<String>();
+   int ActualPosition=-1;
    
     public Profile() {
         initComponents();
@@ -91,11 +103,12 @@ public class Profile extends javax.swing.JFrame {
       lbl_FriendRequest = new javax.swing.JLabel();
       lbl_messages = new javax.swing.JLabel();
       jPanel3 = new javax.swing.JPanel();
+      lbl_PicturePath = new javax.swing.JLabel();
       lbl_Galery = new javax.swing.JLabel();
       lbl_date = new javax.swing.JLabel();
       btn_right = new javax.swing.JButton();
       btn_left = new javax.swing.JButton();
-      jButton1 = new javax.swing.JButton();
+      btn_UploadPicture = new javax.swing.JButton();
 
       jTextArea2.setColumns(20);
       jTextArea2.setRows(5);
@@ -312,15 +325,32 @@ public class Profile extends javax.swing.JFrame {
 
       jPanel3.setBackground(new java.awt.Color(133, 25, 52));
 
+      lbl_PicturePath.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
+      lbl_PicturePath.setForeground(new java.awt.Color(255, 255, 255));
+      lbl_PicturePath.setText("No hay imágenes para mostrar");
+      lbl_PicturePath.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            lbl_PicturePathMouseClicked(evt);
+         }
+      });
+
       javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
       jPanel3.setLayout(jPanel3Layout);
       jPanel3Layout.setHorizontalGroup(
          jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGap(0, 0, Short.MAX_VALUE)
+         .addGroup(jPanel3Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(lbl_PicturePath, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
+            .addContainerGap())
       );
       jPanel3Layout.setVerticalGroup(
          jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGap(0, 169, Short.MAX_VALUE)
+         .addGroup(jPanel3Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(lbl_PicturePath, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+            .addContainerGap())
       );
 
       lbl_Galery.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -332,12 +362,21 @@ public class Profile extends javax.swing.JFrame {
       lbl_date.setText("Fecha");
 
       btn_right.setBackground(new java.awt.Color(0, 102, 102));
-      btn_right.setFont(new java.awt.Font("Viner Hand ITC", 1, 11)); // NOI18N
-      btn_right.setText(">");
+      btn_right.setFont(new java.awt.Font("Yu Gothic Medium", 1, 11)); // NOI18N
+      btn_right.setForeground(new java.awt.Color(255, 255, 255));
+      btn_right.setText("▷");
+      btn_right.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            btn_rightActionPerformed(evt);
+         }
+      });
 
       btn_left.setBackground(new java.awt.Color(0, 102, 102));
-      btn_left.setFont(new java.awt.Font("Viner Hand ITC", 1, 11)); // NOI18N
-      btn_left.setText("<");
+      btn_left.setFont(new java.awt.Font("Yu Gothic Medium", 1, 11)); // NOI18N
+      btn_left.setForeground(new java.awt.Color(255, 255, 255));
+      btn_left.setText("◁");
       btn_left.addActionListener(new java.awt.event.ActionListener()
       {
          public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -346,8 +385,15 @@ public class Profile extends javax.swing.JFrame {
          }
       });
 
-      jButton1.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
-      jButton1.setText("Subir fotografía");
+      btn_UploadPicture.setFont(new java.awt.Font("Century Gothic", 0, 11)); // NOI18N
+      btn_UploadPicture.setText("Subir fotografía");
+      btn_UploadPicture.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            btn_UploadPictureActionPerformed(evt);
+         }
+      });
 
       javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
       jPanel1.setLayout(jPanel1Layout);
@@ -370,7 +416,7 @@ public class Profile extends javax.swing.JFrame {
                                     .addComponent(btn_left)
                                     .addGap(18, 18, 18)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                       .addComponent(lbl_date, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
+                                       .addComponent(lbl_date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGap(18, 18, 18)
                                     .addComponent(btn_right))
@@ -378,7 +424,7 @@ public class Profile extends javax.swing.JFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                        .addComponent(lbl_Galery)
                                        .addGap(136, 136, 136)
-                                       .addComponent(jButton1))
+                                       .addComponent(btn_UploadPicture))
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                        .addComponent(txt_rolInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
                                        .addComponent(txt_userInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -441,7 +487,7 @@ public class Profile extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                            .addComponent(lbl_Galery)
-                           .addComponent(jButton1))
+                           .addComponent(btn_UploadPicture))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                            .addGroup(jPanel1Layout.createSequentialGroup()
                               .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -518,6 +564,17 @@ public class Profile extends javax.swing.JFrame {
         RedSocial.showFriends(renderer, friendList, jl_friendList, ACTUALUSER);
         //Show groups
         ShowGroups();
+        try{
+         String[] allThePictures = FileManager.SearchByKey(IMAGE_FILE,"0", txt_userInfo.getText()).split(Pattern.quote(pSEPARADOR));
+           for (int i = 0; i < allThePictures.length; i++)
+           {
+              galery.add(allThePictures[i]);
+           }
+           ChangeImage(ActualPosition);
+        }catch(Exception e){
+           lbl_date.setVisible(false);
+        }
+        
     }
     
     public void showFriends(){   
@@ -657,6 +714,14 @@ public class Profile extends javax.swing.JFrame {
    private void btn_leftActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_leftActionPerformed
    {//GEN-HEADEREND:event_btn_leftActionPerformed
       // TODO add your handling code here:
+      if(!galery.isEmpty()){
+         if(ActualPosition-1 == -1){
+            ActualPosition = galery.size()-1;
+         }else{
+            ActualPosition--;
+         }
+         ChangeImage(ActualPosition);
+      }
    }//GEN-LAST:event_btn_leftActionPerformed
 
    private void mi_localMessagesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_mi_localMessagesActionPerformed
@@ -664,6 +729,8 @@ public class Profile extends javax.swing.JFrame {
       // TODO add your handling code here:
       LocalMenssages message = new LocalMenssages();
       message.myProfile = this;
+      message.myUser=txt_userInfo.getText();
+      message.show();
       message.setVisible(true);
       this.setVisible(false);
    }//GEN-LAST:event_mi_localMessagesActionPerformed
@@ -673,10 +740,112 @@ public class Profile extends javax.swing.JFrame {
       // TODO add your handling code here:
       ExternMessages message = new ExternMessages();
       message.myProfile = this;
+      message.myUser = txt_userInfo.getText();
       message.setVisible(true);
       this.setVisible(false);
    }//GEN-LAST:event_mi_externMessagesActionPerformed
 
+   private void btn_UploadPictureActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_UploadPictureActionPerformed
+   {//GEN-HEADEREND:event_btn_UploadPictureActionPerformed
+      // TODO add your handling code here:
+      try{
+            JFileChooser Images = new JFileChooser();
+            Images.setFileFilter(new FileNameExtensionFilter("Image Files", "gif","jpg","jpeg","png"));
+            Images.setAcceptAllFileFilterUsed(false);
+            Images.showOpenDialog(Images);
+                String Path = Images.getSelectedFile().getAbsolutePath();
+                String Name = Path.split(Pattern.quote("\\"))[Path.split(Pattern.quote("\\")).length-1];
+                ImageExistInMEIA(Name);
+                CopyImagesToMEIA(Path, DIRECTORY+ANOTHER_IMAGES+"\\"+Name);
+                galery.add(PicturePath);
+                ActualPosition=0;
+                if(galery.size()==1){
+                   ChangeImage(ActualPosition);
+                }
+                FileManager.WriteFile(IMAGE_FILE, generateRegister(PicturePath));
+        }catch(Exception e){
+        }
+   }//GEN-LAST:event_btn_UploadPictureActionPerformed
+
+   private void btn_rightActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_rightActionPerformed
+   {//GEN-HEADEREND:event_btn_rightActionPerformed
+      // TODO add your handling code here:
+      //sum
+      if(!galery.isEmpty()){
+         if(ActualPosition+1 == galery.size()){
+            ActualPosition=0;
+         }else{
+            ActualPosition++;
+         }
+         ChangeImage(ActualPosition);
+      }
+      
+   }//GEN-LAST:event_btn_rightActionPerformed
+
+   private void lbl_PicturePathMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lbl_PicturePathMouseClicked
+   {//GEN-HEADEREND:event_lbl_PicturePathMouseClicked
+      // TODO add your handling code here:
+      SeeImages images = new SeeImages();
+      images.myProfile = this;
+      images.galery = galery;
+      images.myUser = txt_userInfo.getText();
+      images.actualPicture = ActualPosition;
+   }//GEN-LAST:event_lbl_PicturePathMouseClicked
+
+   
+   private String generateRegister(String path){
+      return  Fill(txt_userInfo.getText() + SEPARADOR + path + SEPARADOR + new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + SEPARADOR + "1", GaleryLength);
+   }
+
+   private void ChangeImage(int position){
+      try{
+         lbl_date.setVisible(true);
+      String n = FileManager.SearchByKey(IMAGE_FILE, "0,1", txt_userInfo.getText() +","+galery.get(ActualPosition));
+      lbl_date.setText(FileManager.SearchByKey(IMAGE_FILE, "0,1", txt_userInfo.getText() +","+galery.get(ActualPosition)).split(Pattern.quote(SEPARADOR))[2]);
+      lbl_PicturePath.setText("");
+      lbl_PicturePath.setIcon(new ImageIcon((new ImageIcon(galery.get(position))).getImage().getScaledInstance(171, 147,  java.awt.Image.SCALE_SMOOTH)));
+      }catch(Exception e){
+         
+      }
+   }
+
+   private void CopyImagesToMEIA (String Origin, String Destiny)    {
+        try {
+                Path origenPath = Paths.get(Origin);
+                Path destinoPath = Paths.get(Destiny);
+                Files.copy(origenPath, destinoPath, StandardCopyOption.REPLACE_EXISTING);
+                //This rename the picture
+                File Picture = new File(Destiny);
+                File NewName = NewPictureName(Destiny.split(Pattern.quote("."))[Destiny.split(Pattern.quote(".")).length-1]);
+                Picture.renameTo(NewName);
+                PicturePath = NewName.getAbsolutePath();
+        } catch(Exception e){
+                
+            }
+    }
+      
+     private File NewPictureName(String ext){
+        File newName;
+        do{
+             PictureCount++;
+            newName = new File(DIRECTORY + ANOTHER_IMAGES+"\\"+ PictureCount+"."+ext);
+        }while(newName.exists());
+        return newName;
+    }
+   private boolean ImageExistInMEIA(String Name){
+        File ImageDir = new File(DIRECTORY+ANOTHER_IMAGES);
+        if(!ImageDir.exists()){
+            ImageDir.getAbsoluteFile().mkdir();
+            return false;
+        }else{
+            File Image = new File(DIRECTORY+""+ANOTHER_IMAGES+"\\"+Name);
+            if(Image.exists()){
+                return true;
+            }
+            return false;
+        }
+    }
+    
    private String OldGroupForDelete(){
       String[] old = FileManager.SearchGroup(txt_userInfo.getText(), RightClickGroup).split(Pattern.quote(SEPARADOR));
       return old[0]+SEPARADOR+old[1]+SEPARADOR+old[2]+SEPARADOR+old[3]+SEPARADOR+old[4]+SEPARADOR+"0";
@@ -764,10 +933,10 @@ public class Profile extends javax.swing.JFrame {
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
    private javax.swing.JList<String> List_Groups;
+   private javax.swing.JButton btn_UploadPicture;
    private javax.swing.JButton btn_left;
    private javax.swing.JButton btn_right;
    private javax.swing.JButton btn_settings;
-   private javax.swing.JButton jButton1;
    private javax.swing.JLabel jLabel1;
    private javax.swing.JLabel jLabel2;
    private javax.swing.JLabel jLabel3;
@@ -785,6 +954,7 @@ public class Profile extends javax.swing.JFrame {
    private javax.swing.JLabel lbl_FriendRequest;
    private javax.swing.JLabel lbl_Galery;
    private javax.swing.JLabel lbl_OutAccount;
+   private javax.swing.JLabel lbl_PicturePath;
    private javax.swing.JLabel lbl_SearchFriends;
    private javax.swing.JLabel lbl_SesionOut;
    private javax.swing.JLabel lbl_date;
