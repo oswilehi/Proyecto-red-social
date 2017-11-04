@@ -1933,10 +1933,10 @@ class ArbolBinario{
             
             String data = null;
             val = -1;
-            int line = Search (masterFile, keys, First, dataKey);
+            int line = Search (masterFile, keys, First, String.join("", dataKey.split(Pattern.quote(","))));
             if (line != -1)
             {
-               masterFile.seek(line);
+               masterFile.seek((line-1) * FileManager.Length);
                String[] x = masterFile.readLine().replace("¬", "").split(Pattern.quote(FileManager.SEPARADOR));
                data = String.join(FileManager.SEPARADOR, Arrays.copyOfRange(x,4,x.length));
             }
