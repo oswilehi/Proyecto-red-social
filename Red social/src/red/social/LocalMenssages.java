@@ -5,6 +5,8 @@
  */
 package red.social;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import static red.social.FileManager.FRIENDS_FILE;
@@ -74,10 +76,10 @@ public class LocalMenssages extends javax.swing.JFrame
       jLabel1 = new javax.swing.JLabel();
       jLabel4 = new javax.swing.JLabel();
       jScrollPane5 = new javax.swing.JScrollPane();
-      jTextArea1 = new javax.swing.JTextArea();
+      txt_message = new javax.swing.JTextArea();
       lbl_Galery1 = new javax.swing.JLabel();
       Cb_friends = new javax.swing.JComboBox<>();
-      jComboBox2 = new javax.swing.JComboBox<>();
+      Cb_Private = new javax.swing.JComboBox<>();
       btn_Enviar = new javax.swing.JButton();
       jScrollPane6 = new javax.swing.JScrollPane();
       jList1 = new javax.swing.JList<>();
@@ -94,11 +96,18 @@ public class LocalMenssages extends javax.swing.JFrame
 
       jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/red/social/Icons/printLeft.png"))); // NOI18N
 
-      jTextArea1.setBackground(new java.awt.Color(204, 204, 255));
-      jTextArea1.setColumns(20);
-      jTextArea1.setFont(new java.awt.Font("Century Schoolbook", 0, 10)); // NOI18N
-      jTextArea1.setRows(5);
-      jScrollPane5.setViewportView(jTextArea1);
+      txt_message.setBackground(new java.awt.Color(204, 204, 255));
+      txt_message.setColumns(20);
+      txt_message.setFont(new java.awt.Font("Century Schoolbook", 0, 10)); // NOI18N
+      txt_message.setRows(5);
+      txt_message.addKeyListener(new java.awt.event.KeyAdapter()
+      {
+         public void keyTyped(java.awt.event.KeyEvent evt)
+         {
+            txt_messageKeyTyped(evt);
+         }
+      });
+      jScrollPane5.setViewportView(txt_message);
 
       lbl_Galery1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
       lbl_Galery1.setForeground(new java.awt.Color(255, 255, 255));
@@ -106,11 +115,18 @@ public class LocalMenssages extends javax.swing.JFrame
 
       Cb_friends.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
 
-      jComboBox2.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
-      jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Público", "Privado" }));
+      Cb_Private.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
+      Cb_Private.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Público", "Privado" }));
 
       btn_Enviar.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
       btn_Enviar.setText("Enviar");
+      btn_Enviar.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            btn_EnviarActionPerformed(evt);
+         }
+      });
 
       jList1.setBackground(new java.awt.Color(253, 211, 92));
       jList1.setFont(new java.awt.Font("Century Schoolbook", 0, 10)); // NOI18N
@@ -157,7 +173,7 @@ public class LocalMenssages extends javax.swing.JFrame
                      .addComponent(Cb_friends, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                   .addComponent(jScrollPane5)
                   .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(Cb_Private, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                      .addComponent(btn_Enviar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
@@ -201,7 +217,7 @@ public class LocalMenssages extends javax.swing.JFrame
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                           .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                           .addComponent(Cb_Private, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                            .addComponent(btn_Enviar))))
                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                   .addComponent(lbl_Galery4))
@@ -232,6 +248,22 @@ public class LocalMenssages extends javax.swing.JFrame
       myProfile.setVisible(true);
       this.dispose();
    }//GEN-LAST:event_lbl_ReturnMouseClicked
+
+   private void btn_EnviarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_EnviarActionPerformed
+   {//GEN-HEADEREND:event_btn_EnviarActionPerformed
+      // TODO add your handling code here:
+      String isPublic = Cb_Private.getSelectedIndex()+"";
+      String register = myUser+SEPARADOR+Cb_friends.getSelectedItem() + SEPARADOR + new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date())+ SEPARADOR + txt_message.getText() + SEPARADOR + isPublic + "1"; 
+      
+   }//GEN-LAST:event_btn_EnviarActionPerformed
+
+   private void txt_messageKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_txt_messageKeyTyped
+   {//GEN-HEADEREND:event_txt_messageKeyTyped
+      // TODO add your handling code here:
+        if(txt_message.getText().length()>= 140){
+            evt.consume();
+        }
+   }//GEN-LAST:event_txt_messageKeyTyped
 
    /**
     * @param args the command line arguments
@@ -284,9 +316,9 @@ public class LocalMenssages extends javax.swing.JFrame
    }
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
+   private javax.swing.JComboBox<String> Cb_Private;
    private javax.swing.JComboBox<String> Cb_friends;
    private javax.swing.JButton btn_Enviar;
-   private javax.swing.JComboBox<String> jComboBox2;
    private javax.swing.JLabel jLabel1;
    private javax.swing.JLabel jLabel2;
    private javax.swing.JLabel jLabel4;
@@ -294,10 +326,10 @@ public class LocalMenssages extends javax.swing.JFrame
    private javax.swing.JPanel jPanel1;
    private javax.swing.JScrollPane jScrollPane5;
    private javax.swing.JScrollPane jScrollPane6;
-   private javax.swing.JTextArea jTextArea1;
    private javax.swing.JLabel lbl_Galery1;
    private javax.swing.JLabel lbl_Galery2;
    private javax.swing.JLabel lbl_Galery4;
    private javax.swing.JLabel lbl_Return;
+   private javax.swing.JTextArea txt_message;
    // End of variables declaration//GEN-END:variables
 }

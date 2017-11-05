@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package red.social;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -30,11 +32,13 @@ public class SeeImages extends javax.swing.JFrame
    public ArrayList<String> galery;
    public Profile myProfile;
    public String myUser;
-   int actualPicture=0;
+   public int actualPicture;
    
    public SeeImages()
    {
       initComponents();
+       Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
    }
 
    /**
@@ -55,9 +59,12 @@ public class SeeImages extends javax.swing.JFrame
       btn_left = new javax.swing.JButton();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+      setUndecorated(true);
 
       jPanel3.setBackground(new java.awt.Color(133, 25, 52));
 
+      lbl_PicturePath.setFont(new java.awt.Font("Century Gothic", 1, 11)); // NOI18N
+      lbl_PicturePath.setForeground(new java.awt.Color(255, 255, 255));
       lbl_PicturePath.setText("jLabel5");
 
       lbl_DeleteImage.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
@@ -111,54 +118,54 @@ public class SeeImages extends javax.swing.JFrame
       jPanel3.setLayout(jPanel3Layout);
       jPanel3Layout.setHorizontalGroup(
          jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGroup(jPanel3Layout.createSequentialGroup()
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                .addGroup(jPanel3Layout.createSequentialGroup()
-                  .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                  .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                     .addComponent(lbl_DeleteImage)
-                     .addComponent(jButton1)))
-               .addGroup(jPanel3Layout.createSequentialGroup()
-                  .addGap(191, 191, 191)
                   .addComponent(btn_left)
-                  .addGap(91, 91, 91)
+                  .addGap(46, 46, 46)
                   .addComponent(btn_right)
-                  .addGap(0, 0, Short.MAX_VALUE)))
-            .addContainerGap())
+                  .addGap(157, 157, 157)
+                  .addComponent(lbl_DeleteImage))
+               .addComponent(jButton1))
+            .addGap(34, 34, 34))
          .addGroup(jPanel3Layout.createSequentialGroup()
-            .addGap(74, 74, 74)
-            .addComponent(lbl_PicturePath, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(75, Short.MAX_VALUE))
+            .addGap(47, 47, 47)
+            .addComponent(lbl_PicturePath, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(60, Short.MAX_VALUE))
       );
       jPanel3Layout.setVerticalGroup(
          jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(jPanel3Layout.createSequentialGroup()
             .addContainerGap()
             .addComponent(jButton1)
-            .addGap(18, 18, 18)
-            .addComponent(lbl_PicturePath, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-               .addComponent(btn_left, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(btn_right, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-            .addComponent(lbl_DeleteImage)
-            .addContainerGap())
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(lbl_PicturePath, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addGroup(jPanel3Layout.createSequentialGroup()
+                  .addGap(18, 18, Short.MAX_VALUE)
+                  .addComponent(lbl_DeleteImage)
+                  .addContainerGap())
+               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                  .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                     .addComponent(btn_right, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(btn_left, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                  .addGap(23, 23, 23))))
       );
 
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGap(0, 555, Short.MAX_VALUE)
+         .addGap(0, 646, Short.MAX_VALUE)
          .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-               .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addGap(0, 0, Short.MAX_VALUE)))
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGap(0, 482, Short.MAX_VALUE)
+         .addGap(0, 514, Short.MAX_VALUE)
          .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
@@ -169,6 +176,7 @@ public class SeeImages extends javax.swing.JFrame
    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
    {//GEN-HEADEREND:event_jButton1ActionPerformed
       // TODO add your handling code here:
+      myProfile.ChangeImage(actualPicture);
       myProfile.setVisible(true);
       this.dispose();
    }//GEN-LAST:event_jButton1ActionPerformed
@@ -184,14 +192,16 @@ public class SeeImages extends javax.swing.JFrame
       // TODO add your handling code here:
       try{
          Path PathToDelete = Paths.get(galery.get(actualPicture));
-      Files.delete(PathToDelete);
+         Files.delete(PathToDelete);
       }catch(Exception e){
          
       }
       FileManager.Update(IMAGE_FILE, RegisterToDelete(galery.get(actualPicture)));
-      galery.removeIf(x -> x.equals(actualPicture));
+      galery.remove(actualPicture);
       if(galery.isEmpty()){
          lbl_PicturePath.setIcon(null);
+         lbl_PicturePath.setText("No hay imagenes para mostrar");
+         actualPicture=-1;
       }else{
          ToRight();
       }
@@ -208,7 +218,7 @@ public class SeeImages extends javax.swing.JFrame
    public void ChangePicture(int position){
       try{
       lbl_PicturePath.setText("");
-      lbl_PicturePath.setIcon(new ImageIcon((new ImageIcon(galery.get(position))).getImage().getScaledInstance(171, 147,  java.awt.Image.SCALE_SMOOTH)));
+      lbl_PicturePath.setIcon(new ImageIcon((new ImageIcon(galery.get(position))).getImage().getScaledInstance(539, 406,  java.awt.Image.SCALE_SMOOTH)));
       }catch(Exception e){
          
       }
@@ -224,6 +234,7 @@ public class SeeImages extends javax.swing.JFrame
          ChangePicture(actualPicture);
       }
    }
+  
    
    public void ToLeft(){
        if(!galery.isEmpty()){
@@ -235,8 +246,14 @@ public class SeeImages extends javax.swing.JFrame
          ChangePicture(actualPicture);
       }
    }
-   public String RegisterToDelete(String path){
-      return  Fill(myUser + SEPARADOR + path + SEPARADOR + new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + SEPARADOR + "0", GaleryLength);
+   private String RegisterToDelete(String path){
+      String register = FileManager.SearchByKey(IMAGE_FILE, "0,1", myUser+","+path);
+      String n = register.substring(0,register.length()-1)+"0";
+      return register.substring(0,register.length()-1)+"0";
+   }
+   
+   public void ShowImage(){
+      ChangePicture(actualPicture);
    }
    /**
     * @param args the command line arguments

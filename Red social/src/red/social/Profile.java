@@ -757,12 +757,9 @@ public class Profile extends javax.swing.JFrame {
                 String Name = Path.split(Pattern.quote("\\"))[Path.split(Pattern.quote("\\")).length-1];
                 ImageExistInMEIA(Name);
                 CopyImagesToMEIA(Path, DIRECTORY+ANOTHER_IMAGES+"\\"+Name);
-                galery.add(PicturePath);
-                ActualPosition=0;
-                if(galery.size()==1){
-                   ChangeImage(ActualPosition);
-                }
                 FileManager.WriteFile(IMAGE_FILE, generateRegister(PicturePath));
+                galery.add(PicturePath);
+                ChangeImage(++ActualPosition);
         }catch(Exception e){
         }
    }//GEN-LAST:event_btn_UploadPictureActionPerformed
@@ -785,25 +782,36 @@ public class Profile extends javax.swing.JFrame {
    private void lbl_PicturePathMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lbl_PicturePathMouseClicked
    {//GEN-HEADEREND:event_lbl_PicturePathMouseClicked
       // TODO add your handling code here:
-      SeeImages images = new SeeImages();
-      images.myProfile = this;
-      images.galery = galery;
-      images.myUser = txt_userInfo.getText();
-      images.actualPicture = ActualPosition;
+      if(!galery.isEmpty()){
+         SeeImages images = new SeeImages();
+         images.myProfile = this;
+         images.galery = galery;
+         images.myUser = txt_userInfo.getText();
+         images.actualPicture = ActualPosition;
+         images.ShowImage();
+         images.setVisible(true);
+         this.setVisible(false);
+      }
    }//GEN-LAST:event_lbl_PicturePathMouseClicked
 
    
    private String generateRegister(String path){
-      return  Fill(txt_userInfo.getText() + SEPARADOR + path + SEPARADOR + new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + SEPARADOR + "1", GaleryLength);
+      return  txt_userInfo.getText() + SEPARADOR + path + SEPARADOR + new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()) + SEPARADOR + "1";
    }
 
-   private void ChangeImage(int position){
+   public void ChangeImage(int position){
+      //ACÁ TENGO QUE CAER
       try{
-         lbl_date.setVisible(true);
-      String n = FileManager.SearchByKey(IMAGE_FILE, "0,1", txt_userInfo.getText() +","+galery.get(ActualPosition));
-      lbl_date.setText(FileManager.SearchByKey(IMAGE_FILE, "0,1", txt_userInfo.getText() +","+galery.get(ActualPosition)).split(Pattern.quote(SEPARADOR))[2]);
+      if(position!=-1){
+          lbl_date.setVisible(true);
+         lbl_date.setText(FileManager.SearchByKey(IMAGE_FILE, "0,1", txt_userInfo.getText() +","+galery.get(ActualPosition)).split(Pattern.quote(SEPARADOR))[2]);
       lbl_PicturePath.setText("");
       lbl_PicturePath.setIcon(new ImageIcon((new ImageIcon(galery.get(position))).getImage().getScaledInstance(171, 147,  java.awt.Image.SCALE_SMOOTH)));
+      }else{
+         lbl_PicturePath.setIcon(null);
+         lbl_PicturePath.setText("No hay imágenes para mostrar");
+         lbl_date.setVisible(false);
+      }  
       }catch(Exception e){
          
       }

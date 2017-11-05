@@ -2042,7 +2042,7 @@ class ArbolBinario{
          //La marcamos como dada de baja
          masterFile.seek((next-1)*FileManager.Length);
          String[] values = masterFile.readLine().replace("¬", "").split(Pattern.quote(FileManager.SEPARADOR));
-         //values[FileManager.GetIndexOf(path, "status") + 4] = "0";
+         values[FileManager.GetIndexOf(path, "status") + 4] = "0";
          masterFile.seek((next-1)*FileManager.Length);
          masterFile.writeBytes(FileManager.FixSize(String.join(FileManager.SEPARADOR, values), FileManager.Length));
          
