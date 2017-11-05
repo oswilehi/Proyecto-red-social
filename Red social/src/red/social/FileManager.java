@@ -93,11 +93,16 @@ public class FileManager
       return SecuencialIndizado.Search(GROUPS_FRIENDS_FILE, GetKeys(GROUPS_FRIENDS_FILE), groupKey + userKey + friendKey);
    }
    
+   public static String SearchImage(String path, String key, String value){
+       if (path.equals(IMAGE_FILE)) return ArbolBinario.Search(path, key, value, false);
+       return null;
+   }
+   
    public static String SearchByKey(String path, String keys, String values)
    {
       if (path.equals(USER_FILE) || path.equals(FRIENDS_FILE) || path.equals(GROUPS_FILE) || path.equals(BACKUP_FILE) || path.equals(MESSAGE_FILE)) return Secuencial.GetAllOfKey(path, keys, values);
       if (path.equals(GROUPS_FRIENDS_FILE)) return SecuencialIndizado.GetAllOfKey(path, keys, values); // debe retornar del metodo secuencial indiza (a crear)...
-      if (path.equals(IMAGE_FILE)) return ArbolBinario.Search(path, keys, values);
+      if (path.equals(IMAGE_FILE)) return ArbolBinario.Search(path, keys, values, true);
       return null;
    }
    
@@ -1745,6 +1750,7 @@ class SecuencialIndizado
 class ArbolBinario{
    
    private static int val = 0;
+   private static String vals = "";
    
    protected static boolean Write(String path, String keysString, String data)
    {
@@ -1768,7 +1774,7 @@ class ArbolBinario{
                   dataKey += data.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)];
                }
             val = -1;
-            if (Search(path, keysString, dataKey)!= null) return false;
+            if (Search(path, keysString, dataKey, false)!= null) return false;
 
             //Clave validada
             //Abrimos el descriptor del archivo
@@ -1885,7 +1891,7 @@ class ArbolBinario{
          
    }
    
-   protected static String Search(String path, String keysString, String dataKey)
+   protected static String Search(String path, String keysString, String dataKey, boolean all)
    {
       if(!FileManager.FileExists(path))
          {
@@ -1931,15 +1937,31 @@ class ArbolBinario{
             
             RandomAccessFile masterFile = FileManager.OpenFile( FileManager.MASTER + path);
             
-            String data = null;
-            val = -1;
-            int line = Search (masterFile, keys, First, String.join("", dataKey.split(Pattern.quote(","))));
-            if (line != -1)
-            {
-               masterFile.seek((line-1) * FileManager.Length);
-               String[] x = masterFile.readLine().replace("¬", "").split(Pattern.quote(FileManager.SEPARADOR));
-               data = String.join(FileManager.SEPARADOR, Arrays.copyOfRange(x,4,x.length));
+            String data = "";
+            
+            if (!all){
+                val = -1;
+                int line = Search(masterFile, keys, First, String.join("", dataKey.split(Pattern.quote(","))));
+                if (line != -1)
+                {
+                   masterFile.seek((line-1) * FileManager.Length);
+                   String[] x = masterFile.readLine().replace("¬", "").split(Pattern.quote(FileManager.SEPARADOR));
+                   data = String.join(FileManager.SEPARADOR, Arrays.copyOfRange(x,4,x.length));
+                }
             }
+            else {
+                vals = "";
+                SearchAll(masterFile, keys, First, String.join("", dataKey.split(Pattern.quote(","))));
+                if (!vals.equals("")) {
+                    for (String key : vals.split(Pattern.quote(FileManager.pSEPARADOR))) {
+                        masterFile.seek((Integer.parseInt(key)-1) * FileManager.Length);
+                        String[] x = masterFile.readLine().replace("¬", "").split(Pattern.quote(FileManager.SEPARADOR));
+                        data += String.join(FileManager.SEPARADOR, Arrays.copyOfRange(x,4,x.length))+ FileManager.pSEPARADOR;
+                    }
+                    data = data.substring(0, data.length() - FileManager.pSEPARADOR.length());
+                }
+            }
+            
             masterFile.close();
             return data;
          }
@@ -1962,7 +1984,7 @@ class ArbolBinario{
          {
             valueKey += value[Integer.parseInt(key) + 4];
          }
-         if (valueKey.compareTo(dataKey) == 0)
+         if (valueKey.equals(dataKey))
          {
             val = next;
             return val;
@@ -1984,17 +2006,48 @@ class ArbolBinario{
       }
    }
    
+   private static void SearchAll(RandomAccessFile masterFile, String[] keys, int next, String dataKey)
+   {
+      try
+      {
+        if (next == 0) return;
+        masterFile.seek((next - 1) * FileManager.Length);
+        String[] value = masterFile.readLine().replace("¬", "").split(Pattern.quote(FileManager.SEPARADOR));
+
+        String valueKey = "";
+        for (String key : keys)
+        {
+           valueKey += value[Integer.parseInt(key) + 4];
+        }
+        if (valueKey.equals(dataKey))
+        {
+           vals += next + FileManager.pSEPARADOR;
+        }
+        else if ("0".equals(value[1]) && "0".equals(value[2]))
+        {
+           return;
+        }
+        SearchAll(masterFile, keys, Integer.parseInt(value[1]), dataKey);
+        SearchAll(masterFile, keys, Integer.parseInt(value[2]), dataKey);
+      }
+      catch (IOException | NumberFormatException e)
+      {
+         vals = "";
+         return;
+      }
+   }
+   
    protected static boolean Delete(String path, String keysString, String dataKey)
    {
       if(!FileManager.FileExists(path))
       {
          return false;
       }
-      String[] dataKeys = dataKey.split(Pattern.quote(","));
+      String[] dataKeys = dataKey.split(Pattern.quote("|"));
       dataKey = "";
-      for (String key : dataKeys)
+      for (String key : keysString.split(Pattern.quote(",")))
       {
-         dataKey += key;
+         dataKey += dataKeys[Integer.parseInt(key)];
       }
       
       try
@@ -2230,6 +2283,7 @@ class ArbolBinario{
          return false;
       }
    }
+   
    protected static boolean CreateFile(String path, String author)
    {
       if (FileManager.CreateFile(FileManager.DIRECTORY + FileManager.DESCRIPTION + path)) //Creates file description
