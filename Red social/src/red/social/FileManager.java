@@ -25,6 +25,7 @@ public class FileManager
    public static final String TEMP = "data.temp";
    public static final String DESCRIPTION ="Desc_";
    public static final String IMAGES = "fotografia";
+   public static final String ANOTHER_IMAGES = "imagenes";
    public static final String ENCODING = "utf-8";
    public static final String SEPARADOR = "|";
    public static final String pSEPARADOR = "::";
@@ -40,7 +41,8 @@ public class FileManager
    public static final int Length = 260;
    public static final int UserLength = 260;
    public static final int FriendLength = 77;
-   public static final int GroupLength = 130; 
+   public static final int GroupLength = 130;
+   public static final int GaleryLength = 100;
   
    public static final int BackupLength = 150;
    protected FileManager(){}
@@ -2040,7 +2042,7 @@ class ArbolBinario{
          //La marcamos como dada de baja
          masterFile.seek((next-1)*FileManager.Length);
          String[] values = masterFile.readLine().replace("¬", "").split(Pattern.quote(FileManager.SEPARADOR));
-         //values[FileManager.GetIndexOf(path, "status") + 4] = "0";
+         values[FileManager.GetIndexOf(path, "status") + 4] = "0";
          masterFile.seek((next-1)*FileManager.Length);
          masterFile.writeBytes(FileManager.FixSize(String.join(FileManager.SEPARADOR, values), FileManager.Length));
          
