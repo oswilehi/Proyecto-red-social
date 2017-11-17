@@ -191,6 +191,7 @@ public class SeeImages extends javax.swing.JFrame
    {//GEN-HEADEREND:event_lbl_DeleteImageMouseClicked
       // TODO add your handling code here:
       try{
+         if(actualPicture==-1)return;
          Path PathToDelete = Paths.get(galery.get(actualPicture));
          Files.delete(PathToDelete);
       }catch(Exception e){

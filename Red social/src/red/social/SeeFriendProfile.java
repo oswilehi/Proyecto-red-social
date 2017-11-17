@@ -40,7 +40,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
     */
    String friendToShow; 
    boolean requestWasSend;
-   int ActualPosition=0;
+   int ActualPosition=-1;
    // Si typeOfForm es 1 significa que se viene a enviar una solicitud, si es 2 significa que se viene a aceptar una solicitud y si es 3
    /// significa que ya son amigos y puede eliminar al amigo
    int typeOfForm;
@@ -59,7 +59,8 @@ public class SeeFriendProfile extends javax.swing.JFrame
       requestWasSend = request != null;
       showProfile();
       //Show friends
-      RedSocial.showFriends(renderer, friendList, jl_friendList, friendToShow);   
+      RedSocial.showFriends(renderer, friendList, jl_friendList, friendToShow); 
+      ShowPictures();
    }
 
    /**
@@ -224,7 +225,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
       );
       jPanel3Layout.setVerticalGroup(
          jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+         .addGroup(jPanel3Layout.createSequentialGroup()
             .addContainerGap()
             .addComponent(lbl_Images, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
             .addContainerGap())
@@ -258,7 +259,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
       lbl_Galery.setForeground(new java.awt.Color(255, 255, 255));
       lbl_Galery.setText("Galería de imágenes");
 
-      lbl_date.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+      lbl_date.setFont(new java.awt.Font("Century Gothic", 1, 10)); // NOI18N
       lbl_date.setForeground(new java.awt.Color(255, 255, 255));
       lbl_date.setText("Fecha");
 
@@ -298,27 +299,25 @@ public class SeeFriendProfile extends javax.swing.JFrame
                            .addComponent(txt_userInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
                            .addComponent(lbl_descripcion))))
                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
-                  .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(lbl_date, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                           .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                              .addGap(0, 65, Short.MAX_VALUE)
-                              .addComponent(btn_left)
-                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                              .addComponent(btn_right)
-                              .addGap(116, 116, 116)
-                              .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                           .addComponent(lbl_Galery)))
-                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                           .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                              .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                              .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE))
-                           .addComponent(lbl_date1))
-                        .addGap(71, 71, 71)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                  .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lbl_date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_left)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_right)
+                        .addGap(116, 116, 116)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lbl_Galery)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                           .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                              .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE))
+                              .addComponent(lbl_date1))
+                           .addGap(71, 71, 71)
+                           .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))))))
             .addGap(29, 29, 29))
          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
             .addGap(461, 461, 461)
@@ -424,7 +423,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
            showProfile();  
            showFriends();
        } 
-       }         
+       }
    }//GEN-LAST:event_lbl_sendRequestMouseClicked
 
 
@@ -485,26 +484,30 @@ public class SeeFriendProfile extends javax.swing.JFrame
    private void btn_leftActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_leftActionPerformed
    {//GEN-HEADEREND:event_btn_leftActionPerformed
       // TODO add your handling code here:
-       if(!galery.isEmpty()){
+       if(lbl_sendRequest.getText()=="Eliminar amigo"){
+          if(!galery.isEmpty()){
          if(ActualPosition-1 == -1){
             ActualPosition = galery.size()-1;
          }else{
             ActualPosition--;
          }
          ChangeImage(ActualPosition);
+       }
       }
    }//GEN-LAST:event_btn_leftActionPerformed
 
    private void btn_rightActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_rightActionPerformed
    {//GEN-HEADEREND:event_btn_rightActionPerformed
       // TODO add your handling code here:
-      if(!galery.isEmpty()){
+      if(lbl_sendRequest.getText()=="Eliminar amigo"){
+         if(!galery.isEmpty()){
          if(ActualPosition+1 == galery.size()){
             ActualPosition=0;
          }else{
             ActualPosition++;
          }
          ChangeImage(ActualPosition);
+      }
       }
    }//GEN-LAST:event_btn_rightActionPerformed
 
@@ -559,6 +562,7 @@ public class SeeFriendProfile extends javax.swing.JFrame
             txt_rolInfo.setText("No Administrador");
         txt_descripcionInfo.setText(userProfileInfo[9]);
         
+        ShowPictures();
        
    }
    
@@ -601,23 +605,24 @@ public class SeeFriendProfile extends javax.swing.JFrame
             {
                galery.add(pictures[i].split(Pattern.quote(SEPARADOR))[1]);
             }
-            if(galery.size()==0){
-               lbl_Images.setText("Nada para mostrar");
-            }else{
-               ChangeImage(ActualPosition);
-            }
+            ChangeImage(++ActualPosition);
          }  catch(Exception e){
+            lbl_Images.setText("No hay imágenes para mostrar");
          }
+      }else{
+         lbl_Images.setIcon(null);
+         lbl_Images.setText("Sé mi amigo para ver mis fotos");
+         
       }
    }
    
     private void ChangeImage(int position){
       try{
       lbl_date.setVisible(true);
-      String n = FileManager.SearchByKey(IMAGE_FILE, "0,1", txt_userInfo.getText() +","+galery.get(ActualPosition));
-      lbl_date.setText(FileManager.SearchByKey(IMAGE_FILE, "0,1", txt_userInfo.getText() +","+galery.get(ActualPosition)).split(Pattern.quote(SEPARADOR))[2]);
+      String n = FileManager.SearchImage(IMAGE_FILE, "0,1", txt_userInfo.getText() +","+galery.get(ActualPosition));
+      lbl_date.setText(FileManager.SearchImage(IMAGE_FILE, "0,1", txt_userInfo.getText() +","+galery.get(ActualPosition)).split(Pattern.quote(SEPARADOR))[2]);
       lbl_Images.setText("");
-      lbl_Images.setIcon(new ImageIcon((new ImageIcon(galery.get(position))).getImage().getScaledInstance(171, 147,  java.awt.Image.SCALE_SMOOTH)));
+      lbl_Images.setIcon(new ImageIcon((new ImageIcon(galery.get(position))).getImage().getScaledInstance(273, 216,  java.awt.Image.SCALE_SMOOTH)));
       }catch(Exception e){
          
       }

@@ -357,7 +357,7 @@ public class Profile extends javax.swing.JFrame {
       lbl_Galery.setForeground(new java.awt.Color(255, 255, 255));
       lbl_Galery.setText("Galería de imágenes");
 
-      lbl_date.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+      lbl_date.setFont(new java.awt.Font("Century Gothic", 1, 10)); // NOI18N
       lbl_date.setForeground(new java.awt.Color(255, 255, 255));
       lbl_date.setText("Fecha");
 
@@ -568,9 +568,9 @@ public class Profile extends javax.swing.JFrame {
          String[] allThePictures = FileManager.SearchByKey(IMAGE_FILE,"0", txt_userInfo.getText()).split(Pattern.quote(pSEPARADOR));
            for (int i = 0; i < allThePictures.length; i++)
            {
-              galery.add(allThePictures[i]);
+              galery.add(allThePictures[i].split(Pattern.quote(SEPARADOR))[1]);
            }
-           ChangeImage(ActualPosition);
+           ChangeImage(++ActualPosition);
         }catch(Exception e){
            lbl_date.setVisible(false);
         }
@@ -804,7 +804,8 @@ public class Profile extends javax.swing.JFrame {
       try{
       if(position!=-1){
           lbl_date.setVisible(true);
-         lbl_date.setText(FileManager.SearchByKey(IMAGE_FILE, "0,1", txt_userInfo.getText() +","+galery.get(ActualPosition)).split(Pattern.quote(SEPARADOR))[2]);
+         String n = FileManager.SearchImage(IMAGE_FILE, "0,1", txt_userInfo.getText() +","+galery.get(position));
+         lbl_date.setText(FileManager.SearchImage(IMAGE_FILE, "0,1", txt_userInfo.getText() +","+galery.get(position)).split(Pattern.quote(SEPARADOR))[2]);
       lbl_PicturePath.setText("");
       lbl_PicturePath.setIcon(new ImageIcon((new ImageIcon(galery.get(position))).getImage().getScaledInstance(171, 147,  java.awt.Image.SCALE_SMOOTH)));
       }else{
