@@ -1774,7 +1774,7 @@ class ArbolBinario{
                   dataKey += data.split(Pattern.quote(FileManager.SEPARADOR))[Integer.parseInt(key)];
                }
             val = -1;
-            if (Search(path, keysString, dataKey, false)!= null) return false;
+            if (!Search(path, keysString, dataKey, false).equals("")) return false;
 
             //Clave validada
             //Abrimos el descriptor del archivo
