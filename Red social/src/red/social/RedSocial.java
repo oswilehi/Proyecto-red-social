@@ -18,6 +18,10 @@ import static red.social.FileManager.pSEPARADOR;
 import red.social.Icons.ListIcon;
 import red.social.Icons.Renderer;
 
+// AÑADIDO PARA LA DB
+import java.io.PrintWriter;
+import java.sql.*;
+
 public class RedSocial {
 
     //CONSTANTES
@@ -32,6 +36,7 @@ public class RedSocial {
            directory.getAbsoluteFile().mkdirs();
          }
          LoginController();
+         Singleton.getInstancia().conexion();
       }
       catch(Exception e)
       {
