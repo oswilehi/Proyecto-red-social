@@ -25,11 +25,11 @@ public class Listener extends Thread {
     private Notificacion not;  
 
     Listener(Connection conn) throws SQLException {
-		this.conn = conn;
-		this.pgconn = (org.postgresql.PGConnection)conn;
-		Statement stmt = conn.createStatement();
-		stmt.execute("LISTEN q_event");
-		stmt.close();
+            this.conn = conn;
+            this.pgconn = (org.postgresql.PGConnection)conn;
+            Statement stmt = conn.createStatement();
+            stmt.execute("LISTEN q_event");
+            stmt.close();
     }
 
     public void run() {
@@ -41,22 +41,22 @@ public class Listener extends Thread {
                 rs.close();
                 stmt.close();
 
-				//recibe las notificaciones de JDBC
                 org.postgresql.PGNotification notifications[] = pgconn.getNotifications();
                 if (notifications != null) {
                     for (int i=0; i<notifications.length; i++) {
-                        //Descomponer el json que accion es en esta parte notifications[i] es cada una de las notificaciones de postgresql 
-                        String action = "";
+                        //Descomponer que accion es en esta parte
+                        String parameter = notifications[i].getParameter().replace("\\","");
+                        String action = parameter.split("\\{")[1].split(",")[1].split(":")[1].substring(2,8);
                                           
                         if(action.equals("INSERT")){
                             //comprobar si es para mi
                             
-                            id = "";
-                            grupoReceptor = "";
-                            grupoEmisor = "";                           
+                            id = parameter.split("\\{")[2].replace("}","").split(",")[0].split(":")[1];
+                            grupoReceptor = parameter.split("\\{")[2].replace("}","").split(",")[2].split(":")[1];
+                            grupoEmisor = parameter.split("\\{")[2].replace("}","").split(",")[1].split(":")[1];                           
                             boolean existe = false;
                             
-                            if(grupoReceptor.equals("1")){
+                            if(grupoReceptor.equals("4")){
                                 //si es para mi enviar el update con la respuesta
                                 Singleton.getInstancia().setMensaje("El grupo " + grupoReceptor + " te ha enviado un mensaje." );
                                 not = new Notificacion();
@@ -75,25 +75,24 @@ public class Listener extends Thread {
                             
                             //comprobar si yo fui el que envie la solicitud
                             //Descomponer id, grupo emisor y grupo receptor en esta parte
-                            id = "";
-                            grupoEmisor = "";
-                            grupoReceptor = "";
+                            id = parameter.split("\\{")[2].replace("}","").split(",")[0].split(":")[1];
+                            grupoEmisor = parameter.split("\\{")[2].replace("}","").split(",")[1].split(":")[1];
+                            grupoReceptor = parameter.split("\\{")[2].replace("}","").split(",")[2].split(":")[1];
                             
                             if(grupoEmisor.equals("1")){
-								 //comprobar si el update fue true or false descomponiendo el json
-								 String respuesta = "";
-								 //Comprobar cual fue la respuesta
-								 if(respuesta.equals("false")){
-									Singleton.getInstancia().setMensaje("El grupo " + grupoReceptor + " dice que no encontro el usuario." );
-									not = new Notificacion();
-									not.setVisible(true);
-								 }else{
-									Singleton.getInstancia().setMensaje("El grupo " + grupoReceptor + " dice que ha recibido el mensaje." );
-									not = new Notificacion();
-									not.setVisible(true);
-								 }
-								 //Eliminar la solicitud
-								 Singleton.getInstancia().Delete(id);
+                                 String respuesta = parameter.split("\\{")[2].replace("}","").split(",")[7].split(":")[1];
+                                 //Comprobar cual fue la respuesta
+                                 if(respuesta.equals("false")){
+                                    Singleton.getInstancia().setMensaje("El grupo " + grupoReceptor + " dice que no encontro el usuario." );
+                                    not = new Notificacion();
+                                    not.setVisible(true);
+                                 }else{
+                                    Singleton.getInstancia().setMensaje("El grupo " + grupoReceptor + " dice que ha recibido el mensaje." );
+                                    not = new Notificacion();
+                                    not.setVisible(true);
+                                 }
+                                 //Eliminar la solicitud
+                                 Singleton.getInstancia().Delete(id);
                             }
                         }                                             
                     }
