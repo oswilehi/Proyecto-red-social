@@ -113,7 +113,7 @@ public class FileManager
    
    public static boolean Reorganize(String user)
    {
-      if(!FileManager.FileExists(FileManager.INDEX + GROUPS_FRIENDS_FILE))
+      if(FileManager.FileExists(FileManager.INDEX + GROUPS_FRIENDS_FILE))
       {
          return SecuencialIndizado.Reorganize(GROUPS_FRIENDS_FILE, user);
       }
@@ -458,7 +458,7 @@ class Secuencial
                   }
                   masterDescription.close();
                   
-                  int x = Integer.parseInt(data.split(Pattern.quote(FileManager.SEPARADOR))[10]) - 1;
+                  int x = Integer.parseInt(data.split(Pattern.quote(FileManager.SEPARADOR))[FileManager.GetIndexOf(path, "status")]) - 1;
                   UpdateDescription(FileManager.MASTER + path, null, active + x, inactive - x);
                   
                   return true;
@@ -1475,7 +1475,10 @@ class SecuencialIndizado
             }
             
             //Se actualiza el descriptor del archivo con el usuario que genero la reorganizacion
-            UpdateIndexDescription(path, user, -1, -1,-1,-1,-1);
+            if (FileManager.FileExists(FileManager.DESCRIPTION + FileManager.INDEX + path))
+            {
+               UpdateIndexDescription(path, user, -1, -1,-1,-1,-1);
+            }
             
             //Se borra el archivo temporal
             tempFile.close();
@@ -1495,7 +1498,6 @@ class SecuencialIndizado
    {
       try
       {
-         
          FileManager.CreateFile(FileManager.DIRECTORY + FileManager.TEMP + FileManager.DESCRIPTION + FileManager.INDEX + path);
          RandomAccessFile fileDescription = FileManager.OpenFile(FileManager.DESCRIPTION + FileManager.INDEX + path);
          RandomAccessFile fileTempDescription = FileManager.OpenFile(FileManager.TEMP + FileManager.DESCRIPTION + FileManager.INDEX + path);
