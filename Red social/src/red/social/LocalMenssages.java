@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import static red.social.FileManager.FRIENDS_FILE;
 import static red.social.FileManager.SEPARADOR;
 import static red.social.FileManager.pSEPARADOR;
+import static red.social.FileManager.MESSAGE_FILE;
 import red.social.Icons.ListIcon;
 
 /**
@@ -258,8 +259,10 @@ public class LocalMenssages extends javax.swing.JFrame
       else
           isPublic = "0";
       
-      String register = myUser+SEPARADOR+Cb_friends.getSelectedItem() + SEPARADOR + new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date())+ SEPARADOR + txt_message.getText() + SEPARADOR + isPublic + "1"; 
+      String register = myUser+SEPARADOR+Cb_friends.getSelectedItem() + SEPARADOR + new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date())+ SEPARADOR + txt_message.getText() + SEPARADOR + isPublic + SEPARADOR + "1"; 
       
+      // Agregar al archivo el nuevo registro
+      //FileManager.WriteFile(MESSAGE_FILE, register);
    }//GEN-LAST:event_btn_EnviarActionPerformed
 
    private void txt_messageKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_txt_messageKeyTyped
