@@ -562,6 +562,12 @@ public class Profile extends javax.swing.JFrame {
         
         //Show friends
         RedSocial.showFriends(renderer, friendList, jl_friendList, ACTUALUSER);
+        
+        // Si no tiene amigos pues no le muestro la opción para mandar mensajes
+        ListIcon friend = (ListIcon)friendList.getElementAt(0);
+        if (friend.name.equals("No hay amigos para mostrar"))
+            lbl_messages.setVisible(false);
+        
         //Show groups
         ShowGroups();
         try{

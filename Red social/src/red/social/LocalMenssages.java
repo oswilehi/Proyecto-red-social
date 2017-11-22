@@ -252,7 +252,12 @@ public class LocalMenssages extends javax.swing.JFrame
    private void btn_EnviarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btn_EnviarActionPerformed
    {//GEN-HEADEREND:event_btn_EnviarActionPerformed
       // TODO add your handling code here:
-      String isPublic = Cb_Private.getSelectedIndex()+"";
+      String isPublic;
+      if (Cb_Private.getSelectedItem().equals("Privado"))
+         isPublic = "1";
+      else
+          isPublic = "0";
+      
       String register = myUser+SEPARADOR+Cb_friends.getSelectedItem() + SEPARADOR + new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date())+ SEPARADOR + txt_message.getText() + SEPARADOR + isPublic + "1"; 
       
    }//GEN-LAST:event_btn_EnviarActionPerformed
