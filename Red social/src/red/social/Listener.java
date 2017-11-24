@@ -60,6 +60,11 @@ public class Listener extends Thread {
                             String usuarioReceptor = parameter.split("\\{")[2].replace("}","").split(",")[4].split(":")[1].replace("\"", "");
                             String mensaje = parameter.split("\\{")[2].replace("}","").split(",")[6].split(":")[1].replace("\"", "");
                             String date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
+                            
+                            if (mensaje.length() > 140){
+                                mensaje = mensaje.substring(0, 139);
+                            }
+                            
                             if(grupoReceptor.equals("4")){
                                 //si es para mi enviar el update con la respuesta
                                 Singleton.getInstancia().setMensaje(usuarioEmisor + " del grupo " + grupoEmisor + " le ha enviado un mensaje al usuario: " + usuarioReceptor);
@@ -72,7 +77,7 @@ public class Listener extends Thread {
                                 boolean existe = FileManager.SearchUser(usuarioReceptor) != (null);
                                 if(existe){
                                     //se guarda mensaje para el usuario receptor
-                                FileManager.WriteFile(FileManager.MESSAGE_FILE, FileManager.FixSize(usuarioEmisor  + " (grupo "+ grupoEmisor +")" + FileManager.SEPARADOR + usuarioReceptor + FileManager.SEPARADOR + date + FileManager.SEPARADOR + mensaje + FileManager.SEPARADOR + "1" +FileManager.SEPARADOR+ "1" + FileManager.SEPARADOR, FileManager.Length));
+                                FileManager.WriteFile(FileManager.MESSAGE_FILE, FileManager.FixSize(usuarioEmisor  + " (grupo "+ grupoEmisor +")" + FileManager.SEPARADOR + usuarioReceptor + FileManager.SEPARADOR + date + FileManager.SEPARADOR + mensaje + FileManager.SEPARADOR + "1" +FileManager.SEPARADOR+ "1" + FileManager.SEPARADOR, 210));
                                     Singleton.getInstancia().Update(id, existe);
                                 }else{
                                     Singleton.getInstancia().Update(id, existe);
@@ -90,6 +95,11 @@ public class Listener extends Thread {
                             String usuarioReceptor = parameter.split("\\{")[2].replace("}","").split(",")[4].split(":")[1].replace("\"", "");
                             String mensaje = parameter.split("\\{")[2].replace("}","").split(",")[6].split(":")[1].replace("\"", "");
                             String date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
+                            
+                            if (mensaje.length() > 140){
+                                mensaje = mensaje.substring(0, 139);
+                            }
+                            
                             if(grupoEmisor.equals("4")){
                                  String respuesta = parameter.split("\\{")[2].replace("}","").split(",")[7].split(":")[1];
                                  //Comprobar cual fue la respuesta
@@ -100,7 +110,7 @@ public class Listener extends Thread {
                                  }else{
                                     Singleton.getInstancia().setMensaje("El grupo " + grupoReceptor + " dice que ha recibido el mensaje." );
                                     //se guarda mensaje para el usuario receptor
-                                FileManager.WriteFile(FileManager.MESSAGE_FILE, FileManager.FixSize(usuarioEmisor  + " (grupo "+ grupoEmisor +")" + FileManager.SEPARADOR + usuarioReceptor + FileManager.SEPARADOR + date + FileManager.SEPARADOR + mensaje + FileManager.SEPARADOR + "1" +FileManager.SEPARADOR+ "1" + FileManager.SEPARADOR, FileManager.Length));
+                                    FileManager.WriteFile(FileManager.MESSAGE_FILE, FileManager.FixSize(usuarioEmisor  + FileManager.SEPARADOR + usuarioReceptor + " (grupo "+ grupoEmisor +")" + FileManager.SEPARADOR + date + FileManager.SEPARADOR + mensaje + FileManager.SEPARADOR + "1" +FileManager.SEPARADOR+ "1" + FileManager.SEPARADOR, 210));
                                     not = new Notificacion();
                                     not.setVisible(true);
                                  }

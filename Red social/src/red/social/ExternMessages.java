@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import static red.social.FileManager.FRIENDS_FILE;
 import static red.social.FileManager.SEPARADOR;
@@ -21,7 +22,7 @@ import red.social.Icons.ListIcon;
  */
 public class ExternMessages extends javax.swing.JFrame
 {
-
+   DefaultListModel messagesList = new DefaultListModel();
    public Profile myProfile;
    public String myUser;
    /**
@@ -49,7 +50,7 @@ public class ExternMessages extends javax.swing.JFrame
         lbl_Galery1 = new javax.swing.JLabel();
         btn_Enviar = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jl_messagesList = new javax.swing.JList<>();
         lbl_Galery2 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         lbl_Return = new javax.swing.JLabel();
@@ -57,6 +58,7 @@ public class ExternMessages extends javax.swing.JFrame
         txt_receptor = new javax.swing.JTextField();
         sp_count = new javax.swing.JSpinner();
         lbl_Galery3 = new javax.swing.JLabel();
+        btn_Recargar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,13 +91,13 @@ public class ExternMessages extends javax.swing.JFrame
             }
         });
 
-        jList1.setBackground(new java.awt.Color(253, 211, 92));
-        jList1.setFont(new java.awt.Font("Century Schoolbook", 0, 10)); // NOI18N
-        jScrollPane6.setViewportView(jList1);
+        jl_messagesList.setBackground(new java.awt.Color(253, 211, 92));
+        jl_messagesList.setFont(new java.awt.Font("Century Schoolbook", 0, 10)); // NOI18N
+        jScrollPane6.setViewportView(jl_messagesList);
 
         lbl_Galery2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         lbl_Galery2.setForeground(new java.awt.Color(255, 255, 255));
-        lbl_Galery2.setText("Mensajes recibidos");
+        lbl_Galery2.setText("Mensajes privados:");
 
         jLabel2.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(1, 74, 117));
@@ -117,11 +119,24 @@ public class ExternMessages extends javax.swing.JFrame
         lbl_Galery3.setForeground(new java.awt.Color(255, 255, 255));
         lbl_Galery3.setText("Número de grupo");
 
+        btn_Recargar.setFont(new java.awt.Font("Century Gothic", 0, 10)); // NOI18N
+        btn_Recargar.setText("Recargar mensajes");
+        btn_Recargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RecargarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbl_Return, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
@@ -144,13 +159,9 @@ public class ExternMessages extends javax.swing.JFrame
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_Galery2))
+                    .addComponent(lbl_Galery2)
+                    .addComponent(btn_Recargar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lbl_Return, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,7 +200,9 @@ public class ExternMessages extends javax.swing.JFrame
                         .addComponent(lbl_Galery2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(78, 78, 78))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_Recargar)
+                .addGap(49, 49, 49))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -206,6 +219,14 @@ public class ExternMessages extends javax.swing.JFrame
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    public void showMessages(){
+        
+        messagesList.clear();
+        jl_messagesList.setModel(messagesList);
+       RedSocial.showMessages(messagesList, jl_messagesList, RedSocial.ACTUALUSER, true, false);
+   }
+    
     private void txt_messageKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_messageKeyTyped
         // TODO add your handling code here:
         if(txt_message.getText().length()>= 140){
@@ -217,6 +238,8 @@ public class ExternMessages extends javax.swing.JFrame
        try {
            // TODO add your handling code here:
            Singleton.getInstancia().Insert(4, Integer.parseInt(sp_count.getValue().toString()), myUser, txt_receptor.getText(), txt_message.getText());
+           txt_message.setText("");
+           this.showMessages();
        } catch (ClassNotFoundException ex) {
            Logger.getLogger(ExternMessages.class.getName()).log(Level.SEVERE, null, ex);
        } catch (SQLException ex) {
@@ -229,6 +252,10 @@ public class ExternMessages extends javax.swing.JFrame
         myProfile.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_lbl_ReturnMouseClicked
+
+    private void btn_RecargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RecargarActionPerformed
+        this.showMessages();
+    }//GEN-LAST:event_btn_RecargarActionPerformed
 
    /**
     * @param args the command line arguments
@@ -281,13 +308,14 @@ public class ExternMessages extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Enviar;
+    private javax.swing.JButton btn_Recargar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JList<String> jl_messagesList;
     private javax.swing.JLabel lbl_Galery1;
     private javax.swing.JLabel lbl_Galery2;
     private javax.swing.JLabel lbl_Galery3;
