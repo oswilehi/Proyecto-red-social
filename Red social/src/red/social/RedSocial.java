@@ -21,6 +21,9 @@ import red.social.Icons.Renderer;
 // AÑADIDO PARA LA DB
 import java.io.PrintWriter;
 import java.sql.*;
+import static red.social.FileManager.MESSAGE_FILE;
+import static red.social.FileManager.SEPARADOR;
+import static red.social.FileManager.pSEPARADOR;
 
 public class RedSocial {
 
@@ -36,7 +39,7 @@ public class RedSocial {
            directory.getAbsoluteFile().mkdirs();
          }
          LoginController();
-         Singleton.getInstancia().conexion();
+         //Singleton.getInstancia().conexion();
       }
       catch(Exception e)
       {
@@ -233,5 +236,47 @@ public class RedSocial {
             }        
         }
         
-    } 
+    }
+    
+    public static void showMessages(DefaultListModel messagesList, JList jl_messagesList, String userToSearch, Boolean privateMessage, Boolean publicMessage){
+        
+        jl_messagesList.setModel(messagesList);
+       
+        // Si quiero mensajes publicos y privados
+        if (privateMessage && publicMessage){
+               addPublicMessagesToList(messagesList, userToSearch);
+               addPrivateMessagesToList(messagesList, userToSearch);              
+        }
+        // Alguno de los dos, publicos o privados
+        else if(privateMessage || publicMessage){
+            //Solo agregar privados
+            if (privateMessage)
+                addPrivateMessagesToList(messagesList, userToSearch);
+            //Solo agregar privados
+            else
+                addPublicMessagesToList(messagesList, userToSearch);   
+        }
+   }
+   
+   public static void addPublicMessagesToList(DefaultListModel messagesList, String userToSearch){
+       String publicMessages = FileManager.SearchByKey(MESSAGE_FILE, "1,4", userToSearch+",0"); 
+       // Obtener los registros
+       String publicMessages2[] = publicMessages.split(Pattern.quote(pSEPARADOR));
+            // Agregar mensaje a la lista
+            for (int i = 0; i < publicMessages2.length; i++){
+                String messageReceived[] = publicMessages2[i].split(Pattern.quote(SEPARADOR));                
+                messagesList.addElement(messageReceived[0] + ": " + messageReceived[3] + " Enviado:" + messageReceived[2]);
+            }   
+   }
+   
+   public static void addPrivateMessagesToList(DefaultListModel messagesList, String userToSearch){
+       String privateMessages = FileManager.SearchByKey(MESSAGE_FILE, "1,4", userToSearch+",1");     
+       // Obtener los registros
+       String privateMessages2[] = privateMessages.split(Pattern.quote(pSEPARADOR));
+            // Agregar mensaje a la lista
+            for (int i = 0; i < privateMessages2.length; i++){
+                String messageReceived[] = privateMessages2[i].split(Pattern.quote(SEPARADOR));                
+                messagesList.addElement(messageReceived[0] + ": " + messageReceived[3] + " Enviado:" + messageReceived[2]);
+            }   
+   }
 }
