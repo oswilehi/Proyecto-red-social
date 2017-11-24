@@ -1959,7 +1959,7 @@ class ArbolBinario{
    {
       if(!FileManager.FileExists(path))
          {
-            return null;
+            return "";
          }
          
          try
@@ -1997,7 +1997,7 @@ class ArbolBinario{
             }
             //se cierra el descriptor del indice.
             descriptionFile.close();            
-            if (First == 0) return null;
+            if (First == 0) return "";
             
             RandomAccessFile masterFile = FileManager.OpenFile( FileManager.MASTER + path);
             
@@ -2030,7 +2030,7 @@ class ArbolBinario{
             return data;
          }
          catch (IOException | NumberFormatException ex){
-            return null;
+            return "";
          }
                  
          
