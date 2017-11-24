@@ -260,23 +260,27 @@ public class RedSocial {
    
    public static void addPublicMessagesToList(DefaultListModel messagesList, String userToSearch){
        String publicMessages = FileManager.SearchByKey(MESSAGE_FILE, "1,4", userToSearch+",0"); 
-       // Obtener los registros
-       String publicMessages2[] = publicMessages.split(Pattern.quote(pSEPARADOR));
+       if (publicMessages != null){
+            // Obtener los registros
+            String publicMessages2[] = publicMessages.split(Pattern.quote(pSEPARADOR));
             // Agregar mensaje a la lista
             for (int i = 0; i < publicMessages2.length; i++){
                 String messageReceived[] = publicMessages2[i].split(Pattern.quote(SEPARADOR));                
                 messagesList.addElement(messageReceived[0] + ": " + messageReceived[3] + " Enviado:" + messageReceived[2]);
-            }   
+            } 
+       } 
    }
    
    public static void addPrivateMessagesToList(DefaultListModel messagesList, String userToSearch){
-       String privateMessages = FileManager.SearchByKey(MESSAGE_FILE, "1,4", userToSearch+",1");     
-       // Obtener los registros
-       String privateMessages2[] = privateMessages.split(Pattern.quote(pSEPARADOR));
+       String privateMessages = FileManager.SearchByKey(MESSAGE_FILE, "1,4", userToSearch+",1");         
+       if (privateMessages != null){
+           // Obtener los registros
+           String privateMessages2[] = privateMessages.split(Pattern.quote(pSEPARADOR));
             // Agregar mensaje a la lista
             for (int i = 0; i < privateMessages2.length; i++){
                 String messageReceived[] = privateMessages2[i].split(Pattern.quote(SEPARADOR));                
                 messagesList.addElement(messageReceived[0] + ": " + messageReceived[3] + " Enviado:" + messageReceived[2]);
-            }   
+            }  
+       }       
    }
 }

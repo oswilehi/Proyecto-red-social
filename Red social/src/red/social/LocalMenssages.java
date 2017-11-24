@@ -5,6 +5,7 @@
  */
 package red.social;
 
+import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
@@ -77,6 +78,8 @@ public class LocalMenssages extends javax.swing.JFrame
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -92,6 +95,9 @@ public class LocalMenssages extends javax.swing.JFrame
         jLabel2 = new javax.swing.JLabel();
         lbl_Return = new javax.swing.JLabel();
         lbl_Galery4 = new javax.swing.JLabel();
+
+        jMenuItem1.setText("Eliminar");
+        jPopupMenu1.add(jMenuItem1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -131,6 +137,11 @@ public class LocalMenssages extends javax.swing.JFrame
 
         jl_messagesList.setBackground(new java.awt.Color(253, 211, 92));
         jl_messagesList.setFont(new java.awt.Font("Century Schoolbook", 0, 10)); // NOI18N
+        jl_messagesList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jl_messagesListMouseReleased(evt);
+            }
+        });
         jScrollPane6.setViewportView(jl_messagesList);
 
         lbl_Galery2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -271,6 +282,15 @@ public class LocalMenssages extends javax.swing.JFrame
         }
    }//GEN-LAST:event_txt_messageKeyTyped
 
+    private void jl_messagesListMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_messagesListMouseReleased
+        // TODO add your handling code here:
+        if (evt.getModifiers() == MouseEvent.BUTTON3_MASK){
+            if (evt.isPopupTrigger()){
+                jPopupMenu1.show(jl_messagesList,evt.getX(),evt.getY());
+            }
+        }  
+    }//GEN-LAST:event_jl_messagesListMouseReleased
+
    /**
     * @param args the command line arguments
     */
@@ -328,7 +348,9 @@ public class LocalMenssages extends javax.swing.JFrame
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JList<String> jl_messagesList;
