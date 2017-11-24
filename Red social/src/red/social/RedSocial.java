@@ -266,7 +266,7 @@ public class RedSocial {
             // Agregar mensaje a la lista
             for (int i = 0; i < publicMessages2.length; i++){
                 String messageReceived[] = publicMessages2[i].split(Pattern.quote(SEPARADOR));                
-                messagesList.addElement(messageReceived[0] + ": " + messageReceived[3] + " Enviado:" + messageReceived[2]);
+                messagesList.addElement(messageReceived[0] + ":" + messageReceived[3] + "  Enviado:" + messageReceived[2]);
             } 
        } 
    }
@@ -279,7 +279,7 @@ public class RedSocial {
             // Agregar mensaje a la lista
             for (int i = 0; i < privateMessages2.length; i++){
                 String messageReceived[] = privateMessages2[i].split(Pattern.quote(SEPARADOR));                
-                messagesList.addElement(messageReceived[0] + ": " + messageReceived[3] + " Enviado:" + messageReceived[2]);
+                messagesList.addElement(messageReceived[0] + ": " + messageReceived[3] + "  Enviado:" + messageReceived[2]);
             }  
        }       
    }

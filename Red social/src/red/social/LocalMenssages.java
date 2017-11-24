@@ -138,6 +138,9 @@ public class LocalMenssages extends javax.swing.JFrame
         jl_messagesList.setBackground(new java.awt.Color(253, 211, 92));
         jl_messagesList.setFont(new java.awt.Font("Century Schoolbook", 0, 10)); // NOI18N
         jl_messagesList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jl_messagesListMouseClicked(evt);
+            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 jl_messagesListMouseReleased(evt);
             }
@@ -268,10 +271,10 @@ public class LocalMenssages extends javax.swing.JFrame
       else
           isPublic = "0";
       
-      String register = myUser+SEPARADOR+Cb_friends.getSelectedItem() + SEPARADOR + new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date())+ SEPARADOR + txt_message.getText() + SEPARADOR + isPublic + SEPARADOR + "1"; 
-      
+      String register = myUser+SEPARADOR+Cb_friends.getSelectedItem() + SEPARADOR + new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date())+ SEPARADOR + txt_message.getText() + SEPARADOR + isPublic + SEPARADOR + "1";      
       // Agregar al archivo el nuevo registro
       FileManager.WriteFile(MESSAGE_FILE, RedSocial.Fill(register, localMessagesSize));
+      txt_message.setText("");
    }//GEN-LAST:event_btn_EnviarActionPerformed
 
    private void txt_messageKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_txt_messageKeyTyped
@@ -290,6 +293,25 @@ public class LocalMenssages extends javax.swing.JFrame
             }
         }  
     }//GEN-LAST:event_jl_messagesListMouseReleased
+
+    private void jl_messagesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_messagesListMouseClicked
+        // TODO add your handling code here:
+        String message[]= messagesList.getElementAt(jl_messagesList.getSelectedIndex()).toString().split(Pattern.quote("  "));
+        String sender[]= message[0].split(Pattern.quote(":"));
+        String date[]= message[1].split(Pattern.quote(":"));
+        String correctDate = date[1]+":"+date[2]+":"+date[3];
+        
+        String register[] = FileManager.SearchByKey(MESSAGE_FILE, "0,1,2", sender[0]+","+RedSocial.ACTUALUSER+","+correctDate).split(Pattern.quote(SEPARADOR));
+        
+        String deletedMessage = register[0]+SEPARADOR+register[1]+SEPARADOR+register[2]+SEPARADOR+register[3]+SEPARADOR+register[4]+SEPARADOR+"0";
+        
+        FileManager.Update(MESSAGE_FILE, deletedMessage);
+        
+        messagesList.clear();
+        
+        RedSocial.showMessages(messagesList, jl_messagesList, RedSocial.ACTUALUSER, true, true);
+        
+    }//GEN-LAST:event_jl_messagesListMouseClicked
 
    /**
     * @param args the command line arguments
