@@ -97,7 +97,7 @@ public class ExternMessages extends javax.swing.JFrame
 
         lbl_Galery2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         lbl_Galery2.setForeground(new java.awt.Color(255, 255, 255));
-        lbl_Galery2.setText("Mensajes privados:");
+        lbl_Galery2.setText("Mensajes recibidos:");
 
         jLabel2.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(1, 74, 117));
@@ -224,7 +224,7 @@ public class ExternMessages extends javax.swing.JFrame
         
         messagesList.clear();
         jl_messagesList.setModel(messagesList);
-       RedSocial.showMessages(messagesList, jl_messagesList, RedSocial.ACTUALUSER, true, false);
+       RedSocial.showMessages(messagesList, jl_messagesList, RedSocial.ACTUALUSER, true, true);
    }
     
     private void txt_messageKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_messageKeyTyped
