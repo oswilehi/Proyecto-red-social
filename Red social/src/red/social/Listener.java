@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,19 +54,25 @@ public class Listener extends Thread {
                             //comprobar si es para mi
                             
                             id = parameter.split("\\{")[2].replace("}","").split(",")[0].split(":")[1];
-                            grupoReceptor = parameter.split("\\{")[2].replace("}","").split(",")[2].split(":")[1];
-                            grupoEmisor = parameter.split("\\{")[2].replace("}","").split(",")[1].split(":")[1];                           
-                            boolean existe = false;
-                            
+                            grupoReceptor = parameter.split("\\{")[2].replace("}","").split(",")[2].split(":")[1].replace("\"", "");
+                            grupoEmisor = parameter.split("\\{")[2].replace("}","").split(",")[1].split(":")[1].replace("\"", "");
+                            String usuarioEmisor = parameter.split("\\{")[2].replace("}","").split(",")[3].split(":")[1].replace("\"", "");
+                            String usuarioReceptor = parameter.split("\\{")[2].replace("}","").split(",")[4].split(":")[1].replace("\"", "");
+                            String mensaje = parameter.split("\\{")[2].replace("}","").split(",")[6].split(":")[1].replace("\"", "");
+                            String date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
                             if(grupoReceptor.equals("4")){
                                 //si es para mi enviar el update con la respuesta
-                                Singleton.getInstancia().setMensaje("El grupo " + grupoReceptor + " te ha enviado un mensaje." );
+                                Singleton.getInstancia().setMensaje(usuarioEmisor + " del grupo " + grupoEmisor + " le ha enviado un mensaje al usuario: " + usuarioReceptor);
+                                
                                 not = new Notificacion();
                                 not.setVisible(true);
                              
                                 //si es para mi enviar el update con la respuesta de que el usuario existe
-                                
+                                //AQUI VA A LA BUSQUEDA EN NNUESTROS ARCHIVOS
+                                boolean existe = FileManager.SearchUser(usuarioReceptor) != (null);
                                 if(existe){
+                                    //se guarda mensaje para el usuario receptor
+                                FileManager.WriteFile(FileManager.MESSAGE_FILE, FileManager.FixSize(usuarioEmisor  + " (grupo "+ grupoEmisor +")" + FileManager.SEPARADOR + usuarioReceptor + FileManager.SEPARADOR + date + FileManager.SEPARADOR + mensaje + FileManager.SEPARADOR + "1" +FileManager.SEPARADOR+ "1" + FileManager.SEPARADOR, FileManager.Length));
                                     Singleton.getInstancia().Update(id, existe);
                                 }else{
                                     Singleton.getInstancia().Update(id, existe);
@@ -76,18 +84,23 @@ public class Listener extends Thread {
                             //comprobar si yo fui el que envie la solicitud
                             //Descomponer id, grupo emisor y grupo receptor en esta parte
                             id = parameter.split("\\{")[2].replace("}","").split(",")[0].split(":")[1];
-                            grupoEmisor = parameter.split("\\{")[2].replace("}","").split(",")[1].split(":")[1];
-                            grupoReceptor = parameter.split("\\{")[2].replace("}","").split(",")[2].split(":")[1];
-                            
-                            if(grupoEmisor.equals("1")){
+                            grupoReceptor = parameter.split("\\{")[2].replace("}","").split(",")[2].split(":")[1].replace("\"", "");
+                            grupoEmisor = parameter.split("\\{")[2].replace("}","").split(",")[1].split(":")[1].replace("\"", "");
+                            String usuarioEmisor = parameter.split("\\{")[2].replace("}","").split(",")[3].split(":")[1].replace("\"", "");
+                            String usuarioReceptor = parameter.split("\\{")[2].replace("}","").split(",")[4].split(":")[1].replace("\"", "");
+                            String mensaje = parameter.split("\\{")[2].replace("}","").split(",")[6].split(":")[1].replace("\"", "");
+                            String date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
+                            if(grupoEmisor.equals("4")){
                                  String respuesta = parameter.split("\\{")[2].replace("}","").split(",")[7].split(":")[1];
                                  //Comprobar cual fue la respuesta
                                  if(respuesta.equals("false")){
-                                    Singleton.getInstancia().setMensaje("El grupo " + grupoReceptor + " dice que no encontro el usuario." );
+                                    Singleton.getInstancia().setMensaje("El grupo " + grupoReceptor + " dice que no encontro el usuario: " + usuarioReceptor );
                                     not = new Notificacion();
                                     not.setVisible(true);
                                  }else{
                                     Singleton.getInstancia().setMensaje("El grupo " + grupoReceptor + " dice que ha recibido el mensaje." );
+                                    //se guarda mensaje para el usuario receptor
+                                FileManager.WriteFile(FileManager.MESSAGE_FILE, FileManager.FixSize(usuarioEmisor  + " (grupo "+ grupoEmisor +")" + FileManager.SEPARADOR + usuarioReceptor + FileManager.SEPARADOR + date + FileManager.SEPARADOR + mensaje + FileManager.SEPARADOR + "1" +FileManager.SEPARADOR+ "1" + FileManager.SEPARADOR, FileManager.Length));
                                     not = new Notificacion();
                                     not.setVisible(true);
                                  }
