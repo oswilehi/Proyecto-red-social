@@ -747,6 +747,7 @@ public class Profile extends javax.swing.JFrame {
       ExternMessages message = new ExternMessages();
       message.myProfile = this;
       message.myUser = txt_userInfo.getText();
+      message.showMessages();
       message.setVisible(true);
       this.setVisible(false);
    }//GEN-LAST:event_mi_externMessagesActionPerformed

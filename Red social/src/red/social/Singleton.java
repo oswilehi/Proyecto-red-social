@@ -29,12 +29,12 @@ public class Singleton {
         if(instancia == null){
             instancia = new Singleton();
             Class.forName("org.postgresql.Driver");
-            con = DriverManager.getConnection("jdbc:postgresql://baasu.db.elephantsql.com:5432/gqujomyc", "gqujomyc", "QP_oNAUhMm0SNSlk2Oz7fw8zlA4-N7CA");
-            con2 = DriverManager.getConnection("jdbc:postgresql://baasu.db.elephantsql.com:5432/gqujomyc", "gqujomyc", "QP_oNAUhMm0SNSlk2Oz7fw8zlA4-N7CA");
+            con = DriverManager.getConnection("jdbc:postgresql://baasu.db.elephantsql.com:5432/vvwpqoue", "vvwpqoue", "jj6HWNr-0gLyX-kqW9ybfJDcC9YyJYIT");
+
             stmt = con.createStatement();
             DriverManager.setLogWriter(new PrintWriter(System.out, true));          
             Listener listener = new Listener(con);
-            Notifier notifier = new Notifier(con2);
+            Notifier notifier = new Notifier(con);
             listener.start();
             notifier.start();
         }
@@ -52,7 +52,7 @@ public class Singleton {
     public void conexion(){
         
     }
-    
+    // ESTE  ES EL METODO PARA ENVIAR EL MENSAJE
     public void Insert(int grupoEmisor,int grupoReceptor, String emisor, String receptor, String mensaje) throws SQLException{
         //INSERTA EN LA BASE DE DATOS
         String sql = "INSERT INTO solicitud(grupoEmisor, grupoReceptor,emisor, receptor, fecha, mensaje, aceptado) VALUES(" + grupoEmisor + " ," + grupoReceptor + ", '" + emisor + "','" + receptor + "',current_timestamp,'" + mensaje + "', false)";    
