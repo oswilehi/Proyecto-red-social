@@ -286,7 +286,7 @@ public class LocalMenssages extends javax.swing.JFrame
         // TODO add your handling code here:
         if (evt.getModifiers() == MouseEvent.BUTTON3_MASK){
             if (evt.isPopupTrigger()){
-                jPopupMenu1.show(jl_messagesList,evt.getX(),evt.getY());
+                //jPopupMenu1.show(jl_messagesList.getComponent(evt.getPoint()),evt.getX(),evt.getY());
             }
         }  
     }//GEN-LAST:event_jl_messagesListMouseReleased
